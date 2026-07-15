@@ -323,8 +323,33 @@
 {% endcapture %}
 
 {% capture media %}
-  {{ media_slot_1 }}
-  {{ media_slot_2 }}
+  {%- if section.settings.link_1 != blank -%}
+    <a
+      href="{{ section.settings.link_1 }}"
+      class="hero__media-link-wrapper"
+      {% if section.settings.open_in_new_tab %}
+        target="_blank" rel="noopener"
+      {% endif %}
+    >
+      {{ media_slot_1 }}
+    </a>
+  {%- else -%}
+    {{ media_slot_1 }}
+  {%- endif -%}
+
+  {%- if section.settings.link_2 != blank -%}
+    <a
+      href="{{ section.settings.link_2 }}"
+      class="hero__media-link-wrapper"
+      {% if section.settings.open_in_new_tab %}
+        target="_blank" rel="noopener"
+      {% endif %}
+    >
+      {{ media_slot_2 }}
+    </a>
+  {%- else -%}
+    {{ media_slot_2 }}
+  {%- endif -%}
 
   {% if media_count == 0 %}
     {{ 'hero-apparel-1' | placeholder_svg_tag: 'hero__media' }}
@@ -501,7 +526,7 @@
     class="hero__container spacing-style section section--full-width"
     style="{% render 'spacing-style', settings: section.settings %}"
   >
-    {%- if section.settings.link != blank -%}
+    {%- if section.settings.link != blank and section.settings.link_1 == blank and section.settings.link_2 == blank -%}
       <a
         href="{{ section.settings.link }}"
         class="hero__link"
@@ -615,6 +640,17 @@
   .hero__media-wrapper {
     overflow: hidden;
     position: relative;
+    height: 100%;
+  }
+
+  .hero__media-link-wrapper {
+    display: block;
+    height: 100%;
+    width: 100%;
+    position: relative;
+    text-decoration: none;
+    color: inherit;
+    z-index: var(--layer-base);
   }
 
   .hero__media {
@@ -814,6 +850,11 @@
       "visible_if": "{{ section.settings.media_type_1 == 'video' }}"
     },
     {
+      "type": "url",
+      "id": "link_1",
+      "label": "t:settings.link"
+    },
+    {
       "type": "header",
       "content": "t:content.media_2"
     },
@@ -844,6 +885,11 @@
       "id": "video_2",
       "label": "t:settings.video",
       "visible_if": "{{ section.settings.media_type_2 == 'video' }}"
+    },
+    {
+      "type": "url",
+      "id": "link_2",
+      "label": "t:settings.link"
     },
     {
       "type": "header",
