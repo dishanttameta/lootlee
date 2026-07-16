@@ -5,18 +5,23 @@
   @param {product} product_resource - The product to render
   @param {boolean} [show_unit_price] - Whether to show the unit price
   @param {boolean} [show_sale_price_first] - Whether to show the sale price first
+  @param {boolean} [show_discount_percentage] - Whether to show the discount percentage
 {%- enddoc -%}
 
 {%- liquid
   assign show_unit_price = show_unit_price | default: false
   assign show_sale_price_first = show_sale_price_first | default: false
+  assign show_discount_percentage = show_discount_percentage | default: false
   assign selected_variant = product_resource.selected_or_first_available_variant
   assign price = selected_variant.price
   assign compare_at_price = selected_variant.compare_at_price
+  assign discount_percentage = 0
 
   assign show_compare_price = false
   if compare_at_price > price
     assign show_compare_price = true
+    assign discount_amount = compare_at_price | minus: price
+    assign discount_percentage = discount_amount | times: 100 | divided_by: compare_at_price | round
   endif
 
   if product_resource == blank
@@ -114,6 +119,11 @@
           <span class="visually-hidden">{{ 'content.price_regular' | t }}&nbsp;</span>
           <span class="price-item--regular compare-at-price">{{- compare_at_price -}}</span>
         </span>
+        {% if show_discount_percentage %}
+          <span class="price-item__group">
+            <span class="price-item--discount">{{ discount_percentage }}% OFF</span>
+          </span>
+        {% endif %}
       {% else %}
         <span class="price-item__group">
           <span class="visually-hidden">{{ 'content.price_regular' | t }}&nbsp;</span>
@@ -123,6 +133,11 @@
           <span class="visually-hidden">{{ 'content.price_sale' | t }}&nbsp;</span>
           <span class="price-item--sale price">{{ price | default: '&nbsp;' }}</span>
         </span>
+        {% if show_discount_percentage %}
+          <span class="price-item__group">
+            <span class="price-item--discount">{{ discount_percentage }}% OFF</span>
+          </span>
+        {% endif %}
       {% endif %}
     </div>
   {% endif %}

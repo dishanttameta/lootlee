@@ -2387,6 +2387,18 @@ product-price.text-block:is(.h1, .h2, .h3, .h4, .h5, .h6) .volume-pricing-note {
   white-space: nowrap;
 }
 
+.price-item--discount {
+  color: rgb(var(--color-foreground-rgb) / 0.7);
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+    background: #E8F5EC;
+  color: #1F6B3F;
+  padding : 4px 8px;
+  border-radius: 4px;
+  margin-bottom: 2px;
+}
+
 .price__hidden {
   display: none;
 }
