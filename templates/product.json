@@ -155,73 +155,12 @@
                     "padding-inline-end": 0
                   },
                   "blocks": {}
-                },
-                "text_i3VJYf": {
-                  "type": "text",
-                  "name": "t:names.text",
-                  "settings": {
-                    "text": "<p>Price incl. of all taxes</p>",
-                    "width": "fit-content",
-                    "max_width": "normal",
-                    "alignment": "left",
-                    "type_preset": "rte",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "color": "var(--color-foreground)",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 15,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                },
-                "divider_3E9GWW": {
-                  "type": "_divider",
-                  "name": "t:names.divider",
-                  "settings": {
-                    "thickness": 1,
-                    "corner_radius": "square",
-                    "width_percent": 100,
-                    "padding-block-start": 20,
-                    "padding-block-end": 0
-                  },
-                  "blocks": {}
                 }
               },
               "block_order": [
                 "text_xrnftG",
-                "price_tVjtKg",
-                "text_i3VJYf",
-                "divider_3E9GWW"
+                "price_tVjtKg"
               ]
-            },
-            "custom_liquid_m4gHKy": {
-              "type": "custom-liquid",
-              "name": "rating stars",
-              "settings": {
-                "custom_liquid": "{% assign rating = product.metafields.custom.stars_count.value | times: 1.0 %}\n{% assign rating_count = product.metafields.custom.rating_count.value | default: 0 %}\n\n{% if rating > 0 %}\n<style>\n.custom-product-rating {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  font-size: 17px;\n}\n\n.custom-product-rating .stars {\n  position: relative;\n  display: inline-block;\n  font-size: 25px;\n  line-height: 1;\n}\n\n.custom-product-rating .stars::before {\n  content: \"★★★★★\";\n  color: #ddd;\n}\n\n.custom-product-rating .stars-fill {\n  position: absolute;\n  top: 0;\n  left: 0;\n  overflow: hidden;\n  white-space: nowrap;\n}\n\n.custom-product-rating .stars-fill::before {\n  content: \"★★★★★\";\n  color: #f5a623;\n}\n\n.custom-product-rating .rating-count {\n  color: #666;\n  font-weight: 500;\n}\n</style>\n\n<div class=\"custom-product-rating\">\n  <div class=\"stars\">\n    <div\n      class=\"stars-fill\"\n      style=\"width: {{ rating | divided_by: 5.0 | times: 100 }}%;\"\n    ></div>\n  </div>\n\n  <span class=\"rating-count\">\n   ({{ rating_count }})\n  </span>\n</div>\n{% endif %}"
-              },
-              "blocks": {}
-            },
-            "product_inventory_ywNb9F": {
-              "type": "product-inventory",
-              "name": "t:names.product_inventory",
-              "settings": {
-                "inventory_threshold": 0,
-                "show_inventory_quantity": false,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
             },
             "text_aEtTtq": {
               "type": "text",
@@ -249,23 +188,6 @@
               },
               "blocks": {}
             },
-            "custom_liquid_xh3xUU": {
-              "type": "custom-liquid",
-              "name": "Custom Liquid - hurry timer",
-              "settings": {
-                "custom_liquid": "<div class=\"offer-timer-box\">\n  <div class=\"offer-text\">\n    Hurry up, Shop Now !\n  </div>\n\n  <div class=\"offer-timer\" id=\"loopTimer\">\n    05:00:00\n  </div>\n</div>\n\n<style>\n.offer-timer-box{\n  display:flex;\n  justify-content:space-between;\n  align-items:center;\n  width:100%;\n  background:#ffffff;\n  border:2px dashed #ff0000;\n  border-radius:8px;\n  padding:12px 16px;\n  margin:1px 0;\n  box-sizing:border-box;\n}\n\n.offer-text{\n  color:#ff0000;\n  font-size:16px;\n  font-weight:700;\n}\n\n.offer-timer{\n  color:#ff0000;\n  font-size:18px;\n  font-weight:700;\n  letter-spacing:1px;\n}\n</style>\n\n<script>\n(function() {\n\n  const FIVE_HOURS = 5 * 60 * 60;\n\n  function startLoopTimer() {\n\n    let endTime = Date.now() + (FIVE_HOURS * 1000);\n\n    function updateTimer() {\n\n      let remaining = Math.floor((endTime - Date.now()) / 1000);\n\n      if (remaining <= 0) {\n        endTime = Date.now() + (FIVE_HOURS * 1000);\n        remaining = FIVE_HOURS;\n      }\n\n      const hours = Math.floor(remaining / 3600);\n      const minutes = Math.floor((remaining % 3600) / 60);\n      const seconds = remaining % 60;\n\n      document.getElementById('loopTimer').innerHTML =\n        String(hours).padStart(2,'0') + ':' +\n        String(minutes).padStart(2,'0') + ':' +\n        String(seconds).padStart(2,'0');\n    }\n\n    updateTimer();\n    setInterval(updateTimer, 1000);\n  }\n\n  startLoopTimer();\n\n})();\n</script>"
-              },
-              "blocks": {}
-            },
-            "custom_liquid_YmaALD": {
-              "type": "custom-liquid",
-              "name": "Custom Liquid - prepaid discount",
-              "disabled": true,
-              "settings": {
-                "custom_liquid": "<div class=\"prepaid-offer-box\">\n  <span>✨ Get Extra Discounts On Prepaid Orders</span>\n</div>\n\n<style>\n.prepaid-offer-box{\n  width:100%;\n  background:#ffffff;\n  border:2px dashed #16a34a;\n  border-radius:8px;\n  padding:12px 16px;\n  margin:1px 0;\n  box-sizing:border-box;\n\n  color:#16a34a;\n  font-size:16px;\n  font-weight:700;\n  text-align:left;\n}\n</style>"
-              },
-              "blocks": {}
-            },
             "variant_picker_R3rGDr": {
               "type": "variant-picker",
               "settings": {
@@ -282,6 +204,7 @@
             "custom_liquid_7kenPD": {
               "type": "custom-liquid",
               "name": "Custom Liquid - offer",
+              "disabled": true,
               "settings": {
                 "custom_liquid": "<div class=\"offer-wrapper\">\n\n  <div class=\"offer-title\">\n    🏷️ Offers & Discounts\n  </div>\n\n  <div class=\"offer-item\">\n    <div class=\"offer-heading\">\n      Buy Any 2 Shirts @ <span class=\"price-highlight\">₹699</span>\n    </div>\n    <div class=\"offer-text\">\n      No Coupon Required – Offer Auto Applied at Checkout.\n    </div>\n  </div>\n\n  <div class=\"offer-item\">\n    <div class=\"offer-heading\">\n      Buy Any 3 Shirts @ <span class=\"price-highlight\">₹999</span>\n    </div>\n    <div class=\"offer-text\">\n      No Coupon Required – Offer Auto Applied at Checkout.\n    </div>\n  </div>\n\n  <div class=\"offer-item\">\n    <div class=\"offer-heading\">\n      Get Extra Prepaid Discount\n    </div>\n    <div class=\"offer-text\">\n      Pay Online & Save More On Your Order.\n      <br>\n      No Coupon Required – Offer Auto Applied at Checkout.\n    </div>\n  </div>\n\n</div>\n\n<style>\n.offer-wrapper{\n  width:100%;\n  margin:15px 0;\n}\n\n.offer-title{\n  font-size:22px;\n  font-weight:700;\n  color:#333;\n  margin-bottom:14px;\n  display:flex;\n  align-items:center;\n  gap:8px;\n}\n\n.offer-item{\n  background:#f5faf6;\n  border:1.5px dashed #4CAF50;\n  border-radius:10px;\n  padding:14px 16px;\n  margin-bottom:12px;\n}\n\n.offer-heading{\n  font-size:18px;\n  font-weight:700;\n  color:#333;\n  line-height:1.4;\n}\n\n.price-highlight{\n  color:#d32f2f;\n  font-weight:800;\n}\n\n.offer-text{\n  margin-top:4px;\n  color:#666;\n  font-size:14px;\n  line-height:1.5;\n}\n\n@media screen and (max-width: 749px){\n\n  .offer-title{\n    font-size:20px;\n  }\n\n  .offer-heading{\n    font-size:16px;\n  }\n\n  .offer-text{\n    font-size:13px;\n  }\n\n  .offer-item{\n    padding:12px 14px;\n  }\n}\n</style>"
               },
@@ -325,6 +248,7 @@
             "custom_liquid_6aaBcD": {
               "type": "custom-liquid",
               "name": "pincode checker",
+              "disabled": true,
               "settings": {
                 "custom_liquid": "<div class=\"lootlee-pincode-checker\">\n<h4>Check Delivery Availability</h4>\n  <div class=\"pincode-box\">\n    <input\n      type=\"text\"\n      id=\"lootlee-pincode\"\n      placeholder=\"Enter Pincode\"\n      maxlength=\"6\"\n    >\n    <button id=\"lootlee-check-btn\">Check</button>\n  </div>\n\n  <div id=\"lootlee-result\"></div>\n</div>\n\n<style>\n.lootlee-pincode-checker {\n  margin: 20px 0;\n}\n\n.pincode-box {\n  display: flex;\n  gap: 10px;\n}\n\n#lootlee-pincode {\n  flex: 1;\n  padding: 12px;\n  border: 1px solid #ddd;\n  border-radius: 4px;\n}\n\n#lootlee-check-btn {\n  padding: 12px 18px;\n  border: none;\n  cursor: pointer;\n  background: #000;\n  color: #fff;\n  border-radius: 4px;\n}\n\n#lootlee-result {\n  margin-top: 12px;\n  font-size: 14px;\n  line-height: 1.5;\n}\n</style>\n\n<script>\ndocument.addEventListener('DOMContentLoaded', function() {\n\n  const button = document.getElementById('lootlee-check-btn');\n\n  button.addEventListener('click', async function() {\n\n    const pincode = document.getElementById('lootlee-pincode').value.trim();\n    const result = document.getElementById('lootlee-result');\n\n    if (!/^[1-9][0-9]{5}$/.test(pincode)) {\n      result.innerHTML =\n        '❌ Product unavailable at ' + pincode;\n      result.style.color = '#d32f2f';\n      return;\n    }\n\n    result.innerHTML = 'Checking...';\n    result.style.color = '#666';\n\n    try {\n\n      const response = await fetch(\n        'https://api.postalpincode.in/pincode/' + pincode\n      );\n\n      const data = await response.json();\n\n      if (\n        data &&\n        data[0] &&\n        data[0].Status === 'Success' &&\n        data[0].PostOffice &&\n        data[0].PostOffice.length > 0\n      ) {\n\n        const city = data[0].PostOffice[0].District;\n        const state = data[0].PostOffice[0].State;\n\n        result.innerHTML =\n          '✅ Product will be available within 5–7 Business Days<br>' +\n          '<small>📍 ' + city + ', ' + state + '</small>';\n\n        result.style.color = '#2e7d32';\n\n      } else {\n\n        result.innerHTML =\n          '❌ Product unavailable at ' + pincode;\n\n        result.style.color = '#d32f2f';\n      }\n\n    } catch (error) {\n\n      result.innerHTML =\n        '❌ Unable to verify pincode. Please try again.';\n\n      result.style.color = '#d32f2f';\n    }\n\n  });\n\n});\n</script>"
               },
@@ -464,11 +388,7 @@
           },
           "block_order": [
             "group_icgrde",
-            "custom_liquid_m4gHKy",
-            "product_inventory_ywNb9F",
             "text_aEtTtq",
-            "custom_liquid_xh3xUU",
-            "custom_liquid_YmaALD",
             "variant_picker_R3rGDr",
             "custom_liquid_7kenPD",
             "buy_buttons_eYQEYi",
