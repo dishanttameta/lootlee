@@ -9,18 +9,6 @@
  */
 {
   "sections": {
-    "custom_liquid_DwgM7T": {
-      "type": "custom-liquid",
-      "disabled": true,
-      "name": "2 Banner - slideshow",
-      "settings": {
-        "custom_liquid": "<div class=\"auto-banner-slider\">\n  <div class=\"slider-track\">\n\n    <div class=\"slide\">\n      <img class=\"desktop-banner\" src=\"https://cdn.shopify.com/s/files/1/0983/6855/3033/files/LT_web_banner_1.jpg?v=1781599513\" alt=\"\">\n      <img class=\"mobile-banner\" src=\"https://cdn.shopify.com/s/files/1/0983/6855/3033/files/LT_mobile_banner_1.jpg?v=1781599513\" alt=\"\">\n    </div>\n\n    <div class=\"slide\">\n      <img class=\"desktop-banner\" src=\"https://cdn.shopify.com/s/files/1/0983/6855/3033/files/LT_web_banner_2.jpg?v=1781599513\" alt=\"\">\n      <img class=\"mobile-banner\" src=\"https://cdn.shopify.com/s/files/1/0983/6855/3033/files/LT_mobile_banner_2.jpg?v=1781599513\" alt=\"\">\n    </div>\n\n  </div>\n</div>\n\n<style>\n.auto-banner-slider{\n  width:100%;\n  overflow:hidden;\n}\n\n.auto-banner-slider .slider-track{\n  display:flex;\n  width:200%;\n  transition:transform .6s ease;\n}\n\n.auto-banner-slider .slide{\n  width:50%;\n  flex-shrink:0;\n}\n\n.auto-banner-slider img{\n  width:100%;\n  display:block;\n  height:auto;\n}\n\n/* Desktop */\n.auto-banner-slider .mobile-banner{\n  display:none !important;\n}\n\n.auto-banner-slider .desktop-banner{\n  display:block !important;\n}\n\n/* Mobile */\n@media screen and (max-width:768px){\n\n  .auto-banner-slider .desktop-banner{\n    display:none !important;\n  }\n\n  .auto-banner-slider .mobile-banner{\n    display:block !important;\n  }\n\n}\n</style>\n\n<script>\n(function(){\n\n  const track = document.querySelector('.auto-banner-slider .slider-track');\n\n  if(!track) return;\n\n  let current = 0;\n\n  setInterval(function(){\n\n    current = current === 0 ? 1 : 0;\n\n    track.style.transform = current === 0\n      ? 'translateX(0%)'\n      : 'translateX(-50%)';\n\n  },5000);\n\n})();\n</script>",
-        "color_scheme": "",
-        "section_width": "full-width",
-        "padding-block-start": 0,
-        "padding-block-end": 0
-      }
-    },
     "auto_banner_slider_tjjArK": {
       "type": "auto-banner-slider",
       "blocks": {
@@ -889,7 +877,6 @@
     }
   },
   "order": [
-    "custom_liquid_DwgM7T",
     "auto_banner_slider_tjjArK",
     "hero_iwDRRg",
     "product_list_fa6P9H",
