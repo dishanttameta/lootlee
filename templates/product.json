@@ -345,7 +345,7 @@
                 "accordion_row_KqfUdK": {
                   "type": "_accordion-row",
                   "settings": {
-                    "heading": "Manufacturing",
+                    "heading": "Wash Care",
                     "open_by_default": false,
                     "icon": "none",
                     "width": 20
@@ -354,7 +354,7 @@
                     "text_dcaQpz": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>Our products are manufactured both locally and globally. We carefully select our manufacturing partners to ensure our products are high quality and a fair value.</p>",
+                        "text": "<ul><li>Machine wash at 30°</li><li>Do not use bleach or any harsh detergent</li><li>Line dry only</li><li>Can be dry cleaned</li><li>Low iron if needed</li></ul>",
                         "width": "100%",
                         "max_width": "normal",
                         "alignment": "center",
