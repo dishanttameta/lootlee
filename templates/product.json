@@ -519,14 +519,6 @@
                 "popup_link_UKcChj",
                 "custom_liquid_EGQTQG"
               ]
-            },
-            "custom_liquid_NBJkwR": {
-              "type": "custom-liquid",
-              "name": "collapsible tab",
-              "settings": {
-                "custom_liquid": "<details class=\"lootlee-tab\">\n  <summary>Shipping</summary>\n\n  <div class=\"tab-content\">\n    <ul>\n      <li>Orders are processed within 1–2 business days.</li>\n      <li>Orders are usually dispatched within 2 business days after processing.</li>\n      <li>Shipping charges apply and will be displayed at checkout before payment.</li>\n      <li>All applicable taxes are included in the product price. No hidden or additional taxes will be charged.</li>\n      <li>For any shipping-related questions, please contact us at info.lootlee@gmail.com.</li>\n    </ul>\n  </div>\n</details>\n\n<details class=\"lootlee-tab\">\n  <summary>Returns & Exchange</summary>\n\n  <div class=\"tab-content\">\n    <ul>\n      <li>Returns and exchanges can be requested within 72 hours of delivery for unworn and unused items.</li>\n      <li>A return or exchange handling fee of ₹100 per product applies.</li>\n      <li>Refunds for prepaid orders are processed to the original payment method within 7–10 business days after approval.</li>\n      <li>For Cash on Delivery (COD) orders, refunds are issued as store credit.</li>\n      <li>Please refer to our Return & Refund Policy for complete details.</li>\n    </ul>\n  </div>\n</details>\n\n<style>\n.lootlee-tab {\n  border-top: 1px solid #e5e5e5;\n  border-bottom: 1px solid #e5e5e5;\n  padding: 15px 0;\n}\n\n.lootlee-tab summary {\n  cursor: pointer;\n  font-weight: 600;\n  font-size: 20px;\n  list-style: none;\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n}\n\n.lootlee-tab summary::-webkit-details-marker {\n  display: none;\n}\n\n.lootlee-tab summary::after {\n  content: '+';\n  font-size: 18px;\n  transition: all 0.1s ease;\n}\n\n.lootlee-tab[open] summary::after {\n  content: '−';\n}\n\n.tab-content {\n  padding-top: 12px;\n}\n\n.tab-content ul {\n  margin: 0;\n  padding-left: 18px;\n}\n\n.tab-content li {\n  margin-bottom: 8px;\n  line-height: 1.5;\n  font-size: 14px;\n}\n\n.tab-content li:last-child {\n  margin-bottom: 0;\n}\n</style>"
-              },
-              "blocks": {}
             }
           },
           "block_order": [
@@ -538,8 +530,7 @@
             "accordion_aJHCEr",
             "custom_liquid_6aaBcD",
             "popup_link_GQWq84",
-            "group_U7Rjpe",
-            "custom_liquid_NBJkwR"
+            "group_U7Rjpe"
           ]
         }
       },
