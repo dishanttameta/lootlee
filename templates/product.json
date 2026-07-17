@@ -539,7 +539,7 @@
         "desktop_media_position": "left",
         "equal_columns": false,
         "limit_details_width": false,
-        "gap": 12,
+        "gap": 28,
         "enable_sticky_add_to_cart": true,
         "color_scheme": "",
         "padding-block-start": 20,
