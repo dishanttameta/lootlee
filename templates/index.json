@@ -20,6 +20,35 @@
         "padding-block-end": 0
       }
     },
+    "auto_banner_slider_tjjArK": {
+      "type": "auto-banner-slider",
+      "blocks": {
+        "slide_Bq9UVH": {
+          "type": "slide",
+          "settings": {
+            "desktop_image": "shopify://shop_images/LT_web_banner_2.jpg",
+            "mobile_image": "shopify://shop_images/LT_mobile_banner_2.jpg",
+            "link": ""
+          }
+        },
+        "slide_nDXmFE": {
+          "type": "slide",
+          "settings": {
+            "desktop_image": "shopify://shop_images/LT_web_banner_1.jpg",
+            "mobile_image": "shopify://shop_images/LT_mobile_banner_1.jpg",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "slide_Bq9UVH",
+        "slide_nDXmFE"
+      ],
+      "name": "Auto Banner Slider",
+      "settings": {
+        "autoplay_speed": 5
+      }
+    },
     "hero_iwDRRg": {
       "type": "hero",
       "disabled": true,
@@ -27,7 +56,9 @@
       "settings": {
         "media_type_1": "image",
         "image_1": "shopify://shop_images/LT_offer_banner_web.jpg",
+        "link_1": "",
         "media_type_2": "image",
+        "link_2": "",
         "stack_media_on_mobile": false,
         "custom_mobile_media": true,
         "media_type_1_mobile": "image",
@@ -257,7 +288,9 @@
       "settings": {
         "media_type_1": "image",
         "image_1": "shopify://shop_images/LT_centre_banner_web.jpg",
+        "link_1": "",
         "media_type_2": "image",
+        "link_2": "",
         "stack_media_on_mobile": false,
         "custom_mobile_media": true,
         "media_type_1_mobile": "image",
@@ -856,6 +889,7 @@
   },
   "order": [
     "custom_liquid_DwgM7T",
+    "auto_banner_slider_tjjArK",
     "hero_iwDRRg",
     "product_list_fa6P9H",
     "hero_n7Yry3",
