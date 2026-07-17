@@ -315,10 +315,10 @@
                     "text_ckFxnJ": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>We will work quickly to ship your order as soon as possible. Once your order has shipped, you will receive an email with further information. Delivery times vary depending on your location.</p>",
+                        "text": "<ul><li>We will work quickly to ship your order as soon as possible. Once your order has shipped, you will receive an email with further information. Delivery times vary depending on your location.</li></ul>",
                         "width": "100%",
                         "max_width": "normal",
-                        "alignment": "center",
+                        "alignment": "left",
                         "type_preset": "rte",
                         "font": "var(--font-body--family)",
                         "font_size": "1rem",
@@ -357,7 +357,7 @@
                         "text": "<ul><li>Machine wash at 30°</li><li>Do not use bleach or any harsh detergent</li><li>Line dry only</li><li>Can be dry cleaned</li><li>Low iron if needed</li></ul>",
                         "width": "100%",
                         "max_width": "normal",
-                        "alignment": "center",
+                        "alignment": "left",
                         "type_preset": "rte",
                         "font": "var(--font-body--family)",
                         "font_size": "1rem",
