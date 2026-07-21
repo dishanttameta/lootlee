@@ -121,7 +121,7 @@
             "text_email": {
               "type": "text",
               "settings": {
-                "text": "<p>📧 <strong>Email:</strong> <a href=\"mailto:care@sutisancha.com\">care@sutisancha.com</a></p>",
+                "text": "<p>📧 <strong>Email:</strong> <a href=\"mailto:care.lootlee@gmail.com\">care.lootlee@gmail.com</a></p>",
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "center",
