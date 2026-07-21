@@ -43,12 +43,12 @@
                 <a
                   href="{{ link.url }}"
                   id="MenuItem-{{ link.handle }}"
-                  class="menu-list__item"
+                  class="menu-list__item menu-list__link{% if link.current or link.child_active %} menu-list__link--active{% endif %}"
                   {% if link.current %}
                     aria-current="page"
                   {% endif %}
                 >
-                  {{- link.title -}}
+                  <span class="menu-list__link-title">{{- link.title -}}</span>
                 </a>
               </li>
             {% endfor %}
@@ -95,7 +95,7 @@
           <a
             href="{{ link.url }}"
             data-skip-node-update="true"
-            class="menu-list__link{% if link.active %} menu-list__link--active{% endif %}"
+            class="menu-list__link{% if link.active or link.child_active %} menu-list__link--active{% endif %}"
             {%- if link.links != blank -%}
               aria-controls="submenu-{{ forloop.index }}"
               aria-haspopup="true"
@@ -318,9 +318,36 @@
 
   .menu-list__link-title {
     padding-inline: calc(var(--gap-xl) / 2);
+    position: relative;
   }
+  
+  .menu-list__link-title::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: calc(var(--gap-xl) / 2);
+    width: 0;
+    height: 1px;
+    background-color: currentColor;
+    transition: width 0.3s ease;
+  }
+
+  .menu-list__link:hover .menu-list__link-title::after,
+  .menu-list__link--active .menu-list__link-title::after {
+    width: calc(100% - var(--gap-xl));
+  }
+
   [slot='overflow'] .menu-list__link-title {
     padding-inline: 0;
+  }
+
+  [slot='overflow'] .menu-list__link-title::after {
+    left: 0;
+  }
+
+  [slot='overflow'] .menu-list__link:hover .menu-list__link-title::after,
+  [slot='overflow'] .menu-list__link--active .menu-list__link-title::after {
+    width: 100%;
   }
 
   .menu-list__list-item:not([slot='overflow']) {
@@ -355,6 +382,8 @@
   .menu-list .menu-list__list-item[slot='overflow'] .menu-list__link[aria-expanded='true'] {
     color: var(--menu-top-level-font-color);
   }
+
+
 
   .overflow-menu::part(list) {
     /* Make sure focus outline is not cut off by overflow hidden */

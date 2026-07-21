@@ -1106,6 +1106,8 @@
     padding-block-end: 0.5rem;
   }
 
+
+
   .menu-drawer__menu-item {
     display: flex;
     padding: var(--padding-2xs) 0;
@@ -1183,6 +1185,24 @@
   .menu-drawer__menu-item-text {
     overflow: hidden;
     text-overflow: ellipsis;
+    position: relative;
+    display: inline-block;
+  }
+
+  .menu-drawer__menu-item-text::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background-color: currentColor;
+    transition: width 0.3s ease;
+  }
+
+  .menu-drawer__menu-item:hover .menu-drawer__menu-item-text::after,
+  .menu-drawer__menu-item--active .menu-drawer__menu-item-text::after {
+    width: 100%;
   }
 
   /** Styles when the country selector is hidden */
