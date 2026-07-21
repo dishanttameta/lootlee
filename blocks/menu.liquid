@@ -71,7 +71,7 @@
             {% for link in menu.links %}
               <li class="menu__item {{ block_settings.link_preset }}">
                 <a href="{{ link.url }}">
-                  {{ link.title }}
+                  <span class="wrap-text">{{ link.title }}</span>
                 </a>
               </li>
             {% endfor %}
@@ -101,6 +101,32 @@
 
   .menu__item + .menu__item {
     margin-block-start: var(--spacing--size);
+  }
+
+  .menu__item a {
+    text-decoration: none;
+    display: inline-flex;
+    padding-bottom: 2px;
+  }
+
+  .menu__item a .wrap-text {
+    position: relative;
+    display: inline-block;
+  }
+
+  .menu__item a .wrap-text::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background-color: currentColor;
+    transition: width 0.3s ease;
+  }
+
+  .menu__item a:hover .wrap-text::after {
+    width: 100%;
   }
 
   .menu .menu__heading--empty {
