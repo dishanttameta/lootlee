@@ -312,7 +312,7 @@
             "text_LWt8Pz": {
               "type": "text",
               "settings": {
-                "text": "<h4><strong>Newsletter</strong></h4>",
+                "text": "<h4>Newsletter</h4>",
                 "width": "100%",
                 "max_width": "normal",
                 "alignment": "left",
