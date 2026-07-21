@@ -440,6 +440,7 @@
   }
 
   /* Show the submenus on hover */
+  .menu-list__list-item:hover > .menu-list__submenu,
   .menu-list__list-item:has([aria-expanded='true']) > .menu-list__submenu,
   /* Show the overflow menu when a menu item is hovered */
   .overflow-menu:has([slot="overflow"] [aria-expanded='true'])::part(overflow-list),
@@ -546,6 +547,26 @@
     &:hover {
       color: var(--menu-child-active-font-color);
     }
+  }
+
+  .mega-menu__link .wrap-text {
+    position: relative;
+    display: inline-block;
+  }
+
+  .mega-menu__link .wrap-text::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background-color: currentColor;
+    transition: width 0.3s ease;
+  }
+
+  .mega-menu__link:hover .wrap-text::after {
+    width: 100%;
   }
 
   .mega-menu__link--parent {
