@@ -146,7 +146,7 @@
             "text_phone": {
               "type": "text",
               "settings": {
-                "text": "<p>📞 <strong>WhatsApp :</strong> <a href=\"https://wa.me/+919512969607\">+91 95129 69607</a></p>",
+                "text": "<p>📞 <strong>WhatsApp :</strong> <a href=\"tel:+91 9512969607\" title=\"tel:+91 9512969607\">+91 95129 69607</a></p>",
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "center",
