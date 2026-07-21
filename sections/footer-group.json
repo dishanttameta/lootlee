@@ -233,7 +233,7 @@
           "name": "t:names.menu",
           "settings": {
             "menu": "main-menu",
-            "heading": "Useful Links",
+            "heading": "<h4><strong>Useful Links</strong></h4>",
             "menu_spacing": 5,
             "show_as_accordion": false,
             "accordion_icon": "caret",
@@ -254,7 +254,7 @@
           "name": "t:names.menu",
           "settings": {
             "menu": "footer",
-            "heading": "Customer Service",
+            "heading": "<h4><strong>Customer Service</strong></h4>",
             "menu_spacing": 5,
             "show_as_accordion": false,
             "accordion_icon": "caret",
@@ -400,7 +400,7 @@
       ],
       "name": "t:names.footer",
       "settings": {
-        "section_width": "page-width",
+        "section_width": "full-width",
         "gap": 40,
         "color_scheme": "scheme-1213af62-b06b-406b-b186-f0125b7fa0aa",
         "padding-block-start": 50,

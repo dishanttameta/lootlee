@@ -107,8 +107,17 @@
     display: none;
   }
 
+  .menu__heading {
+    padding-block-start: 0;
+  }
+
   .menu__heading__default {
     display: contents;
+  }
+  
+  .menu__heading__default > *,
+  .menu__heading__accordion > * {
+    margin-block: 0;
   }
 
   .menu__heading__accordion {
@@ -159,7 +168,7 @@
       "default": "main-menu"
     },
     {
-      "type": "text",
+      "type": "richtext",
       "id": "heading",
       "label": "t:settings.heading"
     },
