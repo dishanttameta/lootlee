@@ -9,8 +9,8 @@
  */
 {
   "current": {
-    "logo": "shopify://shop_images/LT_Logo.png",
-    "logo_inverse": "shopify://shop_images/LT_Logo.png",
+    "logo": "shopify://shop_images/Lootlee_Logo.svg",
+    "logo_inverse": "shopify://shop_images/Lootlee_Logo.svg",
     "logo_height": 50,
     "logo_height_mobile": 30,
     "favicon": "shopify://shop_images/LT_favicon.png",
