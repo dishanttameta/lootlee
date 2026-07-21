@@ -71,57 +71,152 @@
             "text_heading": {
               "type": "text",
               "settings": {
-                "text": "<h4><strong>About Us</strong></h4>",
+                "text": "<h4>Let's Get in touch</h4>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "center",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
                 "font_size": "1.25rem",
-                "padding-block-end": 15
-              }
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 15,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
             },
             "text_desc": {
               "type": "text",
               "settings": {
-                "text": "<p>Sutisancha offers beautifully crafted handloom sarees that blend traditional artistry with modern simplicity — made for comfort and effortless elegance.</p>",
+                "text": "<p>Building No./Flat No. 599, GADHPUR TOWN SHIP, Pasodra Road/Street, Kamrej Locality, Surat City/Village, Surat District, Gujarat, 394185</p>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "center",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
                 "font_size": "0.875rem",
-                "padding-block-end": 15
-              }
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 15,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
             },
             "text_email": {
               "type": "text",
               "settings": {
                 "text": "<p>📧 <strong>Email:</strong> <a href=\"mailto:care@sutisancha.com\">care@sutisancha.com</a></p>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "center",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
                 "font_size": "0.875rem",
-                "padding-block-end": 5
-              }
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 5,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
             },
             "text_phone": {
               "type": "text",
               "settings": {
-                "text": "<p>📞 <strong>Phone:</strong> +91 6354506028</p>",
+                "text": "<p>📞 <strong>WhatsApp :</strong> <a href=\"https://wa.me/+919512969607\">+91 95129 69607</a></p>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "center",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
                 "font_size": "0.875rem",
-                "padding-block-end": 5
-              }
-            },
-            "text_whatsapp": {
-              "type": "text",
-              "settings": {
-                "text": "<p>💬 <strong>WhatsApp:</strong> <a href=\"https://wa.me/919265660282\">+91 9265660282</a></p>",
-                "font_size": "0.875rem",
-                "padding-block-end": 15
-              }
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 5,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
             },
             "text_hours": {
               "type": "text",
               "settings": {
                 "text": "<p><strong>Working Hours:</strong> Mon - Sat | 10:00 AM - 06:00 PM (IST)</p>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "center",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
                 "font_size": "0.875rem",
-                "padding-block-end": 15
-              }
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 15,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
             },
             "text_address": {
               "type": "text",
               "settings": {
                 "text": "<p><strong>Address:</strong> Dr. India Textile Hub, Shop No. 518-522, 5th Floor, Surat, Gujarat, India</p>",
-                "font_size": "0.875rem"
-              }
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "center",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "0.875rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
             }
           },
           "block_order": [
@@ -129,7 +224,6 @@
             "text_desc",
             "text_email",
             "text_phone",
-            "text_whatsapp",
             "text_hours",
             "text_address"
           ]
@@ -304,7 +398,6 @@
         "menu_WFr3Rw",
         "group_H6VpwJ"
       ],
-      "disabled": false,
       "name": "t:names.footer",
       "settings": {
         "section_width": "page-width",
