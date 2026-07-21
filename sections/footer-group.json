@@ -233,7 +233,7 @@
           "name": "t:names.menu",
           "settings": {
             "menu": "main-menu",
-            "heading": "<h4><strong>Useful Links</strong></h4>",
+            "heading": "<h4>Useful Links</h4>",
             "menu_spacing": 5,
             "show_as_accordion": false,
             "accordion_icon": "caret",
@@ -254,7 +254,7 @@
           "name": "t:names.menu",
           "settings": {
             "menu": "footer",
-            "heading": "<h4><strong>Customer Service</strong></h4>",
+            "heading": "<h4>Customer Service</h4>",
             "menu_spacing": 5,
             "show_as_accordion": false,
             "accordion_icon": "caret",
