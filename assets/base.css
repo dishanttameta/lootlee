@@ -3805,6 +3805,7 @@ fly-to-cart.fly-to-cart--sticky {
   height: 100%;
   color: var(--color-foreground);
   text-decoration: none;
+  min-width: 0;
 }
 
 /* Base styles */
