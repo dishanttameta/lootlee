@@ -73,10 +73,7 @@
     assign slideshow_class = 'product-media-gallery__slideshow--single-media slideshow--single-media'
   else
     assign slideshow_class = ''
-
-    if media_presentation == 'carousel'
-      assign render_slideshow_arrows = true
-    endif
+    assign render_slideshow_arrows = true
   endif
 
   if slideshow_controls_style == 'thumbnails'
