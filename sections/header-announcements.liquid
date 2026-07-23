@@ -8,10 +8,10 @@
   ></script>
 {% endif %}
 
-<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<div class="section-background" style="background-color: #000 !important;"></div>
 <aside
-  class="announcement-bar spacing-style section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }}"
-  style="{% render 'spacing-padding', settings: section.settings %}; --border-bottom-width: {{ section.settings.divider_width }}px;"
+  class="announcement-bar spacing-style section section--{{ section.settings.section_width }}"
+  style="{% render 'spacing-padding', settings: section.settings %}; --border-bottom-width: {{ section.settings.divider_width }}px; background-color: #000 !important; color: #fff !important;"
 >
   {% liquid
     assign autoplay = false
@@ -76,13 +76,18 @@
     }
   }
 
+  .announcement-bar,
+  .announcement-bar * {
+    color: #fff !important;
+  }
+
   .announcement-bar__slider slideshow-arrows {
     padding: 0;
     mix-blend-mode: normal;
   }
 
   .announcement-bar__slider slideshow-arrows .slideshow-control {
-    color: var(--color-foreground);
+    color: #fff !important;
   }
 
   .announcement-bar__slider .slideshow-control {
