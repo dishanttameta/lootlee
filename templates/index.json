@@ -649,12 +649,11 @@
       "settings": {
         "collection_list": [
           "beyond-gender",
-          "fresh-fit",
-          "universal-wear"
+          "fresh-fit"
         ],
         "layout_type": "grid",
         "carousel_on_mobile": false,
-        "columns": 3,
+        "columns": 2,
         "mobile_columns": "1",
         "mobile_card_size": "60cqw",
         "columns_gap": 10,
