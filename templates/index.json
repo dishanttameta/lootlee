@@ -15,16 +15,16 @@
         "slide_Bq9UVH": {
           "type": "slide",
           "settings": {
-            "desktop_image": "shopify://shop_images/LT_web_banner_2.jpg",
-            "mobile_image": "shopify://shop_images/LT_mobile_banner_2.jpg",
-            "link": ""
+            "desktop_image": "shopify://shop_images/ChatGPT_Image_Jul_23_2026_10_27_46_AM.webp",
+            "mobile_image": "shopify://shop_images/ChatGPT_Image_Jul_23_2026_10_39_20_AM.webp",
+            "link": "shopify://collections/all"
           }
         },
         "slide_nDXmFE": {
           "type": "slide",
           "settings": {
-            "desktop_image": "shopify://shop_images/LT_web_banner_1.jpg",
-            "mobile_image": "shopify://shop_images/LT_mobile_banner_1.jpg",
+            "desktop_image": "shopify://shop_images/ChatGPT_Image_Jul_23_2026_10_50_30_AM.webp",
+            "mobile_image": "shopify://shop_images/ChatGPT_Image_Jul_23_2026_10_52_04_AM.webp",
             "link": ""
           }
         }
