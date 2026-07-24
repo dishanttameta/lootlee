@@ -93,76 +93,90 @@
         >
           {{ product.title | escape }}
         </p>
-        <div
-          class="sticky-add-to-cart__variant"
-          data-testid="sticky-variant-title"
-          {% if product.has_only_default_variant %}
-            style="display: none;"
-          {% endif %}
-        >
-          {% unless product.has_only_default_variant %}
-            {% if current_variant != blank %}
-              {% assign variant_title = current_variant.title | escape %}
+        <div class="sticky-add-to-cart__variant-price-wrapper">
+          <div
+            class="sticky-add-to-cart__variant"
+            data-testid="sticky-variant-title"
+            {% if product.has_only_default_variant %}
+              style="display: none;"
             {% endif %}
-            {{ variant_title }}
-          {% endunless %}
+          >
+            {% unless product.has_only_default_variant %}
+              {% if current_variant != blank %}
+                {% assign variant_title = current_variant.title | escape %}
+              {% endif %}
+              {{ variant_title }}
+            {% endunless %}
+          </div>
+
+          <div
+            class="sticky-add-to-cart__price"
+            data-testid="sticky-price-display"
+          >
+            {% render 'price', product_resource: product, show_sale_price_first: true %}
+          </div>
         </div>
       </div>
 
-      <div
-        class="sticky-add-to-cart__price"
-        data-testid="sticky-price-display"
-      >
-        {% render 'price', product_resource: product, show_sale_price_first: true %}
-      </div>
-
-      <button
-        type="button"
-        class="sticky-add-to-cart__button add-to-cart-button button"
-        ref="addToCartButton"
-        on:click="/handleAddToCartClick"
-        {% unless current_variant.available %}
-          disabled
-        {% endunless %}
-      >
-        <span
-          class="add-to-cart-text"
+      <div class="sticky-add-to-cart__actions">
+        <button
+          type="button"
+          class="sticky-add-to-cart__button add-to-cart-button button button--secondary"
+          ref="addToCartButton"
+          on:click="/handleAddToCartClick"
+          {% unless current_variant.available %}
+            disabled
+          {% endunless %}
         >
-          {% if current_variant.available %}
-            <span class="svg-wrapper add-to-cart-icon">
-              {{- 'icon-add-to-cart.svg' | inline_asset_content -}}
-            </span>
-          {% endif %}
-          <span class="add-to-cart-text__content">
-            <span>
-              {%- if current_variant.available -%}
-                {{- 'products.product.add_to_cart' | t -}}
-              {%- elsif current_variant == blank -%}
-                {{- 'products.product.unavailable' | t -}}
-              {%- else -%}
-                {{- 'products.product.sold_out' | t -}}
-              {%- endif -%}
-            </span>
-            <span
-              ref="quantityDisplay"
-              {% if current_variant.available and initial_quantity > 1 %}
-                style="display: inline;"
-              {% else %}
-                style="display: none;"
-              {% endif %}
-            >
-              {{- ' (' -}}
-              <span ref="quantityNumber">{{- initial_quantity -}}</span>
-              {{- ')' -}}
+          <span class="add-to-cart-text">
+            {% if current_variant.available %}
+              <span class="svg-wrapper add-to-cart-icon">
+                {{- 'icon-add-to-cart.svg' | inline_asset_content -}}
+              </span>
+            {% endif %}
+            <span class="add-to-cart-text__content">
+              <span>
+                {%- if current_variant.available -%}
+                  {{- 'products.product.add_to_cart' | t -}}
+                {%- elsif current_variant == blank -%}
+                  {{- 'products.product.unavailable' | t -}}
+                {%- else -%}
+                  {{- 'products.product.sold_out' | t -}}
+                {%- endif -%}
+              </span>
+              <span
+                ref="quantityDisplay"
+                {% if current_variant.available and initial_quantity > 1 %}
+                  style="display: inline;"
+                {% else %}
+                  style="display: none;"
+                {% endif %}
+              >
+                {{- ' (' -}}
+                <span ref="quantityNumber">{{- initial_quantity -}}</span>
+                {{- ')' -}}
+              </span>
             </span>
           </span>
-        </span>
-        <span class="add-to-cart__added">
-          <span class="svg-wrapper add-to-cart__added-icon">
-            {{- 'icon-checkmark-burst.svg' | inline_asset_content -}}
+          <span class="add-to-cart__added">
+            <span class="svg-wrapper add-to-cart__added-icon">
+              {{- 'icon-checkmark-burst.svg' | inline_asset_content -}}
+            </span>
           </span>
-        </span>
-      </button>
+        </button>
+
+        <button
+          type="button"
+          class="sticky-add-to-cart__buy-now buy-now-button button button--primary"
+          ref="buyNowButton"
+          on:click="/handleBuyNowClick"
+          {% unless current_variant.available %}
+            disabled
+          {% endunless %}
+        >
+          <span class="buy-now-text">Buy Now</span>
+        </button>
+      </div>
     </div>
   </sticky-add-to-cart>
 {% endif %}
@@ -269,19 +283,68 @@
     white-space: nowrap;
   }
 
+  .sticky-add-to-cart__variant-price-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: var(--margin-3xs);
+    flex-wrap: wrap;
+  }
+
   .sticky-add-to-cart__variant {
     color: rgb(var(--color-foreground-rgb) / var(--opacity-subdued-text));
     font-size: var(--font-paragraph-small--size);
-    margin-top: var(--margin-3xs);
+    margin: 0;
   }
 
   .sticky-add-to-cart__price {
     font-weight: var(--font-weight-semibold);
+    font-size: 13px !important;
+  }
+
+  .sticky-add-to-cart__price * {
+    font-size: 13px !important;
+  }
+
+  .sticky-add-to-cart__actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .sticky-add-to-cart__button,
+  .sticky-add-to-cart__buy-now {
+    height: var(--height-buy-buttons, 44px);
+    position: relative;
+    white-space: nowrap;
+    padding-inline: 20px;
+    border-radius: 100px !important;
+    font-weight: 500;
+    font-size: 13px;
+    border: none !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: none !important;
+    outline: none !important;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.2s ease, opacity 0.2s ease;
   }
 
   .sticky-add-to-cart__button {
-    height: var(--height-buy-buttons);
-    position: relative;
+    background-color: #f3f4f6 !important;
+    color: #000000 !important;
+  }
+
+  .sticky-add-to-cart__buy-now {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+  }
+
+  .sticky-add-to-cart__button:hover,
+  .sticky-add-to-cart__buy-now:hover {
+    opacity: 0.9;
   }
 
   /* Mobile adjustments */
@@ -291,13 +354,34 @@
       width: 100%;
       max-width: none;
       border-radius: 0;
+      padding: 10px var(--padding-sm);
+      gap: 10px;
 
       &::before {
         --border: 1px;
       }
     }
 
-    .sticky-add-to-cart__bar .add-to-cart-text__content {
+    .sticky-add-to-cart__actions {
+      flex: 1.5;
+      justify-content: flex-end;
+      gap: 6px;
+    }
+
+    .sticky-add-to-cart__button,
+    .sticky-add-to-cart__buy-now {
+      flex: 1;
+      max-width: 110px;
+      font-size: 12px;
+      padding-inline: 6px !important;
+      height: 38px !important;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 100px !important;
+    }
+
+    .sticky-add-to-cart__button .add-to-cart-icon {
       display: none;
     }
 
@@ -306,27 +390,21 @@
     }
 
     .sticky-add-to-cart__title {
-      font-size: var(--font-paragraph--size);
-    }
-
-    .sticky-add-to-cart__button {
-      padding: var(--padding-lg);
-    }
-
-    .sticky-add-to-cart__price {
       font-size: var(--font-paragraph-small--size);
     }
 
-    .sticky-add-to-cart__button {
-      width: var(--height-buy-buttons);
+    .sticky-add-to-cart__price {
+      font-size: 12px !important;
     }
 
-    sticky-add-to-cart:not([data-variant-available='true']) .add-to-cart-text__content {
-      display: initial;
+    .sticky-add-to-cart__price * {
+      font-size: 12px !important;
     }
 
-    sticky-add-to-cart:not([data-variant-available='true']) .sticky-add-to-cart__button {
+    sticky-add-to-cart:not([data-variant-available='true']) .sticky-add-to-cart__button,
+    sticky-add-to-cart:not([data-variant-available='true']) .sticky-add-to-cart__buy-now {
       width: auto;
+      max-width: none;
     }
   }
 

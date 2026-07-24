@@ -193,6 +193,50 @@ class StickyAddToCartComponent extends Component {
   };
 
   /**
+   * Handles the buy now button click in the sticky bar
+   */
+  handleBuyNowClick = async () => {
+    const currentVariantId = this.dataset.currentVariantId;
+    if (!currentVariantId) return;
+
+    const buyNowBtn = this.refs.buyNowButton;
+    if (buyNowBtn) buyNowBtn.disabled = true;
+
+    try {
+      const response = await fetch('/cart/add.js', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          items: [{
+            id: currentVariantId,
+            quantity: this.#currentQuantity || 1
+          }]
+        })
+      });
+
+      if (response.ok) {
+        window.location.href = '/checkout';
+      } else {
+        // Fallback: click main dynamic checkout button if available
+        const productForm = this.#getProductForm();
+        const mainCheckoutBtn = productForm?.querySelector('.shopify-payment-button__button');
+        if (mainCheckoutBtn) {
+          mainCheckoutBtn.click();
+        } else {
+          this.#targetAddToCartButton?.click();
+        }
+      }
+    } catch (error) {
+      console.error('Buy Now error:', error);
+      this.#targetAddToCartButton?.click();
+    } finally {
+      if (buyNowBtn) buyNowBtn.disabled = false;
+    }
+  };
+
+  /**
    * Handles variant update events
    * @param {CustomEvent} event - The variant update event
    */
