@@ -1,0 +1,152 @@
+{% comment %} Calculate total shirts quantity in the cart {% endcomment %}
+{% assign shirt_count = 0 %}
+{% for item in cart.items %}
+  {% assign shirt_count = shirt_count | plus: item.quantity %}
+{% endfor %}
+
+{% comment %} Calculate progress percent and choose text based on shirt_count {% endcomment %}
+{% if shirt_count == 0 %}
+  {% assign progress_percent = 0 %}
+  {% assign progress_text = "Add 2 shirts to unlock the <strong>2-Shirt Deal for ₹699</strong>!" %}
+  {% assign active_node_1 = false %}
+  {% assign active_node_2 = false %}
+{% elsif shirt_count == 1 %}
+  {% assign progress_percent = 25 %}
+  {% assign progress_text = "🎉 Add 1 more shirt and unlock the <strong>2-Shirt Deal for ₹699</strong>" %}
+  {% assign active_node_1 = false %}
+  {% assign active_node_2 = false %}
+{% elsif shirt_count == 2 %}
+  {% assign progress_percent = 50 %}
+  {% assign progress_text = "🎉 <strong>2-Shirt Deal unlocked!</strong> Add 1 more shirt for the <strong>3-Shirt Deal @ ₹999</strong>!" %}
+  {% assign active_node_1 = true %}
+  {% assign active_node_2 = false %}
+{% else %}
+  {% assign progress_percent = 100 %}
+  {% assign progress_text = "🎉 <strong>3-Shirt Deal unlocked!</strong> Maximum savings applied!" %}
+  {% assign active_node_1 = true %}
+  {% assign active_node_2 = true %}
+{% endif %}
+
+<div class="cart-progress-bar-wrapper">
+  <div class="cart-progress-text">
+    {{ progress_text }}
+  </div>
+
+  <div class="cart-progress-track-container">
+    <!-- Base track line -->
+    <div class="cart-progress-track-base"></div>
+    
+    <!-- Filled progress line -->
+    <div class="cart-progress-track-fill" style="width: {{ progress_percent }}%;"></div>
+    
+    <!-- Nodes -->
+    <!-- Node 1: 2 Shirts (50% mark) -->
+    <div class="cart-progress-node node-1 {% if active_node_1 %}active{% endif %}" title="2-Shirt Deal">
+      <div class="cart-progress-node-circle">
+        <svg class="percent-badge-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/>
+          <line x1="15" y1="9" x2="9" y2="15"></line>
+          <circle cx="10" cy="10" r="1"></circle>
+          <circle cx="14" cy="14" r="1"></circle>
+        </svg>
+      </div>
+    </div>
+    
+    <!-- Node 2: 3 Shirts (100% mark) -->
+    <div class="cart-progress-node node-2 {% if active_node_2 %}active{% endif %}" title="3-Shirt Deal">
+      <div class="cart-progress-node-circle">
+        <svg class="percent-badge-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/>
+          <line x1="15" y1="9" x2="9" y2="15"></line>
+          <circle cx="10" cy="10" r="1"></circle>
+          <circle cx="14" cy="14" r="1"></circle>
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.cart-progress-bar-wrapper {
+  padding: 16px 20px;
+  background: #ffffff;
+  border-bottom: 1px solid var(--color-input-border, #e5e5e5);
+  box-sizing: border-box;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.cart-progress-text {
+  text-align: center;
+  font-size: 13px;
+  color: #333;
+  margin-bottom: 12px;
+  font-family: var(--font-body-family, sans-serif);
+}
+
+.cart-progress-track-container {
+  position: relative;
+  height: 6px;
+  background: #e2e2e2;
+  border-radius: 3px;
+  margin: 15px 25px 15px 25px;
+}
+
+.cart-progress-track-base {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 3px;
+}
+
+.cart-progress-track-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: #000000;
+  border-radius: 3px;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.cart-progress-node {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+}
+
+.node-1 { left: 50%; }
+.node-2 { left: 100%; }
+
+.cart-progress-node-circle {
+  width: 36px;
+  height: 36px;
+  background: #e2e2e2;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.06);
+  transition: background 0.3s, color 0.3s, box-shadow 0.3s, transform 0.3s;
+  color: #a0a0a0;
+}
+
+.percent-badge-svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Active node state */
+.cart-progress-node.active .cart-progress-node-circle {
+  background: #ffffff;
+  color: #000000;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+}
+
+.cart-progress-node.active .cart-progress-node-circle:hover {
+  transform: scale(1.08);
+}
+</style>

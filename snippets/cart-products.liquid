@@ -156,7 +156,7 @@
                       style="--ratio:{{ ratio }};"
                     >
                       {%- liquid
-                        echo item.image | image_url: width: 250 | image_tag: class: 'cart-items__media-image border-style', style: border_override
+                        echo item.image | image_url: width: 250 | image_tag: class: 'cart-items__media-image border-style', style: border_override, loading: 'eager'
                       -%}
                     </a>
                   {%- endif %}
@@ -470,7 +470,7 @@
 
     .cart-items__unit-price-wrapper {
       grid-area: unit_price;
-      font-size: var(--font-size--sm);
+      font-size: 13px;
     }
 
     .cart-items__price {
@@ -548,11 +548,11 @@
   }
 
   .cart-items__title {
-    font-size: var(--font-size--md);
+    font-size: 14px;
     color: var(--color-foreground);
     text-transform: var(--product-title-case);
     display: block;
-    margin-block-start: calc((var(--font-size--md) - 1lh) / 2);
+    margin-block-start: calc((14px - 1lh) / 2);
   }
 
   .cart-items__variants {
@@ -619,7 +619,7 @@
     min-width: var(--cart-item-price-width);
     text-align: end;
     display: block;
-    font-size: var(--font-size--sm);
+    font-size: 13px;
     line-height: var(--line-height);
   }
 

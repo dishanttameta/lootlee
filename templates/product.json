@@ -175,10 +175,17 @@
               },
               "blocks": {}
             },
+            "custom_liquid_xh3xUU": {
+              "type": "custom-liquid",
+              "name": "Custom Liquid - hurry timer",
+              "settings": {
+                "custom_liquid": "<div class=\"offer-timer-box\">\n  <div class=\"offer-text\">\n    Hurry up, Shop Now !\n  </div>\n\n  <div class=\"offer-timer\" id=\"loopTimer\">\n    05:00:00\n  </div>\n</div>\n\n<style>\n.offer-timer-box{\n  display:flex;\n  justify-content:space-between;\n  align-items:center;\n  width:100%;\n  background:#ffffff;\n  border:2px dashed #ff0000;\n  border-radius:8px;\n  padding:12px 16px;\n  margin:1px 0;\n  box-sizing:border-box;\n}\n\n.offer-text{\n  color:#ff0000;\n  font-size:16px;\n  font-weight:700;\n}\n\n.offer-timer{\n  color:#ff0000;\n  font-size:18px;\n  font-weight:700;\n  letter-spacing:1px;\n}\n</style>\n\n<script>\n(function() {\n\n  const FIVE_HOURS = 5 * 60 * 60;\n\n  function startLoopTimer() {\n\n    let endTime = Date.now() + (FIVE_HOURS * 1000);\n\n    function updateTimer() {\n\n      let remaining = Math.floor((endTime - Date.now()) / 1000);\n\n      if (remaining <= 0) {\n        endTime = Date.now() + (FIVE_HOURS * 1000);\n        remaining = FIVE_HOURS;\n      }\n\n      const hours = Math.floor(remaining / 3600);\n      const minutes = Math.floor((remaining % 3600) / 60);\n      const seconds = remaining % 60;\n\n      document.getElementById('loopTimer').innerHTML =\n        String(hours).padStart(2,'0') + ':' +\n        String(minutes).padStart(2,'0') + ':' +\n        String(seconds).padStart(2,'0');\n    }\n\n    updateTimer();\n    setInterval(updateTimer, 1000);\n  }\n\n  startLoopTimer();\n\n})();\n</script>"
+              },
+              "blocks": {}
+            },
             "custom_liquid_7kenPD": {
               "type": "custom-liquid",
               "name": "Custom Liquid - offer",
-              "disabled": true,
               "settings": {
                 "custom_liquid": "<div class=\"offer-wrapper\">\n\n  <div class=\"offer-title\">\n    🏷️ Offers & Discounts\n  </div>\n\n  <div class=\"offer-item\">\n    <div class=\"offer-heading\">\n      Buy Any 2 Shirts @ <span class=\"price-highlight\">₹699</span>\n    </div>\n    <div class=\"offer-text\">\n      No Coupon Required – Offer Auto Applied at Checkout.\n    </div>\n  </div>\n\n  <div class=\"offer-item\">\n    <div class=\"offer-heading\">\n      Buy Any 3 Shirts @ <span class=\"price-highlight\">₹999</span>\n    </div>\n    <div class=\"offer-text\">\n      No Coupon Required – Offer Auto Applied at Checkout.\n    </div>\n  </div>\n\n  <div class=\"offer-item\">\n    <div class=\"offer-heading\">\n      Get Extra Prepaid Discount\n    </div>\n    <div class=\"offer-text\">\n      Pay Online & Save More On Your Order.\n      <br>\n      No Coupon Required – Offer Auto Applied at Checkout.\n    </div>\n  </div>\n\n</div>\n\n<style>\n.offer-wrapper{\n  width:100%;\n  margin:15px 0;\n}\n\n.offer-title{\n  font-size:22px;\n  font-weight:700;\n  color:#333;\n  margin-bottom:14px;\n  display:flex;\n  align-items:center;\n  gap:8px;\n}\n\n.offer-item{\n  background:#f5faf6;\n  border:1.5px dashed #4CAF50;\n  border-radius:10px;\n  padding:14px 16px;\n  margin-bottom:12px;\n}\n\n.offer-heading{\n  font-size:18px;\n  font-weight:700;\n  color:#333;\n  line-height:1.4;\n}\n\n.price-highlight{\n  color:#d32f2f;\n  font-weight:800;\n}\n\n.offer-text{\n  margin-top:4px;\n  color:#666;\n  font-size:14px;\n  line-height:1.5;\n}\n\n@media screen and (max-width: 749px){\n\n  .offer-title{\n    font-size:20px;\n  }\n\n  .offer-heading{\n    font-size:16px;\n  }\n\n  .offer-text{\n    font-size:13px;\n  }\n\n  .offer-item{\n    padding:12px 14px;\n  }\n}\n</style>"
               },
@@ -523,9 +530,10 @@
           },
           "block_order": [
             "group_icgrde",
+            "custom_liquid_xh3xUU",
             "variant_picker_R3rGDr",
-            "custom_liquid_7kenPD",
             "buy_buttons_eYQEYi",
+            "custom_liquid_7kenPD",
             "text_aEtTtq",
             "accordion_aJHCEr",
             "custom_liquid_6aaBcD",
