@@ -1,0 +1,326 @@
+<div class="contact-details-map section-{{ section.id }} page-width" style="margin-top: {{ section.settings.margin_top }}px; margin-bottom: {{ section.settings.margin_bottom }}px; padding: 0 20px;">
+  <div class="contact-details-map-grid">
+    
+    <!-- Left Column: Details & Form -->
+    <div class="contact-details-col">
+      {% if section.settings.heading != blank %}
+        <h3 class="contact-section-h3">{{ section.settings.heading }}</h3>
+      {% endif %}
+      
+      {% if section.settings.description != blank %}
+        <div class="contact-description rte">
+          {{ section.settings.description }}
+        </div>
+      {% endif %}
+      
+      <!-- Contact Info Details -->
+      <div class="contact-info-list">
+        {% if section.settings.email != blank %}
+          <div class="contact-info-item">
+            <span class="contact-info-icon">📧</span>
+            <span class="contact-info-label"><strong>Email :</strong> <a href="mailto:{{ section.settings.email }}" style="color: inherit; text-decoration: none;">{{ section.settings.email }}</a></span>
+          </div>
+        {% endif %}
+        
+        {% if section.settings.whatsapp != blank %}
+          <div class="contact-info-item">
+            <span class="contact-info-icon">📞</span>
+            <span class="contact-info-label"><strong>WhatsApp :</strong> {{ section.settings.whatsapp }}</span>
+          </div>
+        {% endif %}
+        
+        {% if section.settings.working_hours != blank %}
+          <div class="contact-info-item">
+            <span class="contact-info-icon">⏰</span>
+            <span class="contact-info-label"><strong>Working Hours :</strong> {{ section.settings.working_hours }}</span>
+          </div>
+        {% endif %}
+        
+        {% if section.settings.address != blank %}
+          <div class="contact-info-item">
+            <span class="contact-info-icon">📍</span>
+            <span class="contact-info-label"><strong>Address:</strong> {{ section.settings.address }}</span>
+          </div>
+        {% endif %}
+      </div>
+      
+      <!-- Social Sharing Links -->
+      <div class="contact-social-icons">
+        {% if section.settings.instagram_link != blank %}
+          <a href="{{ section.settings.instagram_link }}" aria-label="Instagram">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+          </a>
+        {% endif %}
+        
+        {% if section.settings.facebook_link != blank %}
+          <a href="{{ section.settings.facebook_link }}" aria-label="Facebook">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path></svg>
+          </a>
+        {% endif %}
+
+        {% if section.settings.twitter_link != blank %}
+          <a href="{{ section.settings.twitter_link }}" aria-label="Twitter">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path></svg>
+          </a>
+        {% endif %}
+      </div>
+      
+      <!-- Contact Form -->
+      <div class="contact-form-area">
+        <h3 class="contact-section-h3" style="margin-top: 32px; margin-bottom: 16px;">Get in touch</h3>
+        {%- assign form_id = 'ContactForm-' | append: section.id -%}
+        {%- form 'contact', id: form_id, class: 'contact-form-tag' -%}
+          {%- if form.posted_successfully? -%}
+            <div class="contact-post-success" style="color: green; margin-bottom: 16px;">
+              Your message was sent successfully. Thank you!
+            </div>
+          {%- elsif form.errors -%}
+            <div class="contact-post-error" style="color: red; margin-bottom: 16px;">
+              Error sending message. Please check the email and try again.
+            </div>
+          {%- endif -%}
+          
+          <div class="contact-form-double-row">
+            <input type="text" name="contact[name]" id="{{ form_id }}-name" placeholder="Name" class="contact-input-field" required>
+            <input type="email" name="contact[email]" id="{{ form_id }}-email" placeholder="Email" class="contact-input-field" required>
+          </div>
+          
+          <input type="tel" name="contact[phone]" id="{{ form_id }}-phone" placeholder="Phone" class="contact-input-field">
+          
+          <textarea name="contact[body]" id="{{ form_id }}-body" rows="8" placeholder="Comment" class="contact-input-field contact-textarea-field" required></textarea>
+          
+          <button type="submit" class="button contact-submit-button">SEND</button>
+        {%- endform -%}
+      </div>
+    </div>
+    
+    <!-- Right Column: Map -->
+    <div class="contact-map-col">
+      <iframe 
+        src="https://maps.google.com/maps?q={{ section.settings.map_query | url_encode }}&t=&z=14&ie=UTF8&iwloc=&output=embed" 
+        width="100%" 
+        height="100%" 
+        style="border:0; border-radius: 8px;" 
+        allowfullscreen="" 
+        loading="lazy" 
+        referrerpolicy="no-referrer-when-downgrade"
+      ></iframe>
+    </div>
+    
+  </div>
+</div>
+
+{% stylesheet %}
+  .contact-details-map-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 48px;
+    align-items: stretch;
+  }
+  @media screen and (min-width: 750px) {
+    .contact-details-map-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .contact-details-col {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+  }
+  .contact-section-h3 {
+    font-size: 24px;
+    font-weight: 300;
+    margin: 0 0 16px 0;
+    color: var(--color-foreground);
+  }
+  .contact-description {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--color-foreground-secondary);
+    margin-bottom: 24px;
+  }
+  .contact-info-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .contact-info-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    line-height: 1.5;
+    font-size: 14px;
+  }
+  .contact-info-icon {
+    font-size: 16px;
+    display: inline-flex;
+    align-items: center;
+  }
+  .contact-social-icons {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  .contact-social-icons a {
+    color: var(--color-foreground);
+    opacity: 0.8;
+    display: inline-flex;
+    transition: opacity 0.2s;
+  }
+  .contact-social-icons a:hover {
+    opacity: 1;
+  }
+  
+  /* Contact Form Styles */
+  .contact-form-tag {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .contact-form-double-row {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  @media screen and (min-width: 750px) {
+    .contact-form-double-row {
+      flex-direction: row;
+    }
+  }
+  .contact-input-field {
+    width: 100%;
+    color: var(--color-input-text);
+    background-color: var(--color-input-background);
+    padding: var(--padding-lg) var(--padding-xl);
+    border-radius: var(--style-border-radius-inputs);
+    border: var(--style-border-width-inputs) solid var(--color-input-border);
+    font-size: 14px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .contact-textarea-field {
+    resize: vertical;
+    min-height: 120px;
+  }
+  .contact-submit-button {
+    width: fit-content;
+    padding: 12px 32px;
+    background-color: var(--color-button-background);
+    color: var(--color-button-text);
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .contact-submit-button:hover {
+    opacity: 0.9;
+  }
+  
+  /* Map Column Styles */
+  .contact-map-col {
+    width: 100%;
+    min-height: 480px;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  @media screen and (min-width: 750px) {
+    .contact-map-col {
+      height: 100%;
+      min-height: 100%;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Contact Details & Map",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Let's Get in touch"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Lootlee offers effortlessly stylish unisex apparel — shirts and essentials crafted for comfort, versatility, and everyday confidence.</p>"
+    },
+    {
+      "type": "text",
+      "id": "email",
+      "label": "Email Address",
+      "default": "care.lootlee@gmail.com"
+    },
+    {
+      "type": "text",
+      "id": "whatsapp",
+      "label": "WhatsApp / Phone",
+      "default": "+91 95129 69607"
+    },
+    {
+      "type": "text",
+      "id": "working_hours",
+      "label": "Working Hours",
+      "default": "Mon - Sat | 9:00 AM - 06:00 PM (IST)"
+    },
+    {
+      "type": "textarea",
+      "id": "address",
+      "label": "Address",
+      "default": "Building No./Flat No. 599, GADHPUR TOWN SHIP, Pasodra Road/Street, Kamrej Locality, Surat City/Village, Surat District, Gujarat, 394185"
+    },
+    {
+      "type": "text",
+      "id": "map_query",
+      "label": "Google Map Address Query",
+      "default": "GADHPUR TOWNSHIP Pasodra Kamrej Surat Gujarat 394185"
+    },
+    {
+      "type": "url",
+      "id": "instagram_link",
+      "label": "Instagram Profile Link"
+    },
+    {
+      "type": "url",
+      "id": "facebook_link",
+      "label": "Facebook Page Link"
+    },
+    {
+      "type": "url",
+      "id": "twitter_link",
+      "label": "Twitter Profile Link"
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "label": "Margin Top",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 30,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "label": "Margin Bottom",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 80,
+      "unit": "px"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Contact Details & Map"
+    }
+  ]
+}
+{% endschema %}

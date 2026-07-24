@@ -1,0 +1,285 @@
+<div class="testimonials section-{{ section.id }} page-width" style="margin-top: {{ section.settings.margin_top }}px; margin-bottom: {{ section.settings.margin_bottom }}px; padding: 0 20px;">
+  <div class="testimonials-header">
+    <h2 class="testimonials-heading">{{ section.settings.title }}</h2>
+    <div class="testimonials-nav">
+      <button class="testimonials-btn-prev" aria-label="Previous Review">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"/></svg>
+      </button>
+      <button class="testimonials-btn-next" aria-label="Next Review">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="testimonials-grid">
+    {% for block in section.blocks %}
+      <div class="testimonials-card" {{ block.shopify_attributes }}>
+        <div class="testimonials-card-inner">
+          <div class="testimonials-rating-row">
+            <span class="testimonials-stars">
+              {% for i in (1..block.settings.rating) %}★{% endfor %}
+            </span>
+            {% if block.settings.heading != blank %}
+              <span class="testimonials-card-title">{{ block.settings.heading }}</span>
+            {% endif %}
+          </div>
+          {% if block.settings.text != blank %}
+            <p class="testimonials-card-text">"{{ block.settings.text }}"</p>
+          {% endif %}
+        </div>
+
+        <div class="testimonials-author-info">
+          {% if block.settings.image != blank %}
+            <img 
+              src="{{ block.settings.image | image_url: width: 100 }}" 
+              alt="{{ block.settings.author_name | escape }}"
+              class="testimonials-avatar"
+              width="48"
+              height="48"
+              loading="lazy"
+            >
+          {% elsif block.settings.placeholder_avatar_url != blank %}
+            <img 
+              src="{{ block.settings.placeholder_avatar_url }}" 
+              alt="{{ block.settings.author_name | escape }}"
+              class="testimonials-avatar"
+              width="48"
+              height="48"
+              loading="lazy"
+            >
+          {% endif %}
+          
+          {% if block.settings.author_name != blank %}
+            <strong class="testimonials-author-name">{{ block.settings.author_name }}</strong>
+          {% endif %}
+          
+          {% if block.settings.author_location != blank %}
+            <span class="testimonials-author-location">{{ block.settings.author_location }}</span>
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% stylesheet %}
+  .testimonials-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+  }
+  .testimonials-heading {
+    font-size: 28px;
+    font-weight: 300;
+    margin: 0;
+    color: var(--color-foreground);
+  }
+  .testimonials-nav {
+    display: flex;
+    gap: 8px;
+  }
+  .testimonials-nav button {
+    border: 1px solid var(--color-input-border);
+    background: transparent;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--color-foreground);
+    opacity: 0.7;
+    transition: opacity 0.2s, border-color 0.2s;
+  }
+  .testimonials-nav button:hover {
+    opacity: 1;
+    border-color: var(--color-foreground);
+  }
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+  }
+  .testimonials-card {
+    background-color: var(--color-input-background);
+    border: 1px solid var(--color-input-border);
+    padding: 30px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.01);
+  }
+  .testimonials-rating-row {
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+  .testimonials-stars {
+    color: #ffb800;
+    font-size: 16px;
+  }
+  .testimonials-card-title {
+    color: var(--color-foreground);
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .testimonials-card-text {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--color-foreground-secondary);
+    margin: 0 0 24px 0;
+    font-style: italic;
+  }
+  .testimonials-author-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .testimonials-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 8px;
+    border: 2px solid var(--color-background);
+  }
+  .testimonials-author-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-foreground);
+  }
+  .testimonials-author-location {
+    font-size: 12px;
+    color: var(--color-foreground-secondary);
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Testimonials",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "What clients say?"
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "label": "Margin Top",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 60,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "label": "Margin Bottom",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 60,
+      "unit": "px"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial Card",
+      "settings": [
+        {
+          "type": "range",
+          "id": "rating",
+          "label": "Star Rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Review Summary / Title",
+          "default": "Great quality!"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Review Text",
+          "default": "Review text goes here."
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Author Avatar"
+        },
+        {
+          "type": "text",
+          "id": "placeholder_avatar_url",
+          "label": "Fallback Avatar URL (Unsplash)",
+          "default": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&h=150&q=80"
+        },
+        {
+          "type": "text",
+          "id": "author_name",
+          "label": "Author Name",
+          "default": "John Doe"
+        },
+        {
+          "type": "text",
+          "id": "author_location",
+          "label": "Author Location / Info",
+          "default": "City, Country"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonials",
+      "blocks": [
+        {
+          "type": "testimonial",
+          "settings": {
+            "heading": "Love it so much",
+            "text": "I got this jacket a few years ago and my daughter loved it so much that when she out grew it she wanted it again. Yes the jacket is thin but it's warm in the Ohio winter.",
+            "placeholder_avatar_url": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&h=150&q=80",
+            "author_name": "Brandon Jr",
+            "author_location": "Marin County CA"
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "heading": "Simple and hot!",
+            "text": "The first time I wore this dress, I wore high heel booties and it was so cute! The second time I wore it, I wore it with flat slip ons to a friends house. Super sexy either way!",
+            "placeholder_avatar_url": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&h=150&q=80",
+            "author_name": "LenaFab",
+            "author_location": "Austin TX"
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "heading": "Buying my second pair!",
+            "text": "These boots are beautiful. In person they look just like the pictures. The quality is exceptional. Beware that they run small and narrow. I am almost always a size 5 but in this boot I took a 5.5.",
+            "placeholder_avatar_url": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&h=150&q=80",
+            "author_name": "Jaki McCakin",
+            "author_location": "Marin County CA"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
