@@ -92,54 +92,63 @@
     </span>
   {% else %}
     {% comment %} Standard pricing display {% endcomment %}
-    <div
-      class="
-        price__regular
-        {% if show_compare_price %}
-          price__hidden
+    {% if show_compare_price %}
+      <div class="custom-pricing-layout">
+        <span class="c-mrp-label">MRP</span>
+        <span class="c-compare-price">{{ compare_at_price }}</span>
+        <span class="c-sale-price">{{ price }}</span>
+        {% if discount_percentage > 0 %}
+          <span class="c-discount-text">{{ discount_percentage }}% OFF</span>
         {% endif %}
-      "
-    >
-      <span class="price">{{ price | default: '&nbsp;' }}</span>
-    </div>
-    <div
-      class="
-        price__sale
-        {% unless show_compare_price %}
-          price__hidden
-        {% endunless %}
-      "
-    >
-      {% if show_sale_price_first %}
-        <span class="price-item__group">
-          <span class="visually-hidden">{{ 'content.price_sale' | t }}&nbsp;</span>
-          <span class="price-item--sale price">{{ price | default: '&nbsp;' }}</span>
-        </span>
-        <span class="price-item__group">
-          <span class="visually-hidden">{{ 'content.price_regular' | t }}&nbsp;</span>
-          <span class="price-item--regular compare-at-price">{{- compare_at_price -}}</span>
-        </span>
-        {% if show_discount_percentage %}
-          <span class="price-item__group">
-            <span class="price-item--discount">{{ discount_percentage }}% OFF</span>
-          </span>
-        {% endif %}
-      {% else %}
-        <span class="price-item__group">
-          <span class="visually-hidden">{{ 'content.price_regular' | t }}&nbsp;</span>
-          <span class="price-item--regular compare-at-price">{{- compare_at_price -}}</span>
-        </span>
-        <span class="price-item__group">
-          <span class="visually-hidden">{{ 'content.price_sale' | t }}&nbsp;</span>
-          <span class="price-item--sale price">{{ price | default: '&nbsp;' }}</span>
-        </span>
-        {% if show_discount_percentage %}
-          <span class="price-item__group">
-            <span class="price-item--discount">{{ discount_percentage }}% OFF</span>
-          </span>
-        {% endif %}
-      {% endif %}
-    </div>
+      </div>
+    {% else %}
+      <div class="custom-pricing-layout">
+        <span class="c-sale-price">{{ price }}</span>
+      </div>
+    {% endif %}
+
+    <style>
+      .custom-pricing-layout {
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-top: 4px;
+        margin-bottom: 12px;
+      }
+      .c-mrp-label {
+        font-size: 13px;
+        color: rgba(var(--color-foreground), 0.8);
+        font-weight: 600;
+        text-transform: uppercase;
+      }
+      .c-compare-price {
+        font-size: 16px;
+        color: rgba(var(--color-foreground), 0.5);
+        text-decoration: line-through;
+        font-weight: 500;
+      }
+      .c-sale-price {
+        font-size: 22px;
+        font-weight: 700;
+        color: rgb(var(--color-foreground));
+      }
+      .c-discount-text {
+        font-size: 14px;
+        font-weight: 700;
+        color: rgb(var(--color-foreground)); /* dynamically uses theme color */
+        letter-spacing: 0.5px;
+      }
+      product-card .custom-pricing-layout {
+        margin-bottom: 0;
+      }
+      product-card .c-sale-price {
+        font-size: 18px;
+      }
+      product-card .c-compare-price {
+        font-size: 14px;
+      }
+    </style>
   {% endif %}
   {%- if selected_variant.unit_price and show_unit_price %}
     {%- liquid
