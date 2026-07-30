@@ -1,0 +1,69 @@
+{%- render 'combo-product-form-content', section: section -%}
+
+{% schema %}
+{
+  "name": "Combo Product Form",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "collection",
+      "id": "shirts_collection",
+      "label": "Shirts Collection",
+      "info": "Select the collection containing all your shirts."
+    },
+    {
+      "type": "select",
+      "id": "combo_size",
+      "label": "Number of shirts in combo",
+      "options": [
+        { "value": "2", "label": "2 shirts" },
+        { "value": "3", "label": "3 shirts" }
+      ],
+      "default": "2"
+    },
+    { "type": "header", "content": "Size Chart" },
+    {
+      "type": "text",
+      "id": "sc_subtitle",
+      "label": "Subtitle",
+      "default": "All measurements are in inches. For a relaxed fit, go one size up."
+    },
+    {
+      "type": "text",
+      "id": "sc_note",
+      "label": "Footer note",
+      "default": "* Measurements may vary by +/- 0.5 in. If between sizes, we recommend sizing up."
+    },
+    { "type": "header", "content": "Size S" },
+    { "type": "text", "id": "sc_s_chest", "label": "Chest", "default": "38\"" },
+    { "type": "text", "id": "sc_s_shoulder", "label": "Shoulder", "default": "15.5\"" },
+    { "type": "text", "id": "sc_s_length", "label": "Length", "default": "27\"" },
+    { "type": "text", "id": "sc_s_waist", "label": "Waist", "default": "36\"" },
+    { "type": "header", "content": "Size M" },
+    { "type": "text", "id": "sc_m_chest", "label": "Chest", "default": "40\"" },
+    { "type": "text", "id": "sc_m_shoulder", "label": "Shoulder", "default": "16.5\"" },
+    { "type": "text", "id": "sc_m_length", "label": "Length", "default": "27.5\"" },
+    { "type": "text", "id": "sc_m_waist", "label": "Waist", "default": "38\"" },
+    { "type": "header", "content": "Size L" },
+    { "type": "text", "id": "sc_l_chest", "label": "Chest", "default": "42\"" },
+    { "type": "text", "id": "sc_l_shoulder", "label": "Shoulder", "default": "17.5\"" },
+    { "type": "text", "id": "sc_l_length", "label": "Length", "default": "28\"" },
+    { "type": "text", "id": "sc_l_waist", "label": "Waist", "default": "40\"" },
+    { "type": "header", "content": "Size XL" },
+    { "type": "text", "id": "sc_xl_chest", "label": "Chest", "default": "44\"" },
+    { "type": "text", "id": "sc_xl_shoulder", "label": "Shoulder", "default": "18.5\"" },
+    { "type": "text", "id": "sc_xl_length", "label": "Length", "default": "28.5\"" },
+    { "type": "text", "id": "sc_xl_waist", "label": "Waist", "default": "42\"" },
+    { "type": "header", "content": "Size XXL" },
+    { "type": "text", "id": "sc_xxl_chest", "label": "Chest", "default": "46\"" },
+    { "type": "text", "id": "sc_xxl_shoulder", "label": "Shoulder", "default": "19.5\"" },
+    { "type": "text", "id": "sc_xxl_length", "label": "Length", "default": "29\"" },
+    { "type": "text", "id": "sc_xxl_waist", "label": "Waist", "default": "44\"" }
+  ],
+  "presets": [
+    {
+      "name": "Combo Product Form"
+    }
+  ]
+}
+{% endschema %}

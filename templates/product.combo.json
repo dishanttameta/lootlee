@@ -1,0 +1,177 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "combo-product-form",
+      "settings": {
+        "combo_size": "2"
+      }
+    },
+    "custom_liquid_kaMdnG": {
+      "type": "custom-liquid",
+      "name": "Custom Liquid - reviews",
+      "settings": {
+        "custom_liquid": "<div class=\"reviews-slider\">\n  <div class=\"offer-title\">\n    Customer Reviews\n  </div>\n\n  <div class=\"reviews-track\">\n\n    <!-- Reviews -->\n\n    <div class=\"review-card\">\n      <div class=\"review-name\">Rahul S.</div>\n      <div class=\"review-stars\">★★★★★</div>\n      <div class=\"review-text\">Great quality shirt. Fabric feels premium and fitting is perfect.</div>\n    </div>\n\n    <div class=\"review-card\">\n      <div class=\"review-name\">Priya M.</div>\n      <div class=\"review-stars\">★★★★★</div>\n      <div class=\"review-text\">Loved the design and comfort. Definitely ordering again.</div>\n    </div>\n\n    <div class=\"review-card\">\n      <div class=\"review-name\">Aman K.</div>\n      <div class=\"review-stars\">★★★★★</div>\n      <div class=\"review-text\">Looks exactly like the pictures. Good value for money.</div>\n    </div>\n\n    <div class=\"review-card\">\n      <div class=\"review-name\">Sneha P.</div>\n      <div class=\"review-stars\">★★★★★</div>\n      <div class=\"review-text\">Soft fabric and stylish fit. Got compliments on the first day.</div>\n    </div>\n\n    <div class=\"review-card\">\n      <div class=\"review-name\">Vikram R.</div>\n      <div class=\"review-stars\">★★★★★</div>\n      <div class=\"review-text\">Delivery was quick and the shirt quality exceeded expectations.</div>\n    </div>\n\n    <div class=\"review-card\">\n      <div class=\"review-name\">Neha T.</div>\n      <div class=\"review-stars\">★★★★★</div>\n      <div class=\"review-text\">Very comfortable for daily wear. Color is exactly as shown.</div>\n    </div>\n\n    <div class=\"review-card\">\n      <div class=\"review-name\">Arjun D.</div>\n      <div class=\"review-stars\">★★★★★</div>\n      <div class=\"review-text\">Excellent stitching and premium feel. Worth every rupee.</div>\n    </div>\n\n    <div class=\"review-card\">\n      <div class=\"review-name\">Kavya J.</div>\n      <div class=\"review-stars\">★★★★★</div>\n      <div class=\"review-text\">One of the best online purchases I've made recently.</div>\n    </div>\n\n    <!-- Duplicate Reviews For Infinite Scroll -->\n\n    <div class=\"review-card\">\n      <div class=\"review-name\">Rahul S.</div>\n      <div class=\"review-stars\">★★★★★</div>\n      <div class=\"review-text\">Great quality shirt. Fabric feels premium and fitting is perfect.</div>\n    </div>\n\n    <div class=\"review-card\">\n      <div class=\"review-name\">Priya M.</div>\n      <div class=\"review-stars\">★★★★★</div>\n      <div class=\"review-text\">Loved the design and comfort. Definitely ordering again.</div>\n    </div>\n\n    <div class=\"review-card\">\n      <div class=\"review-name\">Aman K.</div>\n      <div class=\"review-stars\">★★★★★</div>\n      <div class=\"review-text\">Looks exactly like the pictures. Good value for money.</div>\n    </div>\n\n    <div class=\"review-card\">\n      <div class=\"review-name\">Sneha P.</div>\n      <div class=\"review-stars\">★★★★★</div>\n      <div class=\"review-text\">Soft fabric and stylish fit. Got compliments on the first day.</div>\n    </div>\n\n    <div class=\"review-card\">\n      <div class=\"review-name\">Vikram R.</div>\n      <div class=\"review-stars\">★★★★★</div>\n      <div class=\"review-text\">Delivery was quick and the shirt quality exceeded expectations.</div>\n    </div>\n\n    <div class=\"review-card\">\n      <div class=\"review-name\">Neha T.</div>\n      <div class=\"review-stars\">★★★★★</div>\n      <div class=\"review-text\">Very comfortable for daily wear. Color is exactly as shown.</div>\n    </div>\n\n    <div class=\"review-card\">\n      <div class=\"review-name\">Arjun D.</div>\n      <div class=\"review-stars\">★★★★★</div>\n      <div class=\"review-text\">Excellent stitching and premium feel. Worth every rupee.</div>\n    </div>\n\n    <div class=\"review-card\">\n      <div class=\"review-name\">Kavya J.</div>\n      <div class=\"review-stars\">★★★★★</div>\n      <div class=\"review-text\">One of the best online purchases I've made recently.</div>\n    </div>\n\n  </div>\n</div>\n\n<style>\n.reviews-slider{\n  width:100%;\n  overflow:hidden;\n  margin:20px 0;\n}\n\n.offer-title{\n  font-weight:600;\n  color:#000;\n  margin-bottom:20px;\n  text-align:center;\n  width:100%;\n  display:block;\n  font-size:32px;\n  text-transform:uppercase;\n  letter-spacing:1px;\n}\n\n.reviews-track{\n  display:flex;\n  gap:15px;\n  width:max-content;\n  animation:reviewScroll 55s linear infinite;\n}\n\n.review-card{\n  width:280px;\n  min-width:280px;\n  background:#fff;\n  border:1px solid #e5e5e5;\n  border-radius:12px;\n  padding:18px;\n  box-sizing:border-box;\n}\n\n.review-name{\n  font-size:16px;\n  font-weight:700;\n  color:#111;\n  margin-bottom:8px;\n}\n\n.review-stars{\n  color:#f5a623;\n  font-size:18px;\n  margin-bottom:12px;\n  letter-spacing:2px;\n}\n\n.review-text{\n  color:#555;\n  font-size:14px;\n  line-height:1.6;\n}\n\n@keyframes reviewScroll{\n  from{\n    transform:translateX(0);\n  }\n  to{\n    transform:translateX(-50%);\n  }\n}\n\n.reviews-slider:hover .reviews-track{\n  animation-play-state:paused;\n}\n\n@media(max-width:768px){\n\n  .offer-title{\n    font-size:24px;\n  }\n\n  .review-card{\n    width:240px;\n    min-width:240px;\n  }\n}\n</style>",
+        "color_scheme": "",
+        "section_width": "page-width",
+        "padding-block-start": 20,
+        "padding-block-end": 30
+      }
+    },
+    "product_recommendations_Pbz6aY": {
+      "type": "product-recommendations",
+      "blocks": {
+        "text_iaJ9pY": {
+          "type": "text",
+          "name": "t:names.header",
+          "settings": {
+            "text": "<h2>Similar Products</h2>",
+            "width": "100%",
+            "max_width": "normal",
+            "alignment": "center",
+            "type_preset": "h3",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 20,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "static-product-card": {
+          "type": "_product-card",
+          "name": "t:names.product_card",
+          "static": true,
+          "settings": {
+            "product_card_gap": 4,
+            "inherit_color_scheme": false,
+            "color_scheme": "",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "product_card_gallery_L63HN3": {
+              "type": "_product-card-gallery",
+              "name": "t:names.product_card_media",
+              "settings": {
+                "image_ratio": "portrait",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "product_title_7Kn6tH": {
+              "type": "product-title",
+              "name": "t:names.product_title",
+              "settings": {
+                "width": "100%",
+                "max_width": "none",
+                "alignment": "left",
+                "type_preset": "h5",
+                "font": "var(--font-heading--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 4,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "price_MkUHFh": {
+              "type": "price",
+              "name": "t:names.product_price",
+              "settings": {
+                "show_sale_price_first": true,
+                "show_installments": false,
+                "show_tax_info": false,
+                "type_preset": "h6",
+                "width": "100%",
+                "alignment": "left",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "color": "var(--color-foreground)",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "product_card_gallery_L63HN3",
+            "product_title_7Kn6tH",
+            "price_MkUHFh"
+          ]
+        }
+      },
+      "block_order": [
+        "text_iaJ9pY"
+      ],
+      "name": "t:names.product_recommendations",
+      "settings": {
+        "product": "{{ closest.product }}",
+        "recommendation_type": "related",
+        "layout_type": "grid",
+        "carousel_on_mobile": true,
+        "max_products": 4,
+        "columns": 4,
+        "mobile_columns": "2",
+        "columns_gap": 25,
+        "rows_gap": 24,
+        "icons_style": "none",
+        "icons_shape": "none",
+        "section_width": "page-width",
+        "gap": 0,
+        "color_scheme": "scheme-1",
+        "padding-block-start": 24,
+        "padding-block-end": 100
+      }
+    }
+  },
+  "order": [
+    "main",
+    "custom_liquid_kaMdnG",
+    "product_recommendations_Pbz6aY"
+  ]
+}

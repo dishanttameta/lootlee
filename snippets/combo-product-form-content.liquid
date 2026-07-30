@@ -1,0 +1,1114 @@
+{% comment %}
+  Renders the Combo Product Form UI.
+  Accepts:
+  - section: The section object (required)
+{% endcomment %}
+
+{{ 'product-shirts.css' | asset_url | stylesheet_tag }}
+{{ 'product-countdown.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'product-countdown.js' | asset_url }}" defer="defer"></script>
+
+<style>
+  /* ── Sticky gallery — combo product page only ── */
+  @media (min-width: 990px) {
+    .shirts-product__media {
+      position: sticky;
+      top: 100px; /* adjust if you have a taller header */
+      align-self: flex-start;
+    }
+  }
+</style>
+
+<style>
+  .combo-build-section {
+    margin: 18px 0;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 12px;
+    border: 1px solid #e8e8e8;
+  }
+  .combo-build-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #000;
+    padding-bottom: 10px;
+  }
+  .combo-build-title {
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #000;
+    margin: 0;
+  }
+  .combo-shirt-row {
+    margin-bottom: 20px;
+    padding: 16px;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+  }
+  .combo-shirt-row-label {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #333;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .shirt-num-badge {
+    background: #000;
+    color: #fff;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  /* IMAGE PICKER */
+  .combo-img-picker {
+    position: relative;
+    margin-bottom: 12px;
+  }
+  .combo-img-trigger {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 8px 12px;
+    border: 1.5px solid #ccc;
+    border-radius: 8px;
+    background: #fff;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    color: #333;
+    transition: border-color 0.2s;
+    text-align: left;
+  }
+  .combo-img-trigger:hover {
+    border-color: #000;
+  }
+  .combo-img-trigger.is-open {
+    border-color: #000;
+  }
+  .combo-trigger-thumb {
+    width: 36px;
+    height: 36px;
+    border-radius: 5px;
+    object-fit: cover;
+    flex-shrink: 0;
+    background: #f0f0f0;
+  }
+  .combo-trigger-placeholder {
+    width: 36px;
+    height: 36px;
+    border-radius: 5px;
+    background: #eee;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+  }
+  .combo-trigger-text {
+    flex: 1;
+    font-size: 13px;
+  }
+  .combo-trigger-arrow {
+    margin-left: auto;
+    font-size: 10px;
+    transition: transform 0.2s;
+    color: #666;
+  }
+  .combo-img-trigger.is-open .combo-trigger-arrow {
+    transform: rotate(180deg);
+  }
+  .combo-img-panel {
+    display: none;
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: #fff;
+    border: 1.5px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    z-index: 50;
+    padding: 10px;
+    max-height: 280px;
+    overflow-y: auto;
+  }
+  .combo-img-panel.is-open {
+    display: block;
+  }
+  .combo-img-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .combo-img-card {
+    cursor: pointer;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fafafa;
+    transition: all 0.2s;
+    text-align: center;
+    position: relative;
+  }
+  .combo-img-card:hover {
+    border-color: #999;
+  }
+  .combo-img-card.is-selected {
+    border-color: #007bff;
+    background: #f0f6ff;
+  }
+  .combo-img-card img {
+    width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    display: block;
+  }
+  .combo-img-card-name {
+    font-size: 10px;
+    font-weight: 600;
+    color: #333;
+    padding: 4px 3px;
+    line-height: 1.2;
+  }
+  .combo-img-card-check {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    background: #007bff;
+    color: #fff;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+  }
+  .combo-img-card.is-selected .combo-img-card-check {
+    display: flex;
+  }
+  /* SIZE SELECT */
+  .combo-size-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .combo-select-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #666;
+  }
+  .combo-atc-btn {
+    width: 100%;
+    background: #000;
+    color: #fff;
+    border: none;
+    padding: 18px;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    margin-top: 10px;
+  }
+
+  .combo-atc-btn:hover {
+    background: #333;
+    transform: translateY(-2px);
+  }
+
+  .combo-fake-atc {
+    width: 100%;
+    height: 54px;
+    padding: 0 12px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 700;
+    background: #eee;
+    color: #999;
+    text-transform: uppercase;
+    cursor: not-allowed;
+    margin-top: 10px;
+  }
+  .combo-select {
+    width: 100%;
+    height: 42px;
+    padding: 0 32px 0 12px;
+    border: 1.5px solid #ccc;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #111;
+    background: #fff
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23333' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E")
+      no-repeat right 12px center;
+    appearance: none;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+  .combo-select:focus {
+    outline: none;
+    border-color: #000;
+  }
+  .combo-select:disabled {
+    background-color: #f5f5f5;
+    color: #aaa;
+    cursor: not-allowed;
+  }
+  /* OFFERS */
+  .combo-offers {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 16px 0;
+  }
+  .combo-offer-strip {
+    background: #fff9e6;
+    border: 1.5px dashed #d4a017;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 14px;
+    color: #856404;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .required-badge {
+    color: #e53935;
+    margin-left: 2px;
+    font-weight: bold;
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 1.1em;
+  }
+  .combo-selection-summary {
+    margin-top: 25px;
+    padding: 24px;
+    background: #fff;
+    border: 1px solid #000;
+    display: none;
+  }
+  .combo-summary-title {
+    display: block;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+    color: #000;
+    border-bottom: 1px solid #000;
+    padding-bottom: 8px;
+  }
+  .combo-summary-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    font-size: 13px;
+    color: #000;
+  }
+  .combo-summary-item:last-child {
+    margin-bottom: 0;
+  }
+  .combo-summary-name {
+    font-weight: 700;
+  }
+  .combo-summary-size {
+    font-size: 11px;
+    background: #f0f0f0;
+    padding: 2px 8px;
+    border-radius: 2px;
+    font-weight: 600;
+  }
+  .combo-validation-msg {
+    margin-top: 15px;
+    font-size: 12px;
+    color: #e64a19;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    text-align: center;
+    display: none;
+  }
+  .combo-validation-msg.is-visible {
+    display: block;
+  }
+  @media (max-width: 480px) {
+    .combo-img-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>
+
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign product_form_id = 'combo-form-' | append: section.id
+
+  # Extract shirts collection handle, prioritize section setting, then combo-collection tag, fallback to 'shirts'
+  assign shirts_collection_handle = section.settings.shirts_collection
+  for tag in product.tags
+    if tag contains 'combo-collection:'
+      assign tag_parts = tag | split: ':'
+      assign shirts_collection_handle = tag_parts[1] | strip
+    endif
+  endfor
+
+  if shirts_collection_handle == blank
+    assign shirts_collection_handle = 'shirts'
+  endif
+  if collections[shirts_collection_handle] != blank
+    assign shirts_collection = collections[shirts_collection_handle]
+  else
+    assign shirts_collection = collections.all
+  endif
+
+  # Determine number of shirts in combo, prioritize tag combo-size:[number], fallback to section setting, then default to 2
+  assign num_shirts = 2
+  if section.settings.combo_size != blank
+    assign num_shirts = section.settings.combo_size | plus: 0
+  endif
+  for tag in product.tags
+    if tag contains 'combo-size:'
+      assign tag_parts = tag | split: ':'
+      assign num_shirts = tag_parts[1] | plus: 0
+    endif
+  endfor
+
+  # Pre-fill default options through product tags
+  assign default_handles_json = '{'
+  assign first_added = true
+  for tag in product.tags
+    if tag contains 'combo-default-'
+      assign tag_parts = tag | split: ':'
+      assign slot_idx = tag_parts[0] | replace: 'combo-default-', '' | strip
+      assign h_name = tag_parts[1] | strip
+      unless first_added
+        assign default_handles_json = default_handles_json | append: ','
+      endunless
+      assign default_handles_json = default_handles_json | append: '"' | append: slot_idx | append: '":"' | append: h_name | append: '"'
+      assign first_added = false
+    endif
+  endfor
+  assign default_handles_json = default_handles_json | append: '}'
+
+  # Load size chart options
+  assign sc_subtitle = section.settings.sc_subtitle | default: "All measurements are in inches. For a relaxed fit, go one size up."
+  assign sc_note = section.settings.sc_note | default: "* Measurements may vary by +/- 0.5 in. If between sizes, we recommend sizing up."
+  assign sc_s_chest = section.settings.sc_s_chest | default: '38"'
+  assign sc_s_shoulder = section.settings.sc_s_shoulder | default: '15.5"'
+  assign sc_s_length = section.settings.sc_s_length | default: '27"'
+  assign sc_s_waist = section.settings.sc_s_waist | default: '36"'
+  
+  assign sc_m_chest = section.settings.sc_m_chest | default: '40"'
+  assign sc_m_shoulder = section.settings.sc_m_shoulder | default: '16.5"'
+  assign sc_m_length = section.settings.sc_m_length | default: '27.5"'
+  assign sc_m_waist = section.settings.sc_m_waist | default: '38"'
+
+  assign sc_l_chest = section.settings.sc_l_chest | default: '42"'
+  assign sc_l_shoulder = section.settings.sc_l_shoulder | default: '17.5"'
+  assign sc_l_length = section.settings.sc_l_length | default: '28"'
+  assign sc_l_waist = section.settings.sc_l_waist | default: '40"'
+
+  assign sc_xl_chest = section.settings.sc_xl_chest | default: '44"'
+  assign sc_xl_shoulder = section.settings.sc_xl_shoulder | default: '18.5"'
+  assign sc_xl_length = section.settings.sc_xl_length | default: '28.5"'
+  assign sc_xl_waist = section.settings.sc_xl_waist | default: '42"'
+
+  assign sc_xxl_chest = section.settings.sc_xxl_chest | default: '46"'
+  assign sc_xxl_shoulder = section.settings.sc_xxl_shoulder | default: '19.5"'
+  assign sc_xxl_length = section.settings.sc_xxl_length | default: '29"'
+  assign sc_xxl_waist = section.settings.sc_xxl_waist | default: '44"'
+-%}
+
+<script type="application/json" id="ComboShirtsData-{{ section.id }}">
+  [{%- for p in shirts_collection.products -%}{"id":{{ p.id }},"handle":{{ p.handle | json }},"title":{{ p.title | json }},"image":"{{ p.featured_image | image_url: width: 300 }}","variants":[{%- for v in p.variants -%}{"id":{{ v.id }},"title":{{ v.title | json }},"available":{{ v.available }}}{%- unless forloop.last -%},{%- endunless -%}{%- endfor -%}]}{%- unless forloop.last -%},{%- endunless -%}{%- endfor -%}]
+</script>
+
+<section class="shirts-product">
+  <div class="shirts-product__container">
+    <nav class="shirts-breadcrumb" aria-label="Breadcrumb">
+      <a href="{{ routes.root_url }}">HOME</a><span class="sep">|</span> <a href="/collections/combo">COMBO</a>
+      <span class="sep">|</span>
+      <span class="current">{{ product.title | upcase }}</span>
+    </nav>
+
+    <div class="shirts-product__grid">
+      <!-- GALLERY -->
+      <div class="shirts-product__media">
+        <div class="shirts-product__thumbnails">
+          {%- for media in product.media -%}
+            <div class="shirts-product__thumbnail {% if forloop.first %}is-active{% endif %}">
+              <img
+                src="{{ media | image_url: width: 200 }}"
+                alt="{{ media.alt | escape }}"
+                loading="lazy"
+                width="200"
+                height="267"
+              >
+            </div>
+          {%- endfor -%}
+        </div>
+        <div class="shirts-product__gallery-wrap">
+          {%- if product.media.size > 1 -%}
+            <button
+              class="shirts-gallery-arrow shirts-gallery-arrow--prev"
+              id="shirts-arrow-prev"
+              type="button"
+              aria-label="Prev"
+            >
+              <svg
+                viewBox="0 0 16 16"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="10,2 4,8 10,14"/>
+              </svg>
+            </button>
+            <button
+              class="shirts-gallery-arrow shirts-gallery-arrow--next"
+              id="shirts-arrow-next"
+              type="button"
+              aria-label="Next"
+            >
+              <svg
+                viewBox="0 0 16 16"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="6,2 12,8 6,14"/>
+              </svg>
+            </button>
+          {%- endif -%}
+          <div class="shirts-product__main-image">
+            <span
+              class="shirts-product-card__sale-badge"
+              style="position: absolute !important; top: 12px !important; left: 12px !important; z-index: 5 !important; background: #e64a19 !important; color: #fff !important; padding: 4px 10px !important; font-size: 10px !important; font-weight: 800 !important; letter-spacing: 0.05em !important; text-transform: uppercase !important; border-radius: 4px !important; line-height: 1 !important; box-shadow: 0 2px 8px rgba(0,0,0,0.25) !important; display: inline-flex !important; align-items: center !important; gap: 4px !important; pointer-events: none !important; border: none !important;"
+              >SALE</span
+            >
+            <img
+              id="shirts-main-image-el"
+              src="{{ product.featured_media | image_url: width: 1200 }}"
+              alt="{{ product.title | escape }}"
+              width="800"
+              height="1067"
+              fetchpriority="high"
+              loading="eager"
+            >
+          </div>
+          {%- if product.media.size > 1 -%}
+            <div class="shirts-product__dots" id="shirts-image-dots">
+              {%- for media in product.media -%}
+                <button
+                  class="shirts-dot {% if forloop.first %}is-active{% endif %}"
+                  data-index="{{ forloop.index0 }}"
+                  type="button"
+                ></button>
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+
+      <!-- INFO + FORM -->
+      <div class="shirts-product__info">
+        <!-- COUNTDOWN TIMER -->
+        <div class="shirts-countdown">
+          <div class="shirts-countdown__content">
+            <div class="shirts-countdown__text">SALE ENDS IN:</div>
+            <div class="shirts-countdown__timer" id="ShirtsCountdown-{{ section.id }}">
+              <span class="shirts-countdown__time" data-time-remaining>00h : 00m : 00s</span>
+            </div>
+          </div>
+        </div>
+        <h1 class="shirts-product__title">{{ product.title }}</h1>
+
+        <div class="shirts-product__price-area">
+          <div class="shirts-product__price-wrap">
+            <span class="shirts-product__price">{{ current_variant.price | money }}</span>
+            {%- if current_variant.compare_at_price > current_variant.price -%}
+              <span class="shirts-product__price--old">{{ current_variant.compare_at_price | money }}</span>
+              {%- assign pct = current_variant.compare_at_price
+                | minus: current_variant.price
+                | times: 100
+                | divided_by: current_variant.compare_at_price
+              -%}
+              <span class="shirts-product__discount-badge">{{ pct }}% OFF</span>
+            {%- endif -%}
+          </div>
+        </div>
+
+        {%- if product.description != blank -%}
+          <div class="shirts-product__description" style="margin-top:12px; margin-bottom: 20px;">
+            {{ product.description }}
+          </div>
+        {%- endif -%}
+
+        <div class="combo-build-section">
+          <product-form-component
+            data-section-id="{{ section.id }}"
+            data-product-id="{{ product.id }}"
+            data-product-url="{{ product.url }}"
+            data-quantity-default="1"
+          >
+            <div
+              class="visually-hidden"
+              aria-live="assertive"
+              role="status"
+              aria-atomic="true"
+              ref="liveRegion"
+            ></div>
+
+            {%- form 'product',
+              product,
+              id: product_form_id,
+              class: 'shirts-product-form',
+              data-type: 'add-to-cart-form'
+            -%}
+              <input type="hidden" name="id" ref="variantId" value="{{ current_variant.id }}">
+              <input type="hidden" name="quantity" value="1">
+
+              <div class="combo-build-header">
+                <h2 class="combo-build-title">Build Your Combo</h2>
+                <button type="button" class="shirts-size-chart-btn" id="shirts-size-chart-btn">SIZE CHART</button>
+              </div>
+
+              {%- for i in (1..num_shirts) -%}
+                <div class="combo-shirt-row">
+                  <div class="combo-shirt-row-label">
+                    <span class="shirt-num-badge">{{ i }}</span> SHIRT {{ i }}
+                    <span class="required-badge">*</span>
+                  </div>
+
+                  <!-- Image Picker -->
+                  <div class="combo-img-picker" data-slot="{{ i }}" data-section="{{ section.id }}">
+                    <button type="button" class="combo-img-trigger" aria-expanded="false" aria-haspopup="listbox">
+                      <span class="combo-trigger-placeholder">👕</span>
+                      <span class="combo-trigger-text">— Select a shirt —</span>
+                      <span class="combo-trigger-arrow">▼</span>
+                    </button>
+                    <div class="combo-img-panel" role="listbox">
+                      <div class="combo-img-grid" id="combo-img-grid-{{ i }}-{{ section.id }}">
+                        <!-- Populated by JS -->
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Size Select -->
+                  <div class="combo-size-group">
+                    <label class="combo-select-label" for="shirt-size-{{ i }}-{{ section.id }}"
+                      >Size <span class="required-badge">*</span></label
+                    >
+                    <select
+                      class="combo-select shirt-size-select"
+                      id="shirt-size-{{ i }}-{{ section.id }}"
+                      data-slot="{{ i }}"
+                      disabled
+                    >
+                      <option value="">— Select shirt first —</option>
+                    </select>
+                  </div>
+
+                  <input
+                    type="hidden"
+                    class="shirt-selected-id"
+                    id="shirt-selected-{{ i }}-{{ section.id }}"
+                    data-slot="{{ i }}"
+                    value=""
+                  >
+                  <input
+                    type="hidden"
+                    id="prop-shirt-{{ i }}-{{ section.id }}"
+                    name="properties[Shirt {{ i }}]"
+                    value=""
+                  >
+                </div>
+              {%- endfor -%}
+
+              <div class="combo-selection-summary" id="combo-summary-box-{{ section.id }}">
+                <span class="combo-summary-title">Your Selection:</span>
+                <div id="combo-summary-list-{{ section.id }}"></div>
+              </div>
+
+              <div class="combo-validation-msg" id="combo-validation-{{ section.id }}">
+                ⚠️ Please select a shirt and size for all slots.
+              </div>
+
+              <!-- Real Add to Cart (Visible only when valid) -->
+              <div id="combo-atc-wrapper-{{ section.id }}" style="display: none;">
+                <add-to-cart-component ref="addToCartButtonContainer">
+                  <button
+                    type="submit"
+                    name="add"
+                    ref="addToCartButton"
+                    class="combo-atc-btn"
+                  >
+                    ADD TO CART — {{ product.price | money }}
+                  </button>
+                </add-to-cart-component>
+              </div>
+
+              <!-- Disabled Placeholder -->
+              <button type="button" id="combo-fake-buy-{{ section.id }}" class="combo-fake-atc" disabled>
+                SELECT ALL SHIRTS & SIZES TO ADD
+              </button>
+            {%- endform -%}
+
+            <div class="monvico-safety-promise">
+              <span class="monvico-safety-promise__icon">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" fill="#D32F2F"/>
+                  <path d="M9 11l2 2 4-4" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+              <p class="monvico-safety-promise__text">
+                <strong>Monvico Safety Promise:</strong> Once your order is confirmed, we will
+                <strong>never call you asking for money</strong>. Your COD payment is made only to the delivery person
+                at your door not to any caller or online link.
+              </p>
+            </div>
+          </product-form-component>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SIZE CHART MODAL -->
+<div class="shirts-sc-overlay" id="shirts-sc-overlay" role="dialog" aria-modal="true" hidden>
+  <div class="shirts-sc-modal">
+    <div class="shirts-sc-header">
+      <h2 class="shirts-sc-title">Size Chart</h2>
+      <button class="shirts-sc-close" id="shirts-sc-close" type="button" aria-label="Close">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="2" y1="2" x2="14" y2="14"/><line x1="14" y1="2" x2="2" y2="14"/>
+        </svg>
+      </button>
+    </div>
+    <p class="shirts-sc-subtitle">{{ sc_subtitle }}</p>
+    <div class="shirts-sc-table-wrap">
+      <table class="shirts-sc-table">
+        <thead>
+          <tr>
+            <th>Size</th>
+            <th>Chest</th>
+            <th>Shoulder</th>
+            <th>Length</th>
+            <th>Waist</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>S</td>
+            <td>{{ sc_s_chest }}</td>
+            <td>{{ sc_s_shoulder }}</td>
+            <td>{{ sc_s_length }}</td>
+            <td>{{ sc_s_waist }}</td>
+          </tr>
+          <tr>
+            <td>M</td>
+            <td>{{ sc_m_chest }}</td>
+            <td>{{ sc_m_shoulder }}</td>
+            <td>{{ sc_m_length }}</td>
+            <td>{{ sc_m_waist }}</td>
+          </tr>
+          <tr>
+            <td>L</td>
+            <td>{{ sc_l_chest }}</td>
+            <td>{{ sc_l_shoulder }}</td>
+            <td>{{ sc_l_length }}</td>
+            <td>{{ sc_l_waist }}</td>
+          </tr>
+          <tr>
+            <td>XL</td>
+            <td>{{ sc_xl_chest }}</td>
+            <td>{{ sc_xl_shoulder }}</td>
+            <td>{{ sc_xl_length }}</td>
+            <td>{{ sc_xl_waist }}</td>
+          </tr>
+          <tr>
+            <td>XXL</td>
+            <td>{{ sc_xxl_chest }}</td>
+            <td>{{ sc_xxl_shoulder }}</td>
+            <td>{{ sc_xxl_length }}</td>
+            <td>{{ sc_xxl_waist }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="shirts-sc-note">{{ sc_note }}</p>
+  </div>
+</div>
+
+<script>
+  (function(){
+    const sid       = '{{ section.id }}';
+    const numSlots  = {{ num_shirts }};
+    const shirts    = JSON.parse(document.getElementById('ComboShirtsData-' + sid).textContent);
+    const defaultHandles = {{ default_handles_json }};
+
+    // ── Build image grids ──
+    for(let slot = 1; slot <= numSlots; slot++){
+      const grid = document.getElementById('combo-img-grid-' + slot + '-' + sid);
+      if(!grid) continue;
+      shirts.forEach(function(p){
+        const card = document.createElement('div');
+        card.className = 'combo-img-card';
+        card.setAttribute('role','option');
+        card.setAttribute('data-product-id', p.id);
+        card.setAttribute('data-slot', slot);
+        card.innerHTML =
+          '<div class="combo-img-card-check">✓</div>' +
+          '<img src="' + p.image + '" alt="' + p.title + '" loading="lazy">' +
+          '<div class="combo-img-card-name">' + p.title + '</div>';
+        card.addEventListener('click', function(){ selectShirt(slot, p, card); });
+        grid.appendChild(card);
+      });
+    }
+
+    // ── Toggle panel ──
+    document.querySelectorAll('.combo-img-picker').forEach(function(picker){
+      const trigger = picker.querySelector('.combo-img-trigger');
+      const panel   = picker.querySelector('.combo-img-panel');
+      trigger.addEventListener('click', function(e){
+        e.stopPropagation();
+        const isOpen = panel.classList.contains('is-open');
+        closeAllPanels();
+        if(!isOpen){
+          panel.classList.add('is-open');
+          trigger.classList.add('is-open');
+          trigger.setAttribute('aria-expanded','true');
+        }
+      });
+    });
+    document.addEventListener('click', closeAllPanels);
+
+    function closeAllPanels(){
+      document.querySelectorAll('.combo-img-panel.is-open').forEach(function(p){
+        p.classList.remove('is-open');
+        p.closest('.combo-img-picker').querySelector('.combo-img-trigger').classList.remove('is-open');
+      });
+    }
+
+    // ── Select shirt ──
+    function selectShirt(slot, product, card){
+      // Mark card selected
+      const grid = document.getElementById('combo-img-grid-' + slot + '-' + sid);
+      grid.querySelectorAll('.combo-img-card').forEach(function(c){ c.classList.remove('is-selected'); });
+      card.classList.add('is-selected');
+
+      // Update trigger display
+      const picker  = card.closest('.combo-img-picker');
+      const trigger = picker.querySelector('.combo-img-trigger');
+      trigger.innerHTML =
+        '<img class="combo-trigger-thumb" src="' + product.image + '" alt="' + product.title + '">' +
+        '<span class="combo-trigger-text">' + product.title + '</span>' +
+        '<span class="combo-trigger-arrow">▼</span>';
+
+      // Store selected product id
+      document.getElementById('shirt-selected-' + slot + '-' + sid).value = product.id;
+
+      // Update size dropdown
+      const sizeSel = document.getElementById('shirt-size-' + slot + '-' + sid);
+      
+      // Save current selection title to try and restore it
+      let prevSizeTitle = "";
+      if (sizeSel.selectedIndex > 0) {
+        prevSizeTitle = sizeSel.options[sizeSel.selectedIndex].textContent.split(' (')[0];
+      }
+
+      sizeSel.innerHTML = '<option value="">— Choose size —</option>';
+      product.variants.forEach(function(v){
+        const opt = document.createElement('option');
+        opt.value = v.id;
+        opt.textContent = v.title + (!v.available ? ' (Out of Stock)' : '');
+        opt.disabled = !v.available;
+        sizeSel.appendChild(opt);
+      });
+      sizeSel.disabled = false;
+
+      // NEW logic to reduce clicks:
+      let sizeToSet = prevSizeTitle;
+      
+      // If slot > 1, prioritize matching Slot 1
+      if (slot > 1) {
+        const masterSizeSel = document.getElementById('shirt-size-1-' + sid);
+        if (masterSizeSel && masterSizeSel.value) {
+          sizeToSet = masterSizeSel.options[masterSizeSel.selectedIndex].textContent.split(' (')[0];
+        }
+      }
+
+      if (sizeToSet) {
+        for (let i = 0; i < sizeSel.options.length; i++) {
+          const opt = sizeSel.options[i];
+          const optText = opt.textContent.split(' (')[0];
+          if (optText === sizeToSet && !opt.disabled) {
+            sizeSel.value = opt.value;
+            break;
+          }
+        }
+      }
+
+      closeAllPanels();
+      checkValidation();
+    }
+
+    // ── Set default selections based on tags ──
+    for(let slot = 1; slot <= numSlots; slot++){
+      const defaultHandle = defaultHandles[slot.toString()];
+      if(defaultHandle){
+        const product = shirts.find(function(p){ return p.handle === defaultHandle; });
+        if(product){
+          const grid = document.getElementById('combo-img-grid-' + slot + '-' + sid);
+          const card = grid ? grid.querySelector('[data-product-id="' + product.id + '"]') : null;
+          if(card){
+            selectShirt(slot, product, card);
+          }
+        }
+      }
+    }
+
+    // ── Real-time Validation ──
+    function checkValidation(){
+      let allValid = true;
+      let summaryHtml = "";
+
+      for(let i = 1; i <= numSlots; i++){
+        const productId = document.getElementById('shirt-selected-' + i + '-' + sid).value;
+        const sizeVal   = document.getElementById('shirt-size-' + i + '-' + sid).value;
+        const prop      = document.getElementById('prop-shirt-' + i + '-' + sid);
+
+        if(!productId || !sizeVal){
+          allValid = false;
+        } else {
+          const p = shirts.find(function(x){ return x.id === parseInt(productId); });
+          const v = p && p.variants.find(function(x){ return x.id === parseInt(sizeVal); });
+          const name = p ? p.title : 'Selected Shirt';
+          const sizeName = v ? v.title : '';
+          if(prop) prop.value = name + ' — ' + sizeName;
+          
+          // If only 1 shirt slot, update the main variant ID so the actual shirt is added
+          if(numSlots === 1) {
+            const variantInput = form.querySelector('input[name="id"]');
+            if(variantInput) variantInput.value = sizeVal;
+          }
+
+          summaryHtml += `<div class="combo-summary-item">
+            <span class="combo-summary-name">${i}. ${name}</span>
+            <span class="combo-summary-size">SIZE: ${sizeName}</span>
+          </div>`;
+        }
+      }
+
+      const atcWrapper = document.getElementById('combo-atc-wrapper-' + sid);
+      const fakeBuy   = document.getElementById('combo-fake-buy-' + sid);
+      const summaryBox = document.getElementById('combo-summary-box-' + sid);
+      const summaryList = document.getElementById('combo-summary-list-' + sid);
+
+      if(allValid){
+        atcWrapper.style.display = "block";
+        fakeBuy.style.display = "none";
+        summaryBox.style.display = "block";
+        summaryList.innerHTML = summaryHtml;
+      } else {
+        atcWrapper.style.display = "none";
+        fakeBuy.style.display = "block";
+        summaryBox.style.display = "none";
+      }
+    }
+
+    // Attach validation to size changes
+    document.querySelectorAll('.shirt-size-select').forEach(function(sel){
+      sel.addEventListener('change', function() {
+        const slot = parseInt(this.getAttribute('data-slot'));
+        
+        // NEW: If slot 1 changed, propagate to others
+        if (slot === 1) {
+          const masterSizeTitle = this.options[this.selectedIndex].textContent.split(' (')[0];
+          if (masterSizeTitle && masterSizeTitle !== "— Choose size —" && masterSizeTitle !== "— Select shirt first —") {
+            for (let i = 2; i <= numSlots; i++) {
+              const otherSizeSel = document.getElementById('shirt-size-' + i + '-' + sid);
+              if (otherSizeSel && !otherSizeSel.disabled) {
+                for (let j = 0; j < otherSizeSel.options.length; j++) {
+                  const opt = otherSizeSel.options[j];
+                  const optText = opt.textContent.split(' (')[0];
+                  if (optText === masterSizeTitle && !opt.disabled) {
+                    otherSizeSel.value = opt.value;
+                    break;
+                  }
+                }
+              }
+            }
+          }
+        }
+        
+        checkValidation();
+      });
+    });
+
+    // ── Form submit: validate + fill properties ──
+    const form       = document.getElementById('combo-form-' + sid);
+    const validMsg   = document.getElementById('combo-validation-' + sid);
+
+    form.addEventListener('submit', async function(e){
+      e.preventDefault();
+      let valid = true;
+      const items = [];
+      
+      for(let i = 1; i <= numSlots; i++){
+        const productId = document.getElementById('shirt-selected-' + i + '-' + sid).value;
+        const sizeVal   = document.getElementById('shirt-size-' + i + '-' + sid).value;
+        const picker    = document.querySelector('[data-slot="' + i + '"][data-section="' + sid + '"]');
+        const sizeSel   = document.getElementById('shirt-size-' + i + '-' + sid);
+
+        if(!productId || !sizeVal){
+          valid = false;
+          if(picker) picker.querySelector('.combo-img-trigger').style.borderColor = '#e53935';
+          if(sizeSel) sizeSel.style.borderColor = '#e53935';
+        } else {
+          if(picker) picker.querySelector('.combo-img-trigger').style.borderColor = '';
+          if(sizeSel) sizeSel.style.borderColor = '';
+          
+          items.push({
+            id: parseInt(sizeVal),
+            quantity: 1,
+            properties: {
+               "_slot": i
+            }
+          });
+        }
+      }
+
+      if(!valid){
+        validMsg.classList.add('is-visible');
+        validMsg.scrollIntoView({behavior:'smooth',block:'center'});
+        return;
+      }
+
+      validMsg.classList.remove('is-visible');
+      const submitBtn = form.querySelector('[type="submit"]');
+      submitBtn.classList.add('is-loading');
+      submitBtn.disabled = true;
+
+      try {
+        const sections = ['cart-drawer', 'cart-icon-bubble', 'main-cart-items', 'main-cart-footer'];
+        const response = await fetch((window.Shopify ? window.Shopify.routes.root : '/') + 'cart/add.js', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ items, sections })
+        });
+        
+        if (!response.ok) {
+           const err = await response.json();
+           throw new Error(err.description || 'Error adding to cart');
+        }
+
+        const data = await response.json();
+        
+        // Dispatch event to update cart and open drawer
+        document.dispatchEvent(new CustomEvent('cart:update', {
+          bubbles: true,
+          detail: {
+            resource: data,
+            data: {
+              source: 'combo-product-form',
+              sections: data.sections
+            }
+          }
+        }));
+        
+        // Set added state
+        submitBtn.dataset.added = 'true';
+        setTimeout(() => { submitBtn.removeAttribute('data-added'); }, 2000);
+
+      } catch (error) {
+        console.error('Batch add failed:', error);
+        alert(error.message);
+      } finally {
+        submitBtn.classList.remove('is-loading');
+        submitBtn.disabled = false;
+      }
+    });
+
+    // ── Gallery ──
+    const mainImg = document.getElementById('shirts-main-image-el');
+    const thumbs  = document.querySelectorAll('.shirts-product__thumbnail');
+    const dots    = document.querySelectorAll('.shirts-dot');
+    const prevBtn = document.getElementById('shirts-arrow-prev');
+    const nextBtn = document.getElementById('shirts-arrow-next');
+    let   idx     = 0;
+
+    function goTo(i){
+      if(i < 0 || i >= thumbs.length) return;
+      idx = i;
+      mainImg.src = thumbs[i].querySelector('img').src.replace(/width=\d+/,'width=1200');
+      thumbs.forEach(function(t){ t.classList.remove('is-active'); });
+      thumbs[i].classList.add('is-active');
+      dots.forEach(function(d){ d.classList.remove('is-active'); });
+      if(dots[i]) dots[i].classList.add('is-active');
+    }
+    thumbs.forEach(function(t,i){ t.addEventListener('click', function(){ goTo(i); }); });
+    dots.forEach(function(d,i){   d.addEventListener('click', function(){ goTo(i); }); });
+    if(prevBtn) prevBtn.addEventListener('click', function(){ goTo(idx - 1); });
+    if(nextBtn) nextBtn.addEventListener('click', function(){ goTo(idx + 1); });
+    const gw = document.querySelector('.shirts-product__gallery-wrap');
+    if(gw){
+      let tx = 0;
+      gw.addEventListener('touchstart', function(e){ tx = e.touches[0].clientX; }, {passive:true});
+      gw.addEventListener('touchend',   function(e){ const dx = e.changedTouches[0].clientX - tx; if(Math.abs(dx) > 40) goTo(dx < 0 ? idx + 1 : idx - 1); }, {passive:true});
+    }
+
+    // ── Size chart ──
+    const scO  = document.getElementById('shirts-sc-overlay');
+    const scCl = document.getElementById('shirts-sc-close');
+    const scBt = document.getElementById('shirts-size-chart-btn');
+    function openSC(){ if(scO){ scO.hidden = false; document.body.style.overflow = 'hidden'; } }
+    function closeSC(){ if(scO){ scO.hidden = true; document.body.style.overflow = ''; } }
+    if(scBt) scBt.addEventListener('click', openSC);
+    if(scCl) scCl.addEventListener('click', closeSC);
+    if(scO)  scO.addEventListener('click', function(e){ if(e.target === scO) closeSC(); });
+    document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeSC(); });
+
+    // ── Countdown Timer ──
+    if (window.initCountdown) {
+      initCountdown('ShirtsCountdown-{{ section.id }}', 'daily');
+    } else {
+      document.addEventListener('DOMContentLoaded', () => {
+        if (window.initCountdown) initCountdown('ShirtsCountdown-{{ section.id }}', 'daily');
+      });
+    }
+
+    // ── ATC loading ──
+    const atc = document.getElementById('combo-atc-' + sid);
+    if(atc) atc.addEventListener('click', function(){ atc.classList.add('is-loading'); setTimeout(function(){ atc.classList.remove('is-loading'); }, 3000); });
+  })();
+</script>
