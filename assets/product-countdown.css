@@ -1,0 +1,96 @@
+/* ── Creative Countdown Timer Box Styling ── */
+.shirts-countdown {
+  background: linear-gradient(135deg, #fff1f2 0%, #fff5f5 100%); /* rose-50 to light red */
+  border: 1px solid #ffe4e6; /* rose-100 */
+  padding: 10px 16px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+}
+
+.shirts-countdown__content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.shirts-countdown__text {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #e11d48; /* rose-600 */
+  letter-spacing: 0.2px;
+}
+
+.shirts-countdown__flash-icon {
+  font-size: 16px;
+  animation: flash-pulse 1.5s infinite;
+}
+
+@keyframes flash-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.1); }
+}
+
+.shirts-countdown__timer {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.shirts-countdown__block {
+  display: flex;
+  align-items: baseline;
+  background: #ffffff;
+  border: 1px solid #ffe4e6;
+  padding: 4px 8px;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(225, 29, 72, 0.05);
+}
+
+.shirts-countdown__digits {
+  color: #e11d48; /* rose-600 */
+  font-family: 'Courier New', Courier, monospace; /* monospace digits */
+  font-size: 15px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.shirts-countdown__unit {
+  color: #fda4af; /* rose-300 */
+  font-size: 10px;
+  font-weight: 600;
+  margin-left: 2px;
+  text-transform: uppercase;
+}
+
+.shirts-countdown__separator {
+  color: #fda4af; /* rose-300 */
+  font-weight: 700;
+  font-size: 14px;
+  animation: blink-separator 1s infinite step-start;
+}
+
+@keyframes blink-separator {
+  50% { opacity: 0.3; }
+}
+
+@media (max-width: 480px) {
+  .shirts-countdown {
+    padding: 8px 12px;
+  }
+  .shirts-countdown__text {
+    font-size: 12px;
+  }
+  .shirts-countdown__digits {
+    font-size: 13px;
+  }
+  .shirts-countdown__unit {
+    font-size: 9px;
+  }
+}

@@ -451,8 +451,8 @@
 <section class="shirts-product">
   <div class="shirts-product__container">
     <nav class="shirts-breadcrumb" aria-label="Breadcrumb">
-      <a href="{{ routes.root_url }}">HOME</a><span class="sep">|</span> <a href="/collections/combo">COMBO</a>
-      <span class="sep">|</span>
+      <a href="{{ routes.root_url }}">HOME</a><span class="sep">/</span> <a href="/collections/combo">COMBO</a>
+      <span class="sep">/</span>
       <span class="current">{{ product.title | upcase }}</span>
     </nav>
 
@@ -541,15 +541,6 @@
 
       <!-- INFO + FORM -->
       <div class="shirts-product__info">
-        <!-- COUNTDOWN TIMER -->
-        <div class="shirts-countdown">
-          <div class="shirts-countdown__content">
-            <div class="shirts-countdown__text">SALE ENDS IN:</div>
-            <div class="shirts-countdown__timer" id="ShirtsCountdown-{{ section.id }}">
-              <span class="shirts-countdown__time" data-time-remaining>00h : 00m : 00s</span>
-            </div>
-          </div>
-        </div>
         <h1 class="shirts-product__title">{{ product.title }}</h1>
 
         <div class="shirts-product__price-area">
@@ -564,6 +555,32 @@
               -%}
               <span class="shirts-product__discount-badge">{{ pct }}% OFF</span>
             {%- endif -%}
+          </div>
+        </div>
+
+        <!-- COUNTDOWN TIMER -->
+        <div class="shirts-countdown">
+          <div class="shirts-countdown__content">
+            <div class="shirts-countdown__text">
+              <span class="shirts-countdown__flash-icon">⚡</span>
+              <span class="shirts-countdown__label">Sale Ends In:</span>
+            </div>
+            <div class="shirts-countdown__timer" id="ShirtsCountdown-{{ section.id }}">
+              <div class="shirts-countdown__block">
+                <span class="shirts-countdown__digits" data-hours>00</span>
+                <span class="shirts-countdown__unit">h</span>
+              </div>
+              <span class="shirts-countdown__separator">:</span>
+              <div class="shirts-countdown__block">
+                <span class="shirts-countdown__digits" data-minutes>00</span>
+                <span class="shirts-countdown__unit">m</span>
+              </div>
+              <span class="shirts-countdown__separator">:</span>
+              <div class="shirts-countdown__block">
+                <span class="shirts-countdown__digits" data-seconds>00</span>
+                <span class="shirts-countdown__unit">s</span>
+              </div>
+            </div>
           </div>
         </div>
 
