@@ -6,12 +6,16 @@
 
 {%- liquid
   assign is_combo = false
-  for c in product.collections
-    if c.handle == 'combo'
-      assign is_combo = true
-      break
-    endif
-  endfor
+  if product.tags contains 'combo'
+    assign is_combo = true
+  else
+    for c in product.collections
+      if c.handle == 'combo'
+        assign is_combo = true
+        break
+      endif
+    endfor
+  endif
 -%}
 
 {%- if is_combo -%}
