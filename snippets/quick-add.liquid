@@ -8,6 +8,17 @@
 {%- enddoc -%}
 
 {% liquid
+  assign is_combo = false
+  for tag in product.tags
+    assign tag_lower = tag | downcase
+    if tag_lower == 'combo'
+      assign is_combo = true
+    endif
+  endfor
+%}
+
+{%- unless is_combo -%}
+{% liquid
   assign product_form_id = 'QuickAdd-ProductForm-' | append: product.id | append: '-' | append: block.id
   assign add_to_cart_text = 'ADD TO BAG'
   assign choose_options_text = 'ADD TO BAG'
@@ -112,5 +123,6 @@
     {%- endform -%}
   </product-form-component>
 </quick-add-component>
+{%- endunless -%}
 
 {% render 'quick-add-styles' %}

@@ -78,6 +78,7 @@ select {
 /* Editorial layout */
 .resource-list:not(.hidden--desktop) .collection-card--flexible-aspect-ratio,
 .resource-list:not(.hidden--desktop) .blog-post-card--flexible-aspect-ratio {
+
   .collection-card__image,
   .featured-blog-posts-card__image,
   .blog-placeholder-svg {
@@ -156,6 +157,7 @@ select {
 }
 
 @media (any-pointer: fine) and (prefers-reduced-motion: no-preference) {
+
   .card-hover-effect-lift .product-card:hover,
   .card-hover-effect-lift .collection-card:hover,
   .card-hover-effect-lift .predictive-search-results__card:hover {
@@ -213,7 +215,7 @@ p:empty {
 }
 
 :first-child:is(p, h1, h2, h3, h4, h5, h6),
-:first-child:empty + :where(p, h1, h2, h3, h4, h5, h6) {
+:first-child:empty+ :where(p, h1, h2, h3, h4, h5, h6) {
   margin-block-start: 0;
 }
 
@@ -318,7 +320,7 @@ p:empty {
   flex-direction: column;
 }
 
-.content-for-layout > .shopify-section:last-child {
+.content-for-layout>.shopify-section:last-child {
   flex-grow: 1;
 }
 
@@ -331,6 +333,7 @@ p:empty {
 }
 
 @media screen and (min-width: 750px) {
+
   .page-width-wide,
   .page-width-normal,
   .page-width-narrow,
@@ -367,19 +370,14 @@ p:empty {
    full-width background image even if the section content is constrained by the page width. Do not try
    to rewrite this to max-width: --page-width; margin: 0 auto;, it doesn't work. */
 .section {
-  --full-page-grid-central-column-width: min(
-    var(--page-width) - var(--page-margin) * 2,
-    calc(100% - var(--page-margin) * 2)
-  );
+  --full-page-grid-central-column-width: min(var(--page-width) - var(--page-margin) * 2,
+      calc(100% - var(--page-margin) * 2));
   --full-page-grid-margin: minmax(var(--page-margin), 1fr);
-  --full-page-grid-with-margins: var(--full-page-grid-margin) var(--full-page-grid-central-column-width)
-    var(--full-page-grid-margin);
+  --full-page-grid-with-margins: var(--full-page-grid-margin) var(--full-page-grid-central-column-width) var(--full-page-grid-margin);
 
   /* Utility variable gives the grid's first column width. Provides an offset width for components like carousels */
-  --util-page-margin-offset: max(
-    var(--page-margin),
-    calc((100% - min(var(--page-content-width), 100% - var(--page-margin) * 2)) / 2)
-  );
+  --util-page-margin-offset: max(var(--page-margin),
+      calc((100% - min(var(--page-content-width), 100% - var(--page-margin) * 2)) / 2));
 
   /* Offset for full-width sections to account for the page margin,
   used for Marquee — note that --util-page-margin-offset doesn't work here */
@@ -397,7 +395,7 @@ p:empty {
 }
 
 /* Place all direct children in the center column by default */
-.section > * {
+.section>* {
   grid-column: 2;
 }
 
@@ -418,28 +416,28 @@ p:empty {
 }
 
 /* For page-width sections, all content goes in the center column */
-.section--page-width > * {
+.section--page-width>* {
   grid-column: 2;
 }
 
 /* For full-width sections, content spans all columns */
-.section--full-width > * {
+.section--full-width>* {
   grid-column: 1 / -1;
 }
 
 @media screen and (max-width: 749px) {
-  .section--mobile-full-width > * {
+  .section--mobile-full-width>* {
     grid-column: 1 / -1;
   }
 }
 
 /* Some page-width sections should still extend all the way to the right edge of the page, e.g. collection carousel */
-.section--page-width.section--full-width-right > * {
+.section--page-width.section--full-width-right>* {
   grid-column: 2 / 4;
 }
 
 /* For full-width sections with margin, content still spans full width but with space on the sides */
-.section--full-width.section--full-width-margin > * {
+.section--full-width.section--full-width-margin>* {
   grid-column: 1 / -1;
 
   @media screen and (min-width: 750px) {
@@ -449,7 +447,7 @@ p:empty {
 }
 
 /* Some section content break out to full width of the page */
-.section > .force-full-width {
+.section>.force-full-width {
   grid-column: 1 / -1;
 }
 
@@ -484,6 +482,7 @@ p:empty {
 }
 
 @media screen and (max-width: 749px) {
+
   .hidden--mobile,
   .mobile\:hidden {
     /* stylelint-disable-next-line declaration-no-important */
@@ -492,6 +491,7 @@ p:empty {
 }
 
 @media screen and (min-width: 750px) {
+
   .hidden--desktop,
   .desktop\:hidden {
     /* stylelint-disable-next-line declaration-no-important */
@@ -565,11 +565,8 @@ p:empty {
 @media screen and (min-width: 1400px) {
   .grid {
     grid-template-columns:
-      1fr repeat(
-        var(--centered-column-number),
-        minmax(0, calc((var(--page-width) - var(--page-margin) * 2) / var(--centered-column-number)))
-      )
-      1fr;
+      1fr repeat(var(--centered-column-number),
+        minmax(0, calc((var(--page-width) - var(--page-margin) * 2) / var(--centered-column-number)))) 1fr;
   }
 }
 
@@ -675,7 +672,7 @@ p:empty {
   height: var(--icon-size-xs);
 }
 
-.svg-wrapper > svg {
+.svg-wrapper>svg {
   width: var(--icon-size-sm);
   height: var(--icon-size-sm);
 }
@@ -711,7 +708,7 @@ p:empty {
 /* Base text and heading styles */
 body,
 .paragraph:not(.button),
-.paragraph > *,
+.paragraph>*,
 .text-block.paragraph :is(h1, h2, h3, h4, h5, h6) {
   font-family: var(--font-paragraph--family);
   font-style: var(--font-paragraph--style);
@@ -725,6 +722,7 @@ body,
 
 /* Ensure inputs with type presets maintain minimum 16px on mobile to prevent iOS zoom */
 @media screen and (max-width: 1200px) {
+
   input.paragraph.paragraph,
   input.paragraph.paragraph:not([type]),
   textarea.paragraph.paragraph,
@@ -733,7 +731,7 @@ body,
   }
 }
 
-.paragraph > small {
+.paragraph>small {
   font-size: smaller;
 }
 
@@ -741,7 +739,7 @@ body,
 
 h1,
 .h1.h1,
-.text-block.h1 > *,
+.text-block.h1>*,
 .text-block.h1 :is(h1, h2, h3, h4, h5, h6) {
   font-family: var(--font-h1--family);
   font-style: var(--font-h1--style);
@@ -754,6 +752,7 @@ h1,
 }
 
 @media screen and (max-width: 1200px) {
+
   input.h1.h1,
   textarea.h1.h1,
   select.h1.h1 {
@@ -763,7 +762,7 @@ h1,
 
 h2,
 .h2.h2,
-.text-block.h2 > *,
+.text-block.h2>*,
 .text-block.h2 :is(h1, h2, h3, h4, h5, h6) {
   font-family: var(--font-h2--family);
   font-style: var(--font-h2--style);
@@ -776,6 +775,7 @@ h2,
 }
 
 @media screen and (max-width: 1200px) {
+
   input.h2.h2,
   textarea.h2.h2,
   select.h2.h2 {
@@ -786,7 +786,7 @@ h2,
 h3,
 .h3,
 .h3.h3,
-.text-block.h3 > *,
+.text-block.h3>*,
 .text-block.h3 :is(h1, h2, h3, h4, h5, h6) {
   font-family: var(--font-h3--family);
   font-style: var(--font-h3--style);
@@ -799,6 +799,7 @@ h3,
 }
 
 @media screen and (max-width: 1200px) {
+
   input.h3,
   textarea.h3,
   select.h3 {
@@ -808,7 +809,7 @@ h3,
 
 h4,
 .h4.h4,
-.text-block.h4 > *,
+.text-block.h4>*,
 .text-block.h4 :is(h1, h2, h3, h4, h5, h6) {
   font-family: var(--font-h4--family);
   font-style: var(--font-h4--style);
@@ -821,6 +822,7 @@ h4,
 }
 
 @media screen and (max-width: 1200px) {
+
   input.h4.h4,
   textarea.h4.h4,
   select.h4.h4 {
@@ -830,7 +832,7 @@ h4,
 
 h5,
 .h5.h5,
-.text-block.h5 > *,
+.text-block.h5>*,
 .text-block.h5 :is(h1, h2, h3, h4, h5, h6) {
   font-family: var(--font-h5--family);
   font-style: var(--font-h5--style);
@@ -843,6 +845,7 @@ h5,
 }
 
 @media screen and (max-width: 1200px) {
+
   input.h5.h5,
   textarea.h5.h5,
   select.h5.h5 {
@@ -852,7 +855,7 @@ h5,
 
 h6,
 .h6.h6,
-.text-block.h6 > *,
+.text-block.h6>*,
 .text-block.h6 :is(h1, h2, h3, h4, h5, h6) {
   font-family: var(--font-h6--family);
   font-style: var(--font-h6--style);
@@ -865,6 +868,7 @@ h6,
 }
 
 @media screen and (max-width: 1200px) {
+
   input.h6.h6,
   textarea.h6.h6,
   select.h6.h6 {
@@ -892,7 +896,7 @@ a {
     color var(--animation-speed) var(--animation-easing);
 }
 
-:is(h1, h2, h3, h4, h5, h6, p) > a:hover {
+:is(h1, h2, h3, h4, h5, h6, p)>a:hover {
   --button-color: var(--color, var(--color-primary-hover));
 }
 
@@ -921,7 +925,7 @@ details:not([open]) .summary-open {
   display: none;
 }
 
-details[open] > summary .icon-animated > svg {
+details[open]>summary .icon-animated>svg {
   transform: rotate(180deg);
 }
 
@@ -931,17 +935,17 @@ summary::-webkit-details-marker {
 }
 
 /* When header is transparent, pull the first main content section up to sit under the floating header */
-body:has(.header[transparent]) .content-for-layout > .shopify-section:first-child {
+body:has(.header[transparent]) .content-for-layout>.shopify-section:first-child {
   margin-top: calc(var(--header-group-height) * -1);
 }
 
-body:has(.header[transparent]) #header-group > .header-section {
+body:has(.header[transparent]) #header-group>.header-section {
   z-index: var(--layer-sticky);
 }
 
 /* All other header group content should be beneath the floating header,
 but above the rest of the page content */
-body:has(.header[transparent]) #header-group > *:not(.header-section) {
+body:has(.header[transparent]) #header-group>*:not(.header-section) {
   z-index: calc(var(--layer-sticky) - 1);
 }
 
@@ -1023,21 +1027,19 @@ body:has(.header[transparent]) #header-group > *:not(.header-section) {
   }
 }
 
-.product-grid__card .group-block > * {
+.product-grid__card .group-block>* {
   @media screen and (max-width: 749px) {
     flex-direction: column;
   }
 }
 
-ul[product-grid-view='zoom-out'] .product-grid__card > * {
+ul[product-grid-view='zoom-out'] .product-grid__card>* {
   display: none;
 }
 
 [product-grid-view='zoom-out'] {
-  --product-grid-columns-desktop: repeat(
-    10,
-    minmax(clamp(50px, calc(100% - 9 * var(--product-grid-gap)) / 10, 80px), 1fr)
-  );
+  --product-grid-columns-desktop: repeat(10,
+      minmax(clamp(50px, calc(100% - 9 * var(--product-grid-gap)) / 10, 80px), 1fr));
 }
 
 .product-grid-view-zoom-out--details {
@@ -1060,15 +1062,15 @@ ul[product-grid-view='zoom-out'] .product-grid__card > * {
   font-weight: 400;
 }
 
-.product-grid-view-zoom-out--details > span.h6,
-.product-grid-view-zoom-out--details > div.h6 > product-price {
+.product-grid-view-zoom-out--details>span.h6,
+.product-grid-view-zoom-out--details>div.h6>product-price {
   display: inline-block;
   line-height: 0;
   margin-top: var(--margin-2xs);
 }
 
-.product-grid-view-zoom-out--details > span.h6 > *,
-.product-grid-view-zoom-out--details > div.h6 > * > * {
+.product-grid-view-zoom-out--details>span.h6>*,
+.product-grid-view-zoom-out--details>div.h6>*>* {
   line-height: 1.2;
 }
 
@@ -1166,18 +1168,18 @@ results-list[initialized] {
   width: 100%;
 }
 
-.text-block > *:first-child,
-.text-block > *:first-child:empty + * {
+.text-block>*:first-child,
+.text-block>*:first-child:empty+* {
   margin-block-start: 0;
 }
 
-.text-block > *:last-child,
-.text-block > *:has(+ *:last-child:empty) {
+.text-block>*:last-child,
+.text-block>*:has(+ *:last-child:empty) {
   margin-block-end: 0;
 }
 
 /* This is to deal with the margin applied to the p when custom styles are enabled. The p isn't the first child anymore due to the style tag */
-.text-block > style + * {
+.text-block>style+* {
   margin-block-start: 0;
 }
 
@@ -1233,6 +1235,7 @@ results-list[initialized] {
   --dialog-drawer-opening-animation: move-and-fade;
   --dialog-drawer-closing-animation: move-and-fade;
 }
+
 /* stylelint-enable value-keyword-case */
 
 .dialog-drawer[open] {
@@ -1448,8 +1451,7 @@ shopify-accelerated-checkout-cart {
   --shopify-accelerated-checkout-button-block-size: var(--height-buy-buttons);
 }
 
-.product-form-buttons:has(.add-to-cart-button.button-secondary)
-  :is(shopify-accelerated-checkout, shopify-accelerated-checkout-cart) {
+.product-form-buttons:has(.add-to-cart-button.button-secondary) :is(shopify-accelerated-checkout, shopify-accelerated-checkout-cart) {
   --shopify-accelerated-checkout-button-border-radius: var(--style-border-radius-buttons-secondary);
   --shopify-accelerated-checkout-button-block-size: var(--height-buy-buttons);
 }
@@ -1496,12 +1498,12 @@ summary .icon-plus :is(.horizontal, .vertical),
   opacity: 1;
 }
 
-details[open] > summary .icon-plus .horizontal,
+details[open]>summary .icon-plus .horizontal,
 .show-more:where([data-expanded='true']) .show-more__button .icon-plus .horizontal {
   transform: rotate(90deg);
 }
 
-details[open] > summary .icon-plus .vertical,
+details[open]>summary .icon-plus .vertical,
 .show-more:where([data-expanded='true']) .show-more__button .icon-plus .vertical {
   transform: rotate(90deg);
   opacity: 0;
@@ -1520,7 +1522,7 @@ media-gallery {
   }
 }
 
-:not(.dialog-zoomed-gallery) > .product-media-container {
+:not(.dialog-zoomed-gallery)>.product-media-container {
   --slide-width: 100%;
 
   display: flex;
@@ -1685,10 +1687,11 @@ zoom-dialog dialog {
 .product-media {
   display: flex;
   flex: 1;
+
 }
 
 /* If the product media is already providing an image cover, hide images provided by sibling deferred-media */
-.product-media__image ~ * .deferred-media__poster-image {
+.product-media__image~* .deferred-media__poster-image {
   display: none;
 }
 
@@ -1709,7 +1712,7 @@ zoom-dialog dialog {
 product-model model-viewer,
 /* Media that have a poster button sibling providing the size should be absolute-positioned.
 Otherwise, it should be a block to rely on its own size */
-:is(deferred-media, product-model) > .deferred-media__poster-button ~ *:not(template) {
+:is(deferred-media, product-model)>.deferred-media__poster-button~*:not(template) {
   display: block;
   position: absolute;
   top: 0;
@@ -1728,6 +1731,7 @@ Otherwise, it should be a block to rely on its own size */
 }
 
 deferred-media {
+
   /* The overflow hidden in the deferred-media won't let the button show the focus ring */
   &:has(:focus-visible) {
     outline: var(--focus-outline-width) solid currentcolor;
@@ -1815,7 +1819,7 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
   padding: var(--padding-md);
 }
 
-.button-shopify-xr > svg {
+.button-shopify-xr>svg {
   width: var(--icon-size-sm);
   height: var(--icon-size-sm);
   margin-inline-end: var(--margin-md);
@@ -1828,8 +1832,10 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
 /* Swatches */
 .swatch {
   --color-border: rgb(var(--color-foreground-rgb) / var(--style-border-swatch-opacity));
-  --min-width-unitless: 15.9999; /* want to avoid division by 0 */
-  --min-height-unitless: 15.9999; /* want to avoid division by 0 */
+  --min-width-unitless: 15.9999;
+  /* want to avoid division by 0 */
+  --min-height-unitless: 15.9999;
+  /* want to avoid division by 0 */
   --min-height: 16px;
   --min-width: 16px;
 
@@ -1858,27 +1864,19 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
     We also want the result to always be smaller than the input (pdp > everywhere else)
     by some scaling factor.
   */
-  --offset-scaled-width: calc(
-    var(--scaling-factor) * var(--offset-swatch-width) / var(--offset-swatch-height) * var(--offset-max-swatch-size)
-  );
-  --offset-scaled-height: calc(
-    var(--scaling-factor) * var(--offset-swatch-height) / var(--offset-swatch-width) * var(--offset-max-swatch-size)
-  );
+  --offset-scaled-width: calc(var(--scaling-factor) * var(--offset-swatch-width) / var(--offset-swatch-height) * var(--offset-max-swatch-size));
+  --offset-scaled-height: calc(var(--scaling-factor) * var(--offset-swatch-height) / var(--offset-swatch-width) * var(--offset-max-swatch-size));
   --offset-max-swatch-size: calc(var(--max-swatch-size) - var(--min-width));
 
   /* width = min(m + sU, (m + s * W'/H' * M'), M) */
-  --swatch-width: min(
-    calc(var(--min-width) + var(--scaling-factor) * var(--offset-swatch-width) * 1px),
-    calc(var(--min-width) + var(--offset-scaled-width)),
-    var(--max-swatch-size)
-  );
+  --swatch-width: min(calc(var(--min-width) + var(--scaling-factor) * var(--offset-swatch-width) * 1px),
+      calc(var(--min-width) + var(--offset-scaled-width)),
+      var(--max-swatch-size));
 
   /* height = min(m + sV, (m + s * H'/W' * M'), M) */
-  --swatch-height: min(
-    calc(var(--min-height) + var(--scaling-factor) * var(--offset-swatch-height) * 1px),
-    calc(var(--min-height) + var(--offset-scaled-height)),
-    var(--max-swatch-size)
-  );
+  --swatch-height: min(calc(var(--min-height) + var(--scaling-factor) * var(--offset-swatch-height) * 1px),
+      calc(var(--min-height) + var(--offset-scaled-height)),
+      var(--max-swatch-size));
 
   display: block;
   background: var(--swatch-background);
@@ -1949,7 +1947,7 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
   --variant-option-padding-inline: var(--padding-md);
 }
 
-.variant-option + .variant-option {
+.variant-option+.variant-option {
   margin-top: var(--padding-lg);
 }
 
@@ -1964,7 +1962,7 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
   }
 }
 
-.variant-option--swatches > overflow-list {
+.variant-option--swatches>overflow-list {
   justify-content: var(--product-swatches-alignment);
 
   @media screen and (max-width: 749px) {
@@ -1992,12 +1990,12 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
 }
 
 @media (prefers-reduced-motion: no-preference) {
+
   .variant-option__button-label,
   .variant-option__select-wrapper,
   .variant-option__button-label::before,
   .variant-option__button-label::after,
-  .variant-option__button-label:has([data-previous-checked='true'], [data-current-checked='true'])
-    .variant-option__button-label__pill,
+  .variant-option__button-label:has([data-previous-checked='true'], [data-current-checked='true']) .variant-option__button-label__pill,
   .variant-option__button-label:not(.variant-option__button-label--has-swatch) svg line:last-of-type {
     transition-duration: var(--animation-speed);
     transition-timing-function: var(--animation-easing);
@@ -2011,8 +2009,7 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
     transition-property: clip-path;
   }
 
-  .variant-option__button-label:has([data-previous-checked='true'], [data-current-checked='true'])
-    .variant-option__button-label__pill {
+  .variant-option__button-label:has([data-previous-checked='true'], [data-current-checked='true']) .variant-option__button-label__pill {
     transition-property: transform;
   }
 
@@ -2105,8 +2102,8 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
     }
   }
 
-  &:has([data-previous-checked='true']) ~ label:has([data-current-checked='true']),
-  &:has(:checked) ~ label {
+  &:has([data-previous-checked='true'])~label:has([data-current-checked='true']),
+  &:has(:checked)~label {
     .variant-option__button-label__pill {
       left: 0;
       right: unset;
@@ -2117,20 +2114,17 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
     --pill-offset: calc(100% + 1px);
   }
 
-  &:has(:checked) ~ label {
+  &:has(:checked)~label {
     --pill-offset: calc(-100% - 1px);
   }
 
-  &:has([data-current-checked='true']):first-of-type
-    ~ label:last-of-type:not(.variant-option__button-label--has-swatch),
+  &:has([data-current-checked='true']):first-of-type~label:last-of-type:not(.variant-option__button-label--has-swatch),
   &:not(:has(:checked)):has(~ label > :checked):not(.variant-option__button-label--has-swatch) {
     --clip: 0 0 0 100%;
   }
 
-  &:not(:has([data-current-checked='true'])):first-of-type:has(~ label:last-of-type > :checked):not(
-      .variant-option__button-label--has-swatch
-    ),
-  &:has(:checked) ~ label:not(.variant-option__button-label--has-swatch) {
+  &:not(:has([data-current-checked='true'])):first-of-type:has(~ label:last-of-type > :checked):not(.variant-option__button-label--has-swatch),
+  &:has(:checked)~label:not(.variant-option__button-label--has-swatch) {
     --clip: 0 100% 0 0;
   }
 
@@ -2147,13 +2141,11 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
 
 /* the more complex selector rules here produce the wrap around effect for first/last variants */
 .variant-option--buttons:has(:nth-of-type(3)) {
-  .variant-option__button-label:has([data-current-checked='true']):first-of-type ~ label:last-of-type {
+  .variant-option__button-label:has([data-current-checked='true']):first-of-type~label:last-of-type {
     --pill-offset: calc(100% + 1px);
   }
 
-  .variant-option__button-label:not(:has([data-current-checked='true'])):first-of-type:has(
-      ~ label:last-of-type > :checked
-    ) {
+  .variant-option__button-label:not(:has([data-current-checked='true'])):first-of-type:has(~ label:last-of-type > :checked) {
     --pill-offset: calc(-100% - 1px);
   }
 }
@@ -2246,6 +2238,7 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
 
 /* This triggers iOS < 16.4. The outline bug is not recognized as a lack of @supports */
 @supports not (background-color: rgb(from red 150 g b / alpha)) {
+
   /** There is a bug in safari < 16.4 that causes the outline to not follow the elements border radius. This is a workaround. **/
   .variant-option__button-label--has-swatch:has(:checked),
   .variant-option__button-label:has(:focus-visible) .swatch {
@@ -2326,8 +2319,9 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
 }
 
 @media screen and (min-width: 750px) {
+
   .sticky-content--desktop,
-  .sticky-content--desktop.full-height--desktop > .group-block {
+  .sticky-content--desktop.full-height--desktop>.group-block {
     position: sticky;
     top: var(--sticky-header-offset, 0);
     z-index: var(--layer-flat);
@@ -2356,7 +2350,7 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
   display: none;
 }
 
-product-price.text-block:is(.h1, .h2, .h3, .h4, .h5, .h6) > *:not(.tax-note) {
+product-price.text-block:is(.h1, .h2, .h3, .h4, .h5, .h6)>*:not(.tax-note) {
   margin-block: 0;
 }
 
@@ -2392,9 +2386,9 @@ product-price.text-block:is(.h1, .h2, .h3, .h4, .h5, .h6) .volume-pricing-note {
   font-size: 12px;
   font-weight: 500;
   white-space: nowrap;
-    background: #E8F5EC;
+  background: #E8F5EC;
   color: #1F6B3F;
-  padding : 4px 8px;
+  padding: 4px 8px;
   border-radius: 4px;
   margin-bottom: 2px;
 }
@@ -2541,7 +2535,7 @@ form.payment-terms {
 
 /* Custom Typography style */
 .custom-typography,
-.custom-typography > * {
+.custom-typography>* {
   font-family: var(--font-family);
   font-weight: var(--font-weight);
   text-transform: var(--text-transform);
@@ -2567,12 +2561,12 @@ form.payment-terms {
 }
 
 .custom-font-size,
-.custom-font-size > * {
+.custom-font-size>* {
   font-size: var(--font-size);
 }
 
 .custom-font-weight,
-.custom-font-weight > * {
+.custom-font-weight>* {
   font-weight: var(--font-weight);
 }
 
@@ -2623,23 +2617,23 @@ form.payment-terms {
     flex-wrap: var(--flex-wrap-mobile);
     height: auto;
 
-    > .menu {
+    >.menu {
       flex: 1 1 min-content;
     }
 
-    > .text-block {
+    >.text-block {
       flex: 1 1 var(--max-width--display-tight);
     }
 
-    > .image-block {
+    >.image-block {
       flex: 1 1 var(--size-style-width-mobile-min);
     }
 
-    > .button {
+    >.button {
       flex: 0 0 fit-content;
     }
 
-    > .group-block--height-fill {
+    >.group-block--height-fill {
       height: calc(var(--section-min-height, auto) - var(--section-height-offset, 0px));
     }
   }
@@ -2711,7 +2705,7 @@ form.payment-terms {
   }
 
   :first-child:is(p, h1, h2, h3, h4, h5, h6),
-  :first-child:empty + :is(p, h1, h2, h3, h4, h5, h6) {
+  :first-child:empty+ :is(p, h1, h2, h3, h4, h5, h6) {
     margin-block-start: 0;
   }
 
@@ -2808,17 +2802,17 @@ form.payment-terms {
     outline: none;
   }
 
-  &:focus-visible + .checkbox__label .icon-checkmark {
+  &:focus-visible+.checkbox__label .icon-checkmark {
     outline: var(--focus-outline-width) solid currentcolor;
     outline-offset: var(--focus-outline-offset);
   }
 
-  &:checked + .checkbox__label .icon-checkmark {
+  &:checked+.checkbox__label .icon-checkmark {
     background-color: var(--color-foreground);
     border-color: var(--color-foreground);
   }
 
-  &:disabled + .checkbox__label .icon-checkmark {
+  &:disabled+.checkbox__label .icon-checkmark {
     background-color: var(--input-disabled-background-color);
     border-color: var(--input-disabled-border-color);
   }
@@ -2854,7 +2848,7 @@ form.payment-terms {
   transition: opacity var(--animation-speed) var(--animation-easing);
 }
 
-.checkbox__input:disabled + .checkbox__label {
+.checkbox__input:disabled+.checkbox__label {
   color: var(--input-disabled-text-color);
 }
 
@@ -2972,15 +2966,15 @@ input[type='radio'] {
 }
 
 /* Shared styles for radio buttons and checkboxes */
-:where(input[type='radio']) + label,
-:where(input[type='checkbox']) + label {
+:where(input[type='radio'])+label,
+:where(input[type='checkbox'])+label {
   display: inline;
   vertical-align: middle;
   cursor: pointer;
 }
 
-:where(input[type='radio']):disabled + label,
-:where(input[type='checkbox']):disabled + label {
+:where(input[type='radio']):disabled+label,
+:where(input[type='checkbox']):disabled+label {
   color: var(--input-disabled-text-color);
   cursor: not-allowed;
 }
@@ -3158,7 +3152,7 @@ label:has(input[type='checkbox']:disabled) {
   }
 }
 
-.pills__pill > .svg-wrapper {
+.pills__pill>.svg-wrapper {
   --close-icon-opacity: 0.4;
   --icon-stroke-width: 1px;
 
@@ -3274,11 +3268,8 @@ fly-to-cart.fly-to-cart--sticky {
     --facets-vertical-col-width: 6;
 
     grid-template-columns:
-      1fr repeat(
-        var(--centered-column-number),
-        minmax(0, calc((var(--page-width) - var(--page-margin) * 2) / var(--centered-column-number)))
-      )
-      1fr;
+      1fr repeat(var(--centered-column-number),
+        minmax(0, calc((var(--page-width) - var(--page-margin) * 2) / var(--centered-column-number)))) 1fr;
   }
 
   @media screen and (min-width: 990px) {
@@ -3291,15 +3282,12 @@ fly-to-cart.fly-to-cart--sticky {
   @media screen and (min-width: 750px) {
     grid-column: 1 / -1;
     grid-template-columns:
-      minmax(var(--page-margin), 1fr) repeat(
-        var(--centered-column-number),
-        minmax(0, calc((var(--page-width) - var(--page-margin) * 2) / var(--centered-column-number)))
-      )
-      minmax(var(--page-margin), 1fr);
+      minmax(var(--page-margin), 1fr) repeat(var(--centered-column-number),
+        minmax(0, calc((var(--page-width) - var(--page-margin) * 2) / var(--centered-column-number)))) minmax(var(--page-margin), 1fr);
   }
 }
 
-.collection-wrapper:has(.facets--vertical) .facets-block-wrapper--vertical:not(.hidden) ~ .main-collection-grid {
+.collection-wrapper:has(.facets--vertical) .facets-block-wrapper--vertical:not(.hidden)~.main-collection-grid {
   @media screen and (min-width: 750px) {
     grid-column: var(--facets-vertical-col-width) / var(--full-width-column-number);
   }
@@ -3312,18 +3300,14 @@ fly-to-cart.fly-to-cart--sticky {
   }
 }
 
-:is(.collection-wrapper--full-width, .collection-wrapper--full-width-on-mobile)
-  [product-grid-view='default']
-  .product-grid__card {
+:is(.collection-wrapper--full-width, .collection-wrapper--full-width-on-mobile) [product-grid-view='default'] .product-grid__card {
   @media screen and (max-width: 749px) {
     padding-inline-start: max(var(--padding-xs), var(--padding-inline-start));
     padding-inline-end: max(var(--padding-xs), var(--padding-inline-end));
   }
 }
 
-:is(.collection-wrapper--full-width, .collection-wrapper--full-width-on-mobile)
-  [product-grid-view='mobile-single']
-  .product-grid__card {
+:is(.collection-wrapper--full-width, .collection-wrapper--full-width-on-mobile) [product-grid-view='mobile-single'] .product-grid__card {
   @media screen and (max-width: 749px) {
     padding-inline-start: max(var(--padding-xs), var(--padding-inline-start));
     padding-inline-end: max(var(--padding-xs), var(--padding-inline-end));
@@ -3537,6 +3521,7 @@ fly-to-cart.fly-to-cart--sticky {
 }
 
 @keyframes thumbnail-selected {
+
   0%,
   100% {
     box-shadow: 0 0 0 2px transparent;
@@ -3627,7 +3612,8 @@ fly-to-cart.fly-to-cart--sticky {
   position: absolute;
   z-index: var(--layer-lowest);
   inset: 0;
-  clip-path: inset(-50px 0 0 0); /* stylelint-disable-line */
+  clip-path: inset(-50px 0 0 0);
+  /* stylelint-disable-line */
 }
 
 @media screen and (min-width: 750px) {
@@ -3642,7 +3628,8 @@ fly-to-cart.fly-to-cart--sticky {
   position: absolute;
   z-index: var(--layer-lowest);
   inset: 0;
-  clip-path: inset(0 0 -50px 0); /* stylelint-disable-line */
+  clip-path: inset(0 0 -50px 0);
+  /* stylelint-disable-line */
 }
 
 @media screen and (min-width: 750px) {
@@ -3658,11 +3645,11 @@ fly-to-cart.fly-to-cart--sticky {
   aspect-ratio: var(--size-style-aspect-ratio, auto);
 }
 
-:not(deferred-media) > .video-placeholder-wrapper {
+:not(deferred-media)>.video-placeholder-wrapper {
   width: var(--video-placeholder-width);
 }
 
-.video-placeholder-wrapper > * {
+.video-placeholder-wrapper>* {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -3671,11 +3658,7 @@ fly-to-cart.fly-to-cart--sticky {
 
 /* Slideshow Arrow Hover Animation - must stay in base.css for proper CSS cascade */
 
-:not(.media-gallery--carousel)
-  > :is(slideshow-component:hover, slideshow-component:focus-within):not(:has(slideshow-controls:hover))
-  > slideshow-container
-  > slideshow-arrows
-  .slideshow-control {
+:not(.media-gallery--carousel)> :is(slideshow-component:hover, slideshow-component:focus-within):not(:has(slideshow-controls:hover))>slideshow-container>slideshow-arrows .slideshow-control {
   animation: arrowsSlideIn var(--animation-speed) var(--animation-easing) forwards;
 }
 
@@ -3712,11 +3695,10 @@ fly-to-cart.fly-to-cart--sticky {
   display: none;
 }
 
-:where(.section-resource-list.section--full-width) product-card[data-product-transition] > .group-block,
-:where(.section-carousel.section--full-width) product-card[data-product-transition] > .group-block {
+:where(.section-resource-list.section--full-width) product-card[data-product-transition]>.group-block,
+:where(.section-carousel.section--full-width) product-card[data-product-transition]>.group-block {
   @media screen and (max-width: 749px) {
-    padding-inline: max(var(--padding-xs), var(--padding-inline-start))
-      max(var(--padding-xs), var(--padding-inline-end));
+    padding-inline: max(var(--padding-xs), var(--padding-inline-start)) max(var(--padding-xs), var(--padding-inline-end));
   }
 }
 
@@ -3830,15 +3812,15 @@ fly-to-cart.fly-to-cart--sticky {
 }
 
 /* Flex behavior for width variants */
-.layout-panel-flex--row > .group-block--width-fit {
+.layout-panel-flex--row>.group-block--width-fit {
   flex: 0;
 }
 
-.layout-panel-flex--row > .group-block--width-fill {
+.layout-panel-flex--row>.group-block--width-fill {
   flex: 1;
 }
 
-.layout-panel-flex--row > .group-block--width-custom {
+.layout-panel-flex--row>.group-block--width-custom {
   flex-basis: var(--size-style-width);
 }
 
@@ -3853,15 +3835,15 @@ fly-to-cart.fly-to-cart--sticky {
 }
 
 /* Flex behavior for height variants */
-.layout-panel-flex--column > .group-block--height-fit {
+.layout-panel-flex--column>.group-block--height-fit {
   flex: 0 1 auto;
 }
 
-.layout-panel-flex--column > .group-block--height-fill {
+.layout-panel-flex--column>.group-block--height-fill {
   flex: 1;
 }
 
-.layout-panel-flex--column > .group-block--height-custom {
+.layout-panel-flex--column>.group-block--height-custom {
   flex-basis: var(--size-style-height);
 }
 
@@ -3883,12 +3865,10 @@ text-component {
     opacity: 0;
     transition: opacity var(--animation-speed-slow) var(--animation-easing);
     pointer-events: none;
-    background-image: linear-gradient(
-      -85deg,
-      var(--shimmer-text-color) 10%,
-      var(--shimmer-color-light) 50%,
-      var(--shimmer-text-color) 90%
-    );
+    background-image: linear-gradient(-85deg,
+        var(--shimmer-text-color) 10%,
+        var(--shimmer-color-light) 50%,
+        var(--shimmer-text-color) 90%);
     background-clip: text;
     background-size: 200% 100%;
     background-position: 100% 0;
@@ -3997,6 +3977,7 @@ text-component {
 
 /* Prevent iOS zoom on input focus by ensuring minimum 16px font size on mobile */
 @media screen and (max-width: 1200px) {
+
   input,
   textarea,
   select,
@@ -4228,58 +4209,61 @@ product-recommendations:has([data-has-recommendations='false']) {
 }
 
 a[ref="productTitleLink"] .h5 p {
-    font-weight: 600 !important;
+  font-weight: 600 !important;
 }
+
 /* custom code for bolding title and price in recommended products */
 product-card product-price .price {
   font-weight: 500 !important;
   font-size: 14px !important;
   color: red !important;
 }
+
 product-card product-price .compare-at-price {
-    color: #273B17 !important;
-    font-weight: 700 !important;
+  color: #273B17 !important;
+  font-weight: 700 !important;
 }
+
 /* code ended here */
 
 /* custom code for rendering stars by yusuf */
 
-.custom-product-rating{
-  display:flex;
-  align-items:center;
-  gap:6px;
-  margin-top:4px;
+.custom-product-rating {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
 }
 
-.custom-product-rating .stars{
-  position:relative;
-  display:inline-block;
-  font-size:17px;
-  line-height:1;
+.custom-product-rating .stars {
+  position: relative;
+  display: inline-block;
+  font-size: 17px;
+  line-height: 1;
 }
 
-.custom-product-rating .stars::before{
-  content:"★★★★★";
-  color:#d9d9d9;
+.custom-product-rating .stars::before {
+  content: "★★★★★";
+  color: #d9d9d9;
 }
 
-.custom-product-rating .stars-fill{
-  position:absolute;
-  top:0;
-  left:0;
-  overflow:hidden;
-  white-space:nowrap;
+.custom-product-rating .stars-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
-.custom-product-rating .stars-fill::before{
-  content:"★★★★★";
-  color:#f5a623;
+.custom-product-rating .stars-fill::before {
+  content: "★★★★★";
+  color: #f5a623;
 }
 
-.custom-product-rating .rating-count{
-  font-size:15px;
-  color:#666;
-  font-weight:500;
+.custom-product-rating .rating-count {
+  font-size: 15px;
+  color: #666;
+  font-weight: 500;
 }
 
 /* custom code ended here */
@@ -4301,9 +4285,10 @@ product-card product-price .compare-at-price {
   margin-bottom: 8px !important;
 }
 
-.product__info-container > * + * {
+.product__info-container>*+* {
   margin-top: 12px !important;
 }
+
 /* PRODUCT TITLE STYLE */
 
 .product__title,
@@ -4321,6 +4306,7 @@ h1.product-title {
 }
 
 @media screen and (max-width: 749px) {
+
   .product__title,
   .product__title h1,
   .product-title,
@@ -4328,6 +4314,7 @@ h1.product-title {
     font-size: 24px !important;
   }
 }
+
 /* ===== 5FEET11 STYLE PRICE ===== */
 
 .price,
@@ -4340,17 +4327,276 @@ h1.product-title {
 }
 
 .price {
-  margin-top: 4px !important;
-  margin-bottom: 18px !important;
+  margin-top: 2px !important;
+  margin-bottom: 8px !important;
 }
 
 /* footer text heading ko bold karne k liye */
-.menu__heading__default{
+.menu__heading__default {
   font-weight: 700 !important;
 }
 
 /* copyright text ko centre me lane k liye */
-.footer-utilities__group-copyright{
+.footer-utilities__group-copyright {
   width: 100%;
   text-align: center !important;
+}
+
+/* ===== LOOTLE PRODUCT LAYOUT CUSTOMIZATIONS ===== */
+
+/* 1. Bold title & increased size */
+.shirts-product__title, 
+.shirts-product__title *,
+.text-block--text_xrnftG,
+.text-block--text_xrnftG *,
+.product__title h1, 
+.product__title h1 *,
+h1.product-title,
+h1.product-title *,
+.product__title,
+.product__title *,
+.product-title,
+.product-title * {
+  font-size: 30px !important;
+  font-weight: 700 !important;
+  line-height: 1.2 !important;
+}
+
+/* 2. Add to Cart Button (Black & White style) */
+.add-to-cart-button, 
+.combo-fake-atc,
+.product-form-buttons button[name="add"] {
+  background-color: #ffffff !important;
+  color: #111111 !important;
+  border: 1.5px solid #111111 !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  box-shadow: none !important;
+  height: 48px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 0.2s ease !important;
+}
+.add-to-cart-button:hover, 
+.combo-fake-atc:hover,
+.product-form-buttons button[name="add"]:hover {
+  background-color: #111111 !important;
+  color: #ffffff !important;
+}
+
+/* 3. Buy Now Button (Gray & Black style - Black rounded button) */
+button.shopify-payment-button__button--unbranded, 
+.combo-atc-btn,
+.shopify-payment-button__button {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  box-shadow: none !important;
+  border: none !important;
+  height: 48px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 0.2s ease !important;
+}
+button.shopify-payment-button__button--unbranded:hover, 
+.combo-atc-btn:hover,
+.shopify-payment-button__button:hover {
+  background-color: #222222 !important;
+}
+
+/* 4. Trust Badge Bar styles */
+.shirts-trust-badge-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px !important;
+  padding: 12px 0 !important;
+  border-top: none !important;
+  border-bottom: none !important;
+  gap: 12px;
+  width: 100%;
+}
+.shirts-trust-badge {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+.shirts-trust-icon {
+  color: #111;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+.shirts-trust-icon svg {
+  width: 28px !important;
+  height: 28px !important;
+}
+.shirts-trust-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+}
+.shirts-trust-text strong,
+.shirts-trust-title {
+  font-size: 14.5px !important;
+  font-weight: 700 !important;
+  color: #111 !important;
+}
+.shirts-trust-text span {
+  font-size: 12px !important;
+  font-weight: 400 !important;
+  color: #767676;
+}
+.shirts-trust-divider {
+  width: 1px;
+  height: 38px;
+  background-color: #eaeaea;
+}
+
+/* 5. Features Grid (under the image) */
+.shirts-features-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  width: 100%;
+}
+.shirts-feature-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+  background-color: #fafafa;
+  border: 1px solid #ededed;
+  border-radius: 12px;
+  padding: 20px 24px;
+  text-align: left;
+  min-height: 80px;
+  box-sizing: border-box;
+}
+.shirts-feature-icon {
+  margin-bottom: 0;
+  color: #111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.shirts-feature-icon svg {
+  width: 26px;
+  height: 26px;
+}
+.shirts-feature-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.3;
+}
+.shirts-feature-text strong {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 2px;
+}
+.shirts-feature-text span {
+  font-size: 12px;
+  color: #666;
+}
+
+@media (max-width: 749px) {
+  .shirts-trust-badge-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .shirts-trust-divider {
+    display: none;
+  }
+  .shirts-features-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+}
+
+/* 6. View Fullscreen Button and Zoom Modal */
+.shirts-view-fullscreen-btn {
+  position: absolute !important;
+  bottom: 12px !important;
+  right: 12px !important;
+  z-index: 5 !important;
+  background-color: #ffffff !important;
+  color: #111111 !important;
+  border-radius: 8px !important;
+  padding: 8px 12px !important;
+  border: none !important;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.15) !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  cursor: pointer !important;
+  line-height: 1 !important;
+  text-transform: none !important;
+  letter-spacing: normal !important;
+  height: auto !important;
+}
+.shirts-view-fullscreen-btn:hover {
+  background-color: #f3f3f3 !important;
+}
+.shirts-zoom-modal {
+  display: none;
+  position: fixed;
+  z-index: 999999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.95);
+  align-items: center;
+  justify-content: center;
+}
+.shirts-zoom-content {
+  margin: auto;
+  display: block;
+  max-width: 95%;
+  max-height: 90vh;
+  object-fit: contain;
+  border-radius: 8px;
+}
+.shirts-zoom-close {
+  position: absolute;
+  top: 20px;
+  right: 35px;
+  color: #ffffff;
+  font-size: 40px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+@media (max-width: 749px) {
+  .shirts-gallery-arrow,
+  slideshow-arrows,
+  .slideshow-control,
+  .shirts-view-fullscreen-btn {
+    display: none !important;
+  }
+}
+
+@media screen and (min-width: 750px) {
+  slideshow-arrows .slideshow-control {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+  }
+}
+
+/* 7. Exclusive Offers Spacing Overrides */
+.offer-box {
+  margin-top: 10px !important;
+}
+.offer-title {
+  padding-top: 12px !important;
 }

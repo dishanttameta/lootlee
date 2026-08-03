@@ -34,6 +34,20 @@
     opacity: 1;
   }
 
+  product-card:is(:hover, :focus-within) .quick-add__button .add-to-cart-text__content,
+  .card-gallery:is(:hover, :focus-within) .quick-add__button .add-to-cart-text__content,
+  .quick-add__button:is(:hover, :focus-visible) .add-to-cart-text__content {
+    grid-template-columns: 1fr !important;
+  }
+
+  product-card:is(:hover, :focus-within) .quick-add__button .add-to-cart-text__content span span,
+  .card-gallery:is(:hover, :focus-within) .quick-add__button .add-to-cart-text__content span span,
+  .quick-add__button:is(:hover, :focus-visible) .add-to-cart-text__content span span {
+    opacity: 1 !important;
+    translate: 0 0 !important;
+    filter: blur(0) !important;
+  }
+
   .quick-add__button {
     display: var(--quick-add-mobile-display, none);
     align-items: center;

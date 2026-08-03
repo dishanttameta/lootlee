@@ -29,6 +29,16 @@
   style="--ratio: {{ media.aspect_ratio }}"
   data-media-id="{{ media.id }}"
 >
+  {% if is_main_product_media %}
+    <span class="shirts-product-card__sale-badge" style="position: absolute !important; top: 12px !important; left: 12px !important; z-index: 5 !important; background: #e64a19 !important; color: #fff !important; padding: 4px 10px !important; font-size: 10px !important; font-weight: 800 !important; letter-spacing: 0.05em !important; text-transform: uppercase !important; border-radius: 12px !important; line-height: 1 !important; box-shadow: 0 2px 8px rgba(0,0,0,0.25) !important; display: inline-flex !important; align-items: center !important; gap: 4px !important; pointer-events: none !important; border: none !important;">SALE</span>
+    <button
+      type="button"
+      class="shirts-view-fullscreen-btn"
+    >
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width: 14px; height: 14px; margin-right: 6px;"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+      View Fullscreen
+    </button>
+  {% endif %}
   {% liquid
     assign high_res_url = media.preview_image | image_url: width: 3840
     assign fetch_priority = 'auto'
@@ -141,6 +151,7 @@
     aspect-ratio: var(--gallery-aspect-ratio, var(--ratio));
     min-height: 0;
     min-width: 0;
+    position: relative;
   }
 
   .product-media__image {
@@ -153,60 +164,6 @@
     .media-gallery--grid .product-media > * {
       border-radius: var(--media-radius, 0);
       overflow: hidden;
-    }
-
-    /* When the CAROUSEL is on the LEFT side */
-    .product-information:not(.product-information--media-right)
-      .media-gallery--carousel.media-gallery--extend
-      slideshow-container {
-      border-top-left-radius: 0;
-      border-bottom-left-radius: 0;
-    }
-
-    /* When the CAROUSEL is on the RIGHT side */
-    .product-information.product-information--media-right
-      .media-gallery--carousel.media-gallery--extend
-      slideshow-container {
-      border-top-right-radius: 0;
-      border-bottom-right-radius: 0;
-    }
-
-    /* When the GRID is on the LEFT side */
-    .product-information:not(.product-information--media-right) {
-      /* One column */
-      .media-gallery--grid.media-gallery--extend:not(.media-gallery--two-column) .product-media > *,
-      /* Two column, small first image */
-      .media-gallery--grid.media-gallery--extend.media-gallery--two-column:not(.media-gallery--large-first-image)
-        .product-media-container:nth-of-type(odd)
-        .product-media
-        > *,
-      /* Two column, large first image */
-      .media-gallery--grid.media-gallery--extend.media-gallery--two-column.media-gallery--large-first-image
-        .product-media-container:is(:first-of-type, :nth-of-type(even))
-        .product-media
-        > * {
-        border-top-left-radius: 0;
-        border-bottom-left-radius: 0;
-      }
-    }
-
-    /* When the GRID is on the RIGHT side */
-    .product-information.product-information--media-right {
-      /* One column */
-      .media-gallery--grid.media-gallery--extend:not(.media-gallery--two-column) .product-media > *,
-      /* Two column, small first image */
-      .media-gallery--grid.media-gallery--extend.media-gallery--two-column:not(.media-gallery--large-first-image)
-        .product-media-container:nth-of-type(even)
-        .product-media
-        > *,
-      /* Two column, large first image */
-      .media-gallery--grid.media-gallery--extend.media-gallery--two-column.media-gallery--large-first-image
-        .product-media-container:is(:first-of-type, :nth-of-type(odd))
-        .product-media
-        > * {
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
-      }
     }
   }
 {% endstylesheet %}

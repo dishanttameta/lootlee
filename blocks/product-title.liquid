@@ -13,6 +13,16 @@
   >
     {% render 'text', fallback_text: product_title, block: block %}
   </a>
+  {% if request.page_type == 'product' %}
+    {%- liquid
+      assign rating = closest.product.metafields.reviews.rating.value.rating | default: 4.8
+      assign rating_count = closest.product.metafields.reviews.rating_count | default: 368
+    -%}
+    <div class="shirts-product__rating" style="margin-top: 8px; margin-bottom: 12px; display: flex; align-items: center; gap: 6px;">
+      <span style="color: #f5a623; font-size: 16px; letter-spacing: 1px;">★★★★★</span>
+      <span style="color: #666; font-size: 13px; font-weight: 500;">{{ rating }} ({{ rating_count }} reviews)</span>
+    </div>
+  {% endif %}
 {% endif %}
 
 {% stylesheet %}

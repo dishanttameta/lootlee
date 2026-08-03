@@ -5,9 +5,15 @@
 }
 
 .shirts-product__container {
+<<<<<<< Updated upstream
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 20px;
+=======
+  max-width: var(--page-width, 1400px) !important;
+  margin: 0 auto;
+  padding: 0 var(--page-margin, 40px) !important;
+>>>>>>> Stashed changes
   box-sizing: border-box;
 }
 
@@ -51,6 +57,18 @@
   align-items: start;
 }
 
+<<<<<<< Updated upstream
+=======
+@media screen and (min-width: 990px) {
+  .shirts-product__left-col {
+    position: sticky !important;
+    top: 110px !important;
+    align-self: start !important;
+    height: fit-content !important;
+  }
+}
+
+>>>>>>> Stashed changes
 @media (max-width: 989px) {
   .shirts-product__grid {
     grid-template-columns: 1fr;
@@ -75,7 +93,11 @@
 .shirts-product__thumbnail {
   cursor: pointer;
   border: 1px solid #e2e8f0;
+<<<<<<< Updated upstream
   border-radius: 6px;
+=======
+  border-radius: 12px;
+>>>>>>> Stashed changes
   overflow: hidden;
   aspect-ratio: 3/4;
   opacity: 0.6;
@@ -91,28 +113,45 @@
 .shirts-product__thumbnail img {
   width: 100%;
   height: 100%;
+<<<<<<< Updated upstream
   object-fit: cover;
+=======
+  object-fit: contain;
+  object-position: top center;
+  border-radius: 12px;
+>>>>>>> Stashed changes
   display: block;
 }
 
 .shirts-product__gallery-wrap {
   flex-grow: 1;
   position: relative;
+<<<<<<< Updated upstream
   border: 1px solid #e2e8f0;
   border-radius: 12px;
   overflow: hidden;
   background: #fafafa;
+=======
+  overflow: hidden;
+>>>>>>> Stashed changes
 }
 
 .shirts-product__main-image img {
   width: 100%;
   height: auto;
+<<<<<<< Updated upstream
   aspect-ratio: 3/4;
   object-fit: cover;
+=======
+  object-fit: contain;
+  object-position: top center;
+  border-radius: 12px;
+>>>>>>> Stashed changes
   display: block;
 }
 
 .shirts-gallery-arrow {
+<<<<<<< Updated upstream
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -129,6 +168,24 @@
   color: #111;
   transition: all 0.2s ease;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+=======
+  position: absolute !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  background: rgba(255, 255, 255, 0.9) !important;
+  border: 1px solid #e2e8f0 !important;
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  z-index: 99 !important;
+  color: #111 !important;
+  transition: all 0.2s ease !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+>>>>>>> Stashed changes
 }
 
 .shirts-gallery-arrow:hover {
