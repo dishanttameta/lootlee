@@ -49,22 +49,17 @@
   }
 
   .quick-add__button {
-    --button-color: #000000 !important;
-    --button-background-color: #ffffff !important;
-    --color-button-text: #000000 !important;
-    
     display: var(--quick-add-mobile-display, none);
     align-items: center;
-    background: #ffffff !important;
+    background: linear-gradient(var(--color-background) 0 100%) padding-box;
     padding: 0;
-    border-radius: 0 !important;
-    border: none !important;
-    font-weight: 400 !important;
+    border-radius: 50px;
+    border: 2px solid hsl(0 0% 0% / 0.15);
     height: var(--button-size-md);
     cursor: pointer;
     opacity: var(--quick-add-mobile-opacity, 0);
     overflow: hidden;
-    color: #000000 !important;
+    color: var(--color-foreground);
     pointer-events: all;
     position: absolute;
     right: max(var(--quick-add-right), calc((var(--border-radius) + var(--quick-add-right)) * (1 - cos(45deg))));
@@ -72,12 +67,7 @@
     backdrop-filter: blur(20px) saturate(180%);
 
     &:hover {
-      --button-color: #000000 !important;
-      --button-background-color: #ffffff !important;
-      --color-button-text: #000000 !important;
       scale: 1.03;
-      background: #ffffff !important;
-      color: #000000 !important;
 
       /* Hover stabilizer: extends hit area to maintain hover state */
       &::before {
@@ -86,11 +76,6 @@
         inset: -10px;
         z-index: -1;
       }
-    }
-
-    &::after {
-      box-shadow: none !important;
-      background: none !important;
     }
 
     &:active {
@@ -123,9 +108,9 @@
   }
 
   .quick-add__button .add-to-cart-text {
-    background: #ffffff !important;
+    background: var(--color-background);
     overflow: hidden;
-    border-radius: 0 !important;
+    border-radius: 50px;
     height: 100%;
     gap: 0;
   }

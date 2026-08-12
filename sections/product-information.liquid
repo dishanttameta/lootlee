@@ -207,10 +207,8 @@
     additional_blocks: additional_blocks
   %}
 {%- endif -%}
-<<<<<<< Updated upstream
-=======
 
-<div class="shirts-product__container">
+<div class="shirts-features__container">
   <!-- Features Grid -->
   <div class="shirts-features-grid-wrapper" style="margin-top: 20px; margin-bottom: 40px; width: 100%;">
     <div class="shirts-features-grid">
@@ -308,7 +306,6 @@
     });
   })();
 </script>
->>>>>>> Stashed changes
 
 {% stylesheet %}
   .sticky-add-to-cart__bar {
@@ -463,6 +460,16 @@
     color: #000000 !important;
   }
 
+  .shirts-features__container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 8px;
+  }
+  .shirts-features-grid-wrapper {
+    max-width: 1440px;
+  }
+
   .sticky-add-to-cart__buy-now {
     background-color: #000000 !important;
     color: #ffffff !important;
@@ -486,6 +493,10 @@
       &::before {
         --border: 1px;
       }
+    }
+
+    .shirts-features-grid-wrapper {
+      max-width: 1440px;
     }
 
     .sticky-add-to-cart__actions {

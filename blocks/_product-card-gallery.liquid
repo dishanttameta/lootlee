@@ -42,25 +42,7 @@
     <h3 class="h4">{{ product.title }}</h3>
   {% endif %}
 </div>
-{% comment %} rendering rating stars custom code by yusuf {% endcomment %}
-{% assign rating = product.metafields.custom.stars_count.value | times: 1.0 %}
-{% assign rating_count = product.metafields.custom.rating_count.value | default: 0 %}
 
-{% if rating > 0 %}
-  <div class="custom-product-rating">
-    <div class="stars">
-      <div
-        class="stars-fill"
-        style="width: {{ rating | divided_by: 5.0 | times: 100 }}%;"
-      ></div>
-    </div>
-
-    <span class="rating-count">
-      ({{ rating_count }})
-    </span>
-  </div>
-{% endif %}
-{% comment %} rendering code ended here {% endcomment %}
 
 {% render 'product-badges-styles' %}
 

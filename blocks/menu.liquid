@@ -25,6 +25,8 @@
     if show_as_accordion == false
       assign should_disable_on_mobile = true
       assign should_open_by_default_on_mobile = true
+    elsif block_settings.open_by_default_on_mobile == true
+      assign should_open_by_default_on_mobile = true
     endif
   -%}
   {% capture menu_accordion_children %}
@@ -39,7 +41,7 @@
         --spacing--size: {{ block_settings.menu_spacing }}px;
         {% render 'spacing-style', settings: block_settings %}
       "
-      {% if show_as_accordion == false %}
+      {% if show_as_accordion == false or should_open_by_default_on_mobile %}
         open
       {% endif %}
       {{ block.shopify_attributes }}
@@ -151,13 +153,33 @@
   }
 
   @media screen and (max-width: 749px) {
+    .menu--accordion summary {
+      cursor: pointer;
+      list-style: none;
+    }
+
+    .menu--accordion summary::-webkit-details-marker {
+      display: none;
+    }
+
     /* Always show the fallback heading on mobile when accordion is enabled */
     .menu--accordion .menu__heading--empty {
       display: flex;
     }
 
     .menu--accordion .menu__heading__accordion {
-      display: contents;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    .menu--accordion details[open] .icon-animated {
+      transform: rotate(180deg);
+    }
+
+    .menu--accordion .icon-animated {
+      transition: transform 0.3s ease;
     }
 
     .menu--accordion .menu__heading__default {
@@ -217,6 +239,13 @@
       "id": "show_as_accordion",
       "label": "t:settings.show_as_accordion",
       "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "open_by_default_on_mobile",
+      "label": "Open by default on mobile",
+      "default": false,
+      "visible_if": "{{ block.settings.show_as_accordion == true }}"
     },
     {
       "type": "select",

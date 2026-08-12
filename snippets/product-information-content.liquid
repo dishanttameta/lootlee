@@ -76,6 +76,8 @@
   endcase
 %}
 
+
+
 <div class="section-background color-{{ settings.color_scheme }}"></div>
 <div
   class="product-information section section--{{ content_width }} spacing-style color-{{ settings.color_scheme }} relative"
@@ -86,6 +88,20 @@
     {% assign product_href = '#ProductInformation-' | append: section_id %}
     {% render 'skip-to-content-link', href: product_href, text: 'accessibility.skip_to_product_info' %}
   {% endif %}
+
+  <nav class="custom-breadcrumb" aria-label="Breadcrumb" style="margin-bottom: 0px;">
+    <a href="{{ routes.root_url }}">HOME</a>
+    {%- if collection -%}
+      <span class="sep">/</span> <a href="{{ collection.url }}">{{ collection.title | upcase }}</a>
+    {%- elsif product.collections.size > 0 -%}
+      <span class="sep">/</span> <a href="{{ product.collections.first.url }}">{{ product.collections.first.title | upcase }}</a>
+    {%- endif -%}
+    <span class="sep">/</span>
+    <span class="current">{{ product.title | upcase }}</span>
+  </nav>
+
+
+
   <div
     class="{{ product_grid_class }}"
     data-product-grid-content

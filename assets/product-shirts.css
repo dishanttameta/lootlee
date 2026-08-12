@@ -1,52 +1,54 @@
 /* ── Layout and Grid for Shirts Product Page ── */
 .shirts-product {
-  padding: 20px 0 40px 0; /* Reduced top padding to tighten layout spacing */
+  padding: 20px 0 40px 0;
+  /* Reduced top padding to tighten layout spacing */
   background-color: #ffffff;
 }
 
 .shirts-product__container {
-<<<<<<< Updated upstream
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-=======
-  max-width: var(--page-width, 1400px) !important;
-  margin: 0 auto;
+  width: 100%;
+  max-width: 1520px !important;
+  margin: 0 auto !important;
   padding: 0 var(--page-margin, 40px) !important;
->>>>>>> Stashed changes
   box-sizing: border-box;
 }
 
 /* Breadcrumb */
 .shirts-breadcrumb {
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.1em;
-  color: #94a3b8; /* slate-400 */
-  margin-bottom: 16px; /* Reduced from 30px to tighten up whitespace */
+  color: #94a3b8;
+  /* slate-400 */
+  margin-bottom: 16px;
   display: flex;
   align-items: center;
-  gap: 8px;
+  flex-wrap: wrap;
+  gap: 6px 8px;
   text-transform: uppercase;
 }
 
 .shirts-breadcrumb a {
-  color: #334155; /* slate-700 */
+  color: #334155;
+  /* slate-700 */
   text-decoration: none;
   transition: color 0.15s ease;
 }
 
 .shirts-breadcrumb a:hover {
-  color: #e11d48; /* rose-600 */
+  color: #e11d48;
+  /* rose-600 */
 }
 
 .shirts-breadcrumb .sep {
-  color: #cbd5e1; /* slate-300 */
+  color: #cbd5e1;
+  /* slate-300 */
   font-weight: 300;
 }
 
 .shirts-breadcrumb .current {
-  color: #64748b; /* slate-500 */
+  color: #64748b;
+  /* slate-500 */
 }
 
 /* Responsive Grid */
@@ -57,8 +59,6 @@
   align-items: start;
 }
 
-<<<<<<< Updated upstream
-=======
 @media screen and (min-width: 990px) {
   .shirts-product__left-col {
     position: sticky !important;
@@ -68,7 +68,6 @@
   }
 }
 
->>>>>>> Stashed changes
 @media (max-width: 989px) {
   .shirts-product__grid {
     grid-template-columns: 1fr;
@@ -93,11 +92,7 @@
 .shirts-product__thumbnail {
   cursor: pointer;
   border: 1px solid #e2e8f0;
-<<<<<<< Updated upstream
-  border-radius: 6px;
-=======
   border-radius: 12px;
->>>>>>> Stashed changes
   overflow: hidden;
   aspect-ratio: 3/4;
   opacity: 0.6;
@@ -113,62 +108,28 @@
 .shirts-product__thumbnail img {
   width: 100%;
   height: 100%;
-<<<<<<< Updated upstream
-  object-fit: cover;
-=======
   object-fit: contain;
   object-position: top center;
   border-radius: 12px;
->>>>>>> Stashed changes
   display: block;
 }
 
 .shirts-product__gallery-wrap {
   flex-grow: 1;
   position: relative;
-<<<<<<< Updated upstream
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
   overflow: hidden;
-  background: #fafafa;
-=======
-  overflow: hidden;
->>>>>>> Stashed changes
 }
 
 .shirts-product__main-image img {
   width: 100%;
   height: auto;
-<<<<<<< Updated upstream
-  aspect-ratio: 3/4;
-  object-fit: cover;
-=======
   object-fit: contain;
   object-position: top center;
   border-radius: 12px;
->>>>>>> Stashed changes
   display: block;
 }
 
 .shirts-gallery-arrow {
-<<<<<<< Updated upstream
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(255, 255, 255, 0.9);
-  border: 1px solid #e2e8f0;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  z-index: 10;
-  color: #111;
-  transition: all 0.2s ease;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-=======
   position: absolute !important;
   top: 50% !important;
   transform: translateY(-50%) !important;
@@ -185,7 +146,6 @@
   color: #111 !important;
   transition: all 0.2s ease !important;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
->>>>>>> Stashed changes
 }
 
 .shirts-gallery-arrow:hover {
@@ -235,16 +195,22 @@
 }
 
 @media (max-width: 749px) {
+  .shirts-breadcrumb {
+    display: none !important;
+  }
+
   .shirts-product__media {
     flex-direction: column-reverse;
     gap: 12px;
   }
+
   .shirts-product__thumbnails {
     flex-direction: row;
     width: 100%;
     justify-content: center;
     overflow-x: auto;
   }
+
   .shirts-product__thumbnail {
     width: 60px;
   }
@@ -358,6 +324,7 @@
     transform: translateY(20px);
     opacity: 0;
   }
+
   to {
     transform: translateY(0);
     opacity: 1;
@@ -460,7 +427,7 @@
   padding: 14px 16px;
   border-radius: 8px;
   margin-top: 24px;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
 }
 
 .lootlee-safety-promise__icon {
