@@ -468,7 +468,17 @@
       {%- assign first_product = true -%}
       {%- assign added_product_ids = "" -%}
       {%- for p in shirts_collection.products -%}
-        {%- if p.id == product.id or p.template_suffix == 'combo' -%}
+        {%- assign p_is_combo = false -%}
+        {%- if p.template_suffix == 'combo' or p.tags contains 'combo' -%}
+          {%- assign p_is_combo = true -%}
+        {%- endif -%}
+        {%- for c in p.collections -%}
+          {%- if c.handle == 'combo' -%}
+            {%- assign p_is_combo = true -%}
+            {%- break -%}
+          {%- endif -%}
+        {%- endfor -%}
+        {%- if p.id == product.id or p_is_combo -%}
           {%- continue -%}
         {%- endif -%}
         {%- unless first_product -%},{%- endunless -%}
@@ -496,7 +506,17 @@
         {%- for p in combo_metafield.value -%}
           {%- assign p_id_str = p.id | append: "," -%}
           {%- unless added_product_ids contains p_id_str -%}
-            {%- if p.id == product.id or p.template_suffix == 'combo' -%}
+            {%- assign p_is_combo = false -%}
+            {%- if p.template_suffix == 'combo' or p.tags contains 'combo' -%}
+              {%- assign p_is_combo = true -%}
+            {%- endif -%}
+            {%- for c in p.collections -%}
+              {%- if c.handle == 'combo' -%}
+                {%- assign p_is_combo = true -%}
+                {%- break -%}
+              {%- endif -%}
+            {%- endfor -%}
+            {%- if p.id == product.id or p_is_combo -%}
               {%- continue -%}
             {%- endif -%}
             {%- unless first_product -%},{%- endunless -%}
