@@ -9,12 +9,16 @@
 
 {% liquid
   assign is_combo = false
-  for tag in product.tags
-    assign tag_lower = tag | downcase
-    if tag_lower == 'combo'
-      assign is_combo = true
-    endif
-  endfor
+  if product.template_suffix == 'combo'
+    assign is_combo = true
+  else
+    for tag in product.tags
+      assign tag_lower = tag | downcase
+      if tag_lower == 'combo'
+        assign is_combo = true
+      endif
+    endfor
+  endif
 %}
 
 {%- unless is_combo -%}

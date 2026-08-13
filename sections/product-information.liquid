@@ -6,7 +6,9 @@
 
 {%- liquid
   assign is_combo = false
-  if product.tags contains 'combo'
+  if product.template_suffix == 'combo'
+    assign is_combo = true
+  elsif product.tags contains 'combo'
     assign is_combo = true
   else
     for c in product.collections

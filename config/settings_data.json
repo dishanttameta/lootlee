@@ -90,11 +90,6 @@
     "enableIntlFlow": false,
     "content_for_index": [],
     "blocks": {
-      "1626193551103621034": {
-        "type": "shopify://apps/cod-king/blocks/app-embed/99553eb5-bf07-4ce0-9263-7e5f10cab22c",
-        "disabled": false,
-        "settings": {}
-      },
       "13375938897875554821": {
         "type": "shopify://apps/qikify-sales-pop-up/blocks/app-embed/688dd516-1cdc-4008-8329-23089a1c4e24",
         "disabled": false,

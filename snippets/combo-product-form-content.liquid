@@ -386,7 +386,7 @@
     assign shirts_collection = collections.all
   endif
 
-  # Determine number of shirts in combo, prioritize tag combo-size:[number], fallback to section setting, then default to 2
+  # Determine number of shirts in combo, prioritize metafield size, then tag combo-size:[number], fallback to section setting, then default to 2
   assign num_shirts = 2
   if section.settings.combo_size != blank
     assign num_shirts = section.settings.combo_size | plus: 0
@@ -398,21 +398,39 @@
     endif
   endfor
 
-  # Pre-fill default options through product tags
+  # If metafield is present, override the number of shirts with the metafield count
+  assign combo_metafield = product.metafields.custom.combo_products | default: product.metafields.custom.combo-products
+  if combo_metafield != blank and combo_metafield.value != blank
+    assign num_shirts = combo_metafield.value.size
+  endif
+
+  # Pre-fill default options through product metafields, fallback to product tags
   assign default_handles_json = '{'
   assign first_added = true
-  for tag in product.tags
-    if tag contains 'combo-default-'
-      assign tag_parts = tag | split: ':'
-      assign slot_idx = tag_parts[0] | replace: 'combo-default-', '' | strip
-      assign h_name = tag_parts[1] | strip
+  if combo_metafield != blank and combo_metafield.value != blank
+    for p in combo_metafield.value
+      assign slot_idx = forloop.index
+      assign h_name = p.handle
       unless first_added
         assign default_handles_json = default_handles_json | append: ','
       endunless
       assign default_handles_json = default_handles_json | append: '"' | append: slot_idx | append: '":"' | append: h_name | append: '"'
       assign first_added = false
-    endif
-  endfor
+    endfor
+  else
+    for tag in product.tags
+      if tag contains 'combo-default-'
+        assign tag_parts = tag | split: ':'
+        assign slot_idx = tag_parts[0] | replace: 'combo-default-', '' | strip
+        assign h_name = tag_parts[1] | strip
+        unless first_added
+          assign default_handles_json = default_handles_json | append: ','
+        endunless
+        assign default_handles_json = default_handles_json | append: '"' | append: slot_idx | append: '":"' | append: h_name | append: '"'
+        assign first_added = false
+      endif
+    endfor
+  endif
   assign default_handles_json = default_handles_json | append: '}'
 
   # Load size chart options
@@ -448,11 +466,13 @@
   {%- paginate shirts_collection.products by 1000 -%}
     [
       {%- assign first_product = true -%}
+      {%- assign added_product_ids = "" -%}
       {%- for p in shirts_collection.products -%}
         {%- if p.id == product.id or p.template_suffix == 'combo' -%}
           {%- continue -%}
         {%- endif -%}
         {%- unless first_product -%},{%- endunless -%}
+        {%- assign added_product_ids = added_product_ids | append: p.id | append: "," -%}
         {
           "id": {{ p.id }},
           "handle": {{ p.handle | json }},
@@ -470,6 +490,35 @@
         }
         {%- assign first_product = false -%}
       {%- endfor -%}
+
+      {%- assign combo_metafield = product.metafields.custom.combo_products | default: product.metafields.custom.combo-products -%}
+      {%- if combo_metafield != blank and combo_metafield.value != blank -%}
+        {%- for p in combo_metafield.value -%}
+          {%- assign p_id_str = p.id | append: "," -%}
+          {%- unless added_product_ids contains p_id_str -%}
+            {%- if p.id == product.id or p.template_suffix == 'combo' -%}
+              {%- continue -%}
+            {%- endif -%}
+            {%- unless first_product -%},{%- endunless -%}
+            {
+              "id": {{ p.id }},
+              "handle": {{ p.handle | json }},
+              "title": {{ p.title | json }},
+              "image": "{{ p.featured_image | image_url: width: 300 }}",
+              "variants": [
+                {%- for v in p.variants -%}
+                  {
+                    "id": {{ v.id }},
+                    "title": {{ v.title | json }},
+                    "available": {{ v.available }}
+                  }{%- unless forloop.last -%},{%- endunless -%}
+                {%- endfor -%}
+              ]
+            }
+            {%- assign first_product = false -%}
+          {%- endunless -%}
+        {%- endfor -%}
+      {%- endif -%}
     ]
   {%- endpaginate -%}
 </script>
