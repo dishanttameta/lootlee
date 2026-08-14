@@ -76,11 +76,26 @@
             ref="fieldsets[]"
             {{ option_id_attribute }}
           >
-            <legend>
-              {{ product_option.name | escape -}}
-              {%- if variant_style == 'swatch' -%}
-                <span class="variant-option__swatch-value">{{ product_option.selected_value }}</span>
-              {%- endif %}
+            <legend class="variant-option__legend-row">
+              <span class="variant-option__legend-label">
+                {{ product_option.name | escape -}}
+                {%- if variant_style == 'swatch' -%}
+                  <span class="variant-option__swatch-value">{{ product_option.selected_value }}</span>
+                {%- elsif product_option.name == 'Size' or product_option.name == 'size' -%}
+                  <span class="variant-option__swatch-value">: {{ product_option.selected_value }}</span>
+                {%- endif %}
+              </span>
+              {%- if product_option.name == 'Size' or product_option.name == 'size' -%}
+                <button
+                  type="button"
+                  class="size-chart-trigger"
+                  aria-haspopup="dialog"
+                  aria-controls="size-chart-modal"
+                  onclick="document.getElementById('size-chart-modal').showModal()"
+                >
+                  SIZE CHART
+                </button>
+              {%- endif -%}
             </legend>
             {%- for product_option_value in product_option.values -%}
               {% if product_option_value.size > longest_value and option_id_attribute %}
@@ -221,8 +236,111 @@
         {{ product_resource.selected_or_first_available_variant | json }}
       </script>
     </form>
+
+    <script>
+      (function () {
+        // Wait until the variant-picker custom element is defined and connected
+        const picker = document.currentScript.closest('variant-picker');
+        if (!picker) return;
+
+        picker.addEventListener('change', function (e) {
+          const input = e.target;
+          if (!(input instanceof HTMLInputElement) || input.type !== 'radio') return;
+
+          const fieldset = input.closest('fieldset');
+          if (!fieldset) return;
+
+          const legend = fieldset.querySelector('legend');
+          if (!legend) return;
+
+          const swatchValue = legend.querySelector('.variant-option__swatch-value');
+          if (!swatchValue) return;
+
+          // Determine the new label — keep the colon prefix for non-swatch styles
+          const prefix = swatchValue.textContent.trimStart().startsWith(':') ? ': ' : '';
+          swatchValue.textContent = prefix + input.value;
+        });
+      })();
+    </script>
   </variant-picker>
 {% endunless %}
+
+{%- if product_resource.options contains 'Size' or product_resource.options contains 'size' -%}
+  <dialog
+    id="size-chart-modal"
+    class="size-chart-modal"
+    aria-label="Size Chart"
+    onclick="if(event.target===this)this.close()"
+  >
+    <div class="size-chart-modal__inner">
+      <div class="size-chart-modal__header">
+        <h2 class="size-chart-modal__title">Size Chart</h2>
+        <button
+          type="button"
+          class="size-chart-modal__close"
+          aria-label="Close size chart"
+          onclick="this.closest('dialog').close()"
+        >
+          &times;
+        </button>
+      </div>
+      <p class="size-chart-modal__subtitle">All measurements are in inches. For a relaxed fit, go one size up.</p>
+      <div class="size-chart-modal__table-wrap">
+        <table class="size-chart-table">
+          <thead>
+            <tr>
+              <th>SIZE</th>
+              <th>CHEST</th>
+              <th>SHOULDER</th>
+              <th>LENGTH</th>
+              <th>WAIST</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>S</strong></td>
+              <td>38"</td>
+              <td>15.5"</td>
+              <td>27"</td>
+              <td>36"</td>
+            </tr>
+            <tr>
+              <td><strong>M</strong></td>
+              <td>40"</td>
+              <td>16.5"</td>
+              <td>27.5"</td>
+              <td>38"</td>
+            </tr>
+            <tr>
+              <td><strong>L</strong></td>
+              <td>42"</td>
+              <td>17.5"</td>
+              <td>28"</td>
+              <td>40"</td>
+            </tr>
+            <tr>
+              <td><strong>XL</strong></td>
+              <td>44"</td>
+              <td>18.5"</td>
+              <td>28.5"</td>
+              <td>42"</td>
+            </tr>
+            <tr>
+              <td><strong>XXL</strong></td>
+              <td>46"</td>
+              <td>19.5"</td>
+              <td>29"</td>
+              <td>44"</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="size-chart-modal__note">
+        * Measurements may vary by +/- 0.5 in. If between sizes, we recommend sizing up.
+      </p>
+    </div>
+  </dialog>
+{%- endif -%}
 
 {% stylesheet %}
   /* Variant picker container styles - unique to main variant picker */
@@ -308,5 +426,200 @@
   .variant-picker--right .variant-option {
     text-align: right;
     justify-content: right;
+  }
+
+  /* ── Legend row: name + SIZE CHART on one line ── */
+  .variant-option__legend-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .variant-option__legend-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  /* ── Size Chart Trigger ── */
+  .size-chart-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    color: currentColor;
+    cursor: pointer;
+    opacity: 0.65;
+    transition: opacity 0.18s ease;
+    line-height: 1;
+  }
+
+  .size-chart-trigger:hover {
+    opacity: 1;
+  }
+
+  /* ── Size Chart Modal ── */
+  .size-chart-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    border: none;
+    padding: 0;
+    background: transparent;
+    max-width: 100vw;
+    max-height: 100vh;
+    width: 100%;
+    height: 100%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    animation: scm-fade-in 0.22s ease;
+  }
+
+  .size-chart-modal[open] {
+    display: flex;
+  }
+
+  .size-chart-modal::backdrop {
+    background: rgba(0, 0, 0, 0.42);
+    backdrop-filter: blur(2px);
+    animation: scm-fade-in 0.22s ease;
+  }
+
+  @keyframes scm-fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  .size-chart-modal__inner {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.18);
+    padding: 28px 32px 24px;
+    width: min(560px, calc(100vw - 32px));
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    animation: scm-slide-in 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  @keyframes scm-slide-in {
+    from {
+      transform: translateY(20px) scale(0.97);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
+  }
+
+  .size-chart-modal__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 4px;
+  }
+
+  .size-chart-modal__title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    margin: 0;
+    color: #111;
+  }
+
+  .size-chart-modal__close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+    color: #555;
+    padding: 2px 6px;
+    border-radius: 4px;
+    transition: color 0.15s, background 0.15s;
+  }
+
+  .size-chart-modal__close:hover {
+    color: #000;
+    background: #f0f0f0;
+  }
+
+  .size-chart-modal__subtitle {
+    font-size: 0.78rem;
+    color: #000;
+    margin: 0 0 16px;
+  }
+
+  .size-chart-modal__table-wrap {
+    overflow-x: auto;
+  }
+
+  .size-chart-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+  }
+
+  .size-chart-table thead tr {
+    background: #111;
+    color: #fff;
+  }
+
+  .size-chart-table th {
+    padding: 10px 14px;
+    text-align: center;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .size-chart-table tbody tr {
+    border-bottom: 1px solid #e8e8e8;
+    transition: background 0.12s;
+  }
+
+  .size-chart-table tbody tr:hover {
+    background: #fafafa;
+  }
+
+  .size-chart-table td {
+    padding: 11px 14px;
+    text-align: center;
+    color: #222;
+  }
+
+  .size-chart-table tbody td:first-child {
+    font-weight: 700;
+    font-size: 0.9rem;
+  }
+
+  .size-chart-table tbody td:not(:first-child) {
+    color: #000;
+  }
+
+  .size-chart-modal__note {
+    font-size: 0.72rem;
+    color: #777;
+    margin: 14px 0 0;
+    border-top: 1px solid #eee;
+    padding-top: 10px;
   }
 {% endstylesheet %}
