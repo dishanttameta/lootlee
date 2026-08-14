@@ -76,8 +76,10 @@
     on:pointerenter="/previewImage"
     on:pointerleave="/resetImage"
     {% comment %} this is custom added code for mobile image change after touch by yusuf {% endcomment %}
-    {% comment %} on:touchstart="/previewImage"
-    on:touchend="/resetImage" {% endcomment %}
+    {% comment %}
+      on:touchstart="/previewImage"
+      on:touchend="/resetImage"
+    {% endcomment %}
   {% endif %}
   {% if settings.transition_to_main_product %}
     data-view-transition-to-main-product
@@ -386,6 +388,7 @@
   .card-gallery slideshow-arrows .slideshow-control {
     /* Align icons with quick-add button */
     padding-inline: var(--padding-xl);
+    display: none;
 
     @container (max-width: 249px) {
       padding-inline: 0 var(--padding-sm);
