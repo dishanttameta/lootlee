@@ -18,7 +18,7 @@
           "type": "_announcement",
           "name": "t:names.announcement",
           "settings": {
-            "text": "<strong>Buy Any 3 Shirts @ ₹999</strong>",
+            "text": "<strong>Buy Any 3 Shirts @ ₹1199</strong>",
             "link": "",
             "font": "var(--font-subheading--family)",
             "font_size": "0.75rem",
@@ -31,7 +31,7 @@
         "announcement_BxgCk9": {
           "type": "_announcement",
           "settings": {
-            "text": "<strong>Buy Any 2 Shirts @ ₹699</strong>",
+            "text": "<strong>Buy Any 2 Shirts @ ₹899</strong>",
             "link": "",
             "font": "var(--font-subheading--family)",
             "font_size": "0.75rem",
