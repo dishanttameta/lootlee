@@ -361,13 +361,20 @@
                 assign media_sizes = sizes
               endif
           -%}
+          {%- liquid
+            if forloop.first
+              assign loading_attr = 'eager'
+            else
+              assign loading_attr = 'lazy'
+            endif
+          -%}
           {% if block_settings.aspect_ratio != 'adapt' and block_settings.constrain_to_viewport %}
             <div
               class="product-media-constraint-wrapper">
-              {%- render 'product-media', media: media, sizes: media_sizes, is_main_product_media: forloop.first -%}
+              {%- render 'product-media', media: media, sizes: media_sizes, is_main_product_media: forloop.first, loading: loading_attr -%}
             </div>
           {% else %}
-            {%- render 'product-media', media: media, sizes: media_sizes, is_main_product_media: forloop.first -%}
+            {%- render 'product-media', media: media, sizes: media_sizes, is_main_product_media: forloop.first, loading: loading_attr -%}
           {% endif %}
         {% endcapture %}
         {% capture class %}
@@ -477,12 +484,19 @@
                 assign media_sizes = sizes
               endif
             -%}
+            {%- liquid
+              if forloop.first
+                assign loading_attr = 'eager'
+              else
+                assign loading_attr = 'lazy'
+              endif
+            -%}
             {% if block_settings.aspect_ratio != 'adapt' and block_settings.constrain_to_viewport %}
               <div class="product-media-constraint-wrapper">
-                {%- render 'product-media', media: media, sizes: media_sizes, is_main_product_media: forloop.first -%}
+                {%- render 'product-media', media: media, sizes: media_sizes, is_main_product_media: forloop.first, loading: loading_attr -%}
               </div>
             {% else %}
-              {%- render 'product-media', media: media, sizes: media_sizes, is_main_product_media: forloop.first -%}
+              {%- render 'product-media', media: media, sizes: media_sizes, is_main_product_media: forloop.first, loading: loading_attr -%}
             {% endif %}
           </li>
         {% endfor %}

@@ -17,7 +17,7 @@
 {%- enddoc -%}
 
 {% liquid
-  assign widths = widths | default: '240, 352, 832, 1200, 1600, 1920, 2560, 3840'
+  assign widths = widths | default: '240, 360, 540, 720, 900, 1200, 1600'
   assign ref_image_to_transition = ''
   if settings.transition_to_main_product
     assign ref_image_to_transition = 'imagesToTransition[]'
@@ -42,25 +42,27 @@
   {% liquid
     assign high_res_url = media.preview_image | image_url: width: 3840
     assign fetch_priority = 'auto'
+    assign img_loading = loading | default: 'lazy'
     if is_main_product_media
       assign fetch_priority = 'high'
+      assign img_loading = 'eager'
     endif
     assign focal_point_style = '--focal-point: ' | append: media.presentation.focal_point | append: ';'
+    assign img_ref = image_ref | default: ref_image_to_transition
   %}
   {{
     media.preview_image
-    | image_url: width: 3840
+    | image_url: width: 1920
     | image_tag:
       widths: widths,
       alt: media.alt,
       sizes: sizes,
-      loading: loading,
+      loading: img_loading,
       class: 'product-media__image',
-      ref: ref_image_to_transition,
+      ref: img_ref,
       data_max_resolution: high_res_url,
       fetchpriority: fetch_priority,
-      style: focal_point_style,
-      ref: image_ref
+      style: focal_point_style
   }}
 
   {% unless preview_image_only %}
