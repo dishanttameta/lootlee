@@ -62,4 +62,11 @@
   .product-media-container--zoomable.product-media-container--image {
     cursor: zoom-in;
   }
+
+  /* Prevent head cutoff on product section media gallery */
+  media-gallery .product-media__image,
+  media-gallery .product-media-container img,
+  media-gallery .product-media-container :is(img, video, iframe, .deferred-media__poster-image) {
+    object-position: var(--focal-point, top center) !important;
+  }
 {% endstylesheet %}
