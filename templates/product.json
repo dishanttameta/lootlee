@@ -225,6 +225,19 @@
               },
               "block_order": []
             },
+            "trust_badge_bar_XCTMVL": {
+              "type": "trust-badge-bar",
+              "name": "Trust Badge Bar",
+              "settings": {
+                "badge_1_title": "Free Shipping",
+                "badge_1_text": "on prepaid orders",
+                "badge_2_title": "Certified Genuine",
+                "badge_2_text": "Products",
+                "badge_3_title": "100% Secure",
+                "badge_3_text": "Payments"
+              },
+              "blocks": {}
+            },
             "custom_liquid_7kenPD": {
               "type": "custom-liquid",
               "name": "Custom Liquid - offer",
@@ -540,6 +553,7 @@
             "custom_liquid_xh3xUU",
             "variant_picker_R3rGDr",
             "buy_buttons_eYQEYi",
+            "trust_badge_bar_XCTMVL",
             "custom_liquid_7kenPD",
             "text_aEtTtq",
             "accordion_aJHCEr",
