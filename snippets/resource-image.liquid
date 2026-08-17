@@ -75,21 +75,28 @@
   # Generate responsive image attributes
   assign sizes = '(min-width: 750px) 50vw, 100vw'
   assign lazy_sizes = 'auto, ' | append: sizes
-  assign loading = 'eager'
+  assign loading = 'lazy'
 
   # Layout-aware sizing for resource lists
   if section_settings.layout_type
+    assign mobile_cols = section_settings.mobile_columns | default: 1 | plus: 0
+    if mobile_cols > 1
+      assign mobile_calc_width = 100 | divided_by: mobile_cols | append: 'vw'
+    else
+      assign mobile_calc_width = '100vw'
+    endif
+
     case section_settings.layout_type
       when 'grid', 'carousel'
-        assign calculated_width = 100 | divided_by: section_settings.columns | append: 'vw'
-        assign sizes = '(min-width: 750px) [calc-width], 100vw' | replace: '[calc-width]', calculated_width
+        assign desktop_cols = section_settings.columns | default: 2
+        assign calculated_width = 100 | divided_by: desktop_cols | append: 'vw'
+        assign sizes = '(min-width: 1200px) calc((1200px - 48px) / ' | append: desktop_cols | append: '), (min-width: 750px) calc((100vw - 48px) / ' | append: desktop_cols | append: '), ' | append: mobile_calc_width
       when 'editorial', 'bento'
-        assign loading = 'lazy'
         assign sizes = lazy_sizes
     endcase
   endif
 
-  assign widths = '240, 352, 832, 1200, 1600, 1920, 2560, 3840'
+  assign widths = '180, 240, 360, 480, 600, 720, 900, 1080'
 
   # Generate placeholder info based on content type
   if content_type == 'articles'
@@ -147,8 +154,8 @@
 
     {{
       image_resource
-      | image_url: width: 3840
-      | image_tag: widths: widths, class: 'resource-image__image', sizes: sizes, loading: loading
+      | image_url: width: 800
+      | image_tag: widths: widths, class: 'resource-image__image', sizes: sizes, loading: loading, decoding: 'async'
     }}
   </div>
 {% else %}
