@@ -1,7 +1,7 @@
 /**
  * Custom Element: BundleTshirtSelector
- * Manages extra T-shirt quantity, size synchronization with the main shirt product,
- * live price preview calculation, and multi-line batch cart item generation.
+ * Manages extra T-shirt quantity stepper, size synchronization with the main shirt product,
+ * live price preview, and multi-line batch cart item generation.
  */
 export class BundleTshirtSelector extends HTMLElement {
   /** @type {Record<string, number>} */
@@ -40,6 +40,9 @@ export class BundleTshirtSelector extends HTMLElement {
   /** @type {HTMLElement | null} */
   summaryDisplay = null;
 
+  /** @type {boolean} */
+  #wasActive = false;
+
   /** @type {MutationObserver | null} */
   #observer = null;
 
@@ -47,11 +50,10 @@ export class BundleTshirtSelector extends HTMLElement {
     this.#initData();
     this.#bindElements();
     this.#attachListeners();
-    
+
     // Initial instant sync
     this.updateState();
 
-    // Redundant verification ticks
     requestAnimationFrame(() => this.updateState());
     setTimeout(() => this.updateState(), 50);
   }
@@ -121,16 +123,6 @@ export class BundleTshirtSelector extends HTMLElement {
       this.adjustQuantity(1);
     });
 
-    this.qtyInput?.addEventListener('change', () => {
-      this.#sanitizeQuantity();
-      this.updateState();
-    });
-
-    this.qtyInput?.addEventListener('input', () => {
-      this.#sanitizeQuantity();
-      this.updateState();
-    });
-
     // 0ms Instant Optimistic Action Handler
     const handleInstantOptionSelection = (e) => {
       const target = e.target;
@@ -189,14 +181,23 @@ export class BundleTshirtSelector extends HTMLElement {
         }
       }
 
-      // Synchronous full update
       this.updateState();
     };
 
-    // Use capture phase on pointerdown, click, and change for immediate 0ms response
+    // Use capture phase for immediate response
     document.addEventListener('pointerdown', handleInstantOptionSelection, { capture: true, passive: true });
     document.addEventListener('click', handleInstantOptionSelection, { capture: true });
     document.addEventListener('change', handleInstantOptionSelection, { capture: true });
+
+    // Listen for Shirt Quantity changes to clamp / sync T-Shirt Quantity
+    const onShirtQuantityChange = () => {
+      this.updateState();
+    };
+
+    document.addEventListener('input', onShirtQuantityChange);
+    document.addEventListener('change', onShirtQuantityChange);
+    document.addEventListener('theme:quantity:update', onShirtQuantityChange);
+    document.addEventListener('quantity-selector:update', onShirtQuantityChange);
 
     // Catch background theme AJAX events
     const onVariantAsync = (e) => {
@@ -218,24 +219,33 @@ export class BundleTshirtSelector extends HTMLElement {
   }
 
   /**
-   * Adjusts quantity by delta (+1 or -1)
+   * Reads current Shirt Quantity from the main product form
+   * @returns {number}
+   */
+  getShirtQuantity() {
+    const form = this.closest('form, product-form-component') || document;
+    const qtyInput = form.querySelector('quantity-selector-component input[ref="quantityInput"], input[name="quantity"]');
+    if (qtyInput instanceof HTMLInputElement) {
+      const val = parseInt(qtyInput.value, 10);
+      return !isNaN(val) && val > 0 ? val : 1;
+    }
+    return 1;
+  }
+
+  /**
+   * Adjusts T-shirt quantity by delta (+1 or -1) with min=1 and max=shirtQuantity constraints
    * @param {number} delta
    */
   adjustQuantity(delta) {
     if (!this.qtyInput) return;
+    const shirtQty = this.getShirtQuantity();
     let current = parseInt(this.qtyInput.value, 10) || 1;
-    current = Math.max(1, current + delta);
+    
+    current = current + delta;
+    current = Math.max(1, Math.min(current, shirtQty));
+
     this.qtyInput.value = current.toString();
     this.updateState();
-  }
-
-  #sanitizeQuantity() {
-    if (!this.qtyInput) return;
-    let val = parseInt(this.qtyInput.value, 10);
-    if (isNaN(val) || val < 1) {
-      val = 1;
-    }
-    this.qtyInput.value = val.toString();
   }
 
   /**
@@ -300,7 +310,7 @@ export class BundleTshirtSelector extends HTMLElement {
    * @returns {boolean}
    */
   isWithTShirtSelected() {
-    // 1. Immediate check on active radios / values in DOM
+    // 1. Check active radios / inputs in DOM
     const selectedOptions = this.getSelectedOptionValues();
     for (const opt of selectedOptions) {
       const lower = opt.toLowerCase();
@@ -400,11 +410,12 @@ export class BundleTshirtSelector extends HTMLElement {
   }
 
   /**
-   * Updates visibility, size label, summary text, and price preview
+   * Updates visibility, size label, quantity clamping, summary text, and stepper buttons
    */
   updateState() {
     const withTShirt = this.isWithTShirtSelected();
     const currentSize = this.getSelectedShirtSize();
+    const shirtQty = this.getShirtQuantity();
 
     if (this.sizeDisplay) {
       this.sizeDisplay.textContent = currentSize;
@@ -413,105 +424,69 @@ export class BundleTshirtSelector extends HTMLElement {
     if (!withTShirt) {
       this.classList.remove('is-active');
       this.style.display = 'none';
-      if (this.qtyInput && this.qtyInput.value !== '1') {
-        this.qtyInput.value = '1';
-      }
-      this.restoreOriginalPrice();
+      this.#wasActive = false;
       return;
     }
 
-    // Reveal component instantly
+    // Reveal component
     this.classList.add('is-active');
     this.style.display = 'block';
 
-    const qty = parseInt(this.qtyInput?.value || '1', 10) || 1;
+    // If first time activated: default T-Shirt Quantity = current Shirt Quantity
+    if (!this.#wasActive) {
+      if (this.qtyInput) {
+        this.qtyInput.value = shirtQty.toString();
+      }
+      this.#wasActive = true;
+    }
 
-    // Update minus button state
+    let tshirtQty = parseInt(this.qtyInput?.value || '1', 10) || 1;
+
+    // Automatic clamping rule: If customer changes Shirt Quantity to a lower number, clamp down to match
+    if (tshirtQty > shirtQty) {
+      tshirtQty = shirtQty;
+      if (this.qtyInput) {
+        this.qtyInput.value = tshirtQty.toString();
+      }
+    } else if (tshirtQty < 1) {
+      tshirtQty = 1;
+      if (this.qtyInput) {
+        this.qtyInput.value = tshirtQty.toString();
+      }
+    }
+
+    if (this.qtyInput) {
+      this.qtyInput.setAttribute('max', shirtQty.toString());
+    }
+
+    // Stepper button disabled states
     if (this.minusBtn) {
-      this.minusBtn.disabled = qty <= 1;
+      this.minusBtn.disabled = tshirtQty <= 1;
+    }
+    if (this.plusBtn) {
+      this.plusBtn.disabled = tshirtQty >= shirtQty;
     }
 
     // Update summary text
-    this.#updateSummary(qty, currentSize);
-
-    // Update live price preview
-    this.updatePricePreview(qty);
+    this.#updateSummary(tshirtQty, currentSize);
   }
 
   /**
-   * Updates the summary block
+   * Updates the summary display block
    * @param {number} qty
    * @param {string} currentSize
    */
   #updateSummary(qty, currentSize) {
     if (!this.summaryDisplay) return;
 
-    if (qty > 1) {
-      const extraQty = qty - 1;
-      const extraCost = extraQty * this.unitPriceCents;
-      const formattedExtra = this.formatMoney(extraCost);
-      this.summaryDisplay.innerHTML = `
-        <span class="bundle-tshirt__summary-count">${qty} T-Shirts total (${currentSize})</span>
-        <span class="bundle-tshirt__summary-extra bundle-tshirt__summary-extra--paid">+${formattedExtra} (${extraQty} extra)</span>
-      `;
-    } else {
-      this.summaryDisplay.innerHTML = `
-        <span class="bundle-tshirt__summary-count">1 T-Shirt total (${currentSize})</span>
-        <span class="bundle-tshirt__summary-extra bundle-tshirt__summary-extra--included">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="20 6 9 17 4 12"></polyline>
-          </svg>
-          Included with shirt
-        </span>
-      `;
-    }
-  }
+    const totalPriceCents = qty * this.unitPriceCents;
+    const formattedTotal = this.formatMoney(totalPriceCents);
+    const countLabel = qty === 1 ? '1 T-Shirt' : `${qty} T-Shirts`;
 
-  /**
-   * Updates price display with base price + (qty - 1) * unit price
-   * @param {number} qty
-   */
-  updatePricePreview(qty) {
-    const priceContainer = document.querySelector('product-price');
-    if (!priceContainer) return;
-
-    const salePriceEl = priceContainer.querySelector('.c-sale-price, .price');
-    if (!salePriceEl) return;
-
-    if (!salePriceEl.dataset.originalPrice) {
-      salePriceEl.dataset.originalPrice = salePriceEl.textContent || '';
-    }
-
-    const currentVariant = this.getCurrentVariant();
-    const baseCents = currentVariant ? currentVariant.price : (this.basePriceCents || this.#parsePriceCents(salePriceEl.dataset.originalPrice));
-
-    if (qty > 1 && this.unitPriceCents > 0) {
-      const extraCents = (qty - 1) * this.unitPriceCents;
-      const totalCents = baseCents + extraCents;
-      salePriceEl.textContent = this.formatMoney(totalCents);
-    } else {
-      if (salePriceEl.dataset.originalPrice) {
-        salePriceEl.textContent = salePriceEl.dataset.originalPrice;
-      }
-    }
-  }
-
-  restoreOriginalPrice() {
-    const priceContainer = document.querySelector('product-price');
-    const salePriceEl = priceContainer?.querySelector('.c-sale-price, .price');
-    if (salePriceEl && salePriceEl.dataset.originalPrice) {
-      salePriceEl.textContent = salePriceEl.dataset.originalPrice;
-    }
-  }
-
-  /**
-   * @param {string} text
-   * @returns {number}
-   */
-  #parsePriceCents(text) {
-    const clean = (text || '').replace(/[^0-9.]/g, '');
-    const num = parseFloat(clean);
-    return !isNaN(num) && num > 0 ? Math.round(num * 100) : 0;
+    this.summaryDisplay.innerHTML = `
+      <span class="bundle-tshirt__summary-count">${countLabel} (${currentSize})</span>
+      <span class="bundle-tshirt__summary-price">${formattedTotal}</span>
+    `;
   }
 
   /**
@@ -553,10 +528,12 @@ export class BundleTshirtSelector extends HTMLElement {
       return null;
     }
 
-    const tshirtQty = parseInt(this.qtyInput?.value || '1', 10) || 1;
+    const shirtQtyNum = Number(mainShirtQty) || this.getShirtQuantity();
+    let tshirtQty = parseInt(this.qtyInput?.value || '1', 10) || 1;
+    tshirtQty = Math.max(1, Math.min(tshirtQty, shirtQtyNum));
+
     const currentSize = this.getSelectedShirtSize();
     const bundleId = `bundle_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
-    const shirtQtyNum = Number(mainShirtQty) || 1;
 
     // Line 1: Main Shirt
     const mainItem = {
@@ -565,29 +542,24 @@ export class BundleTshirtSelector extends HTMLElement {
       properties: {
         _bundle_id: bundleId,
         _bundle_role: 'main_shirt',
-        'T-Shirt Selection': `With T-Shirt (Included: 1x Size ${currentSize})`
+        'T-Shirt': 'With T-Shirt'
       }
     };
 
-    // If extra units chosen (qty > 1)
-    if (tshirtQty > 1) {
-      const extraUnitsPerShirt = tshirtQty - 1;
-      const extraVariantId = this.lookupExtraVariantId(currentSize);
+    // Line 2: Extra T-Shirt
+    const extraVariantId = this.lookupExtraVariantId(currentSize);
+    if (extraVariantId) {
+      const extraItem = {
+        id: Number(extraVariantId),
+        quantity: tshirtQty,
+        properties: {
+          _bundle_id: bundleId,
+          _bundle_role: 'extra_tshirt',
+          'Size': currentSize
+        }
+      };
 
-      if (extraVariantId) {
-        const extraItem = {
-          id: Number(extraVariantId),
-          quantity: extraUnitsPerShirt * shirtQtyNum,
-          properties: {
-            _bundle_id: bundleId,
-            _bundle_role: 'extra_tshirt',
-            'Size': currentSize,
-            '_parent_product': this.dataset.productTitle || 'Shirt'
-          }
-        };
-
-        return [mainItem, extraItem];
-      }
+      return [mainItem, extraItem];
     }
 
     return [mainItem];

@@ -9,33 +9,10 @@
 {%- if product.metafields.custom.bundle_enabled.value -%}
   {%- liquid
     assign extra_product = product.metafields.custom.extra_tshirt_product.value
-    assign unit_price_raw = product.metafields.custom.tshirt_unit_price.value
+    assign unit_price_cents = 0
 
-    # Determine unit price in cents
-    if unit_price_raw != blank
-      assign unit_price_str = unit_price_raw | append: ''
-      if unit_price_str contains '.'
-        assign parts = unit_price_str | split: '.'
-        assign major = parts[0] | times: 100
-        assign minor = parts[1] | slice: 0, 2
-        if minor.size == 1
-          assign minor = minor | append: '0'
-        endif
-        assign minor = minor | times: 1
-        assign unit_price_cents = major | plus: minor
-      else
-        if extra_product != blank and extra_product.price > 0 and unit_price_raw == extra_product.price
-          assign unit_price_cents = unit_price_raw
-        elsif unit_price_raw < 10000
-          assign unit_price_cents = unit_price_raw | times: 100
-        else
-          assign unit_price_cents = unit_price_raw
-        endif
-      endif
-    elsif extra_product != blank
+    if extra_product != blank and extra_product.price > 0
       assign unit_price_cents = extra_product.price
-    else
-      assign unit_price_cents = 0
     endif
 
     assign current_variant = product.selected_or_first_available_variant
@@ -47,6 +24,7 @@
     data-section-id="{{ section.id }}"
     data-product-id="{{ product.id }}"
     data-product-title="{{ product.title | escape }}"
+    data-extra-product-title="{{ extra_product.title | default: 'T-Shirt' | escape }}"
     data-base-price="{{ current_variant.price }}"
     data-unit-price-cents="{{ unit_price_cents }}"
     data-formatted-unit-price="{{ formatted_unit_price | escape }}"
@@ -60,9 +38,11 @@
             Size: <strong ref="sizeDisplay">M</strong> <span class="bundle-tshirt__badge-sub">(Matches Shirt)</span>
           </span>
         </div>
-        <p class="bundle-tshirt__subtitle">
-          1st T-Shirt included with shirt. Extra units: <strong>+{{ formatted_unit_price }}</strong> each
-        </p>
+        {%- if extra_product != blank -%}
+          <p class="bundle-tshirt__subtitle">
+            Standalone T-Shirt: <strong>{{ formatted_unit_price }}</strong> each
+          </p>
+        {%- endif -%}
       </div>
 
       <div class="bundle-tshirt__controls">
@@ -87,8 +67,9 @@
             ref="qtyInput"
             value="1"
             min="1"
-            max="99"
+            max="1"
             step="1"
+            readonly
             aria-label="T-Shirt Quantity"
           >
           <button
@@ -106,13 +87,8 @@
         </div>
 
         <div class="bundle-tshirt__summary" ref="summaryDisplay">
-          <span class="bundle-tshirt__summary-count">1 T-Shirt total (M)</span>
-          <span class="bundle-tshirt__summary-extra bundle-tshirt__summary-extra--included">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="20 6 9 17 4 12"></polyline>
-            </svg>
-            Included with shirt
-          </span>
+          <span class="bundle-tshirt__summary-count">1 T-Shirt (M)</span>
+          <span class="bundle-tshirt__summary-price">{{ formatted_unit_price }}</span>
         </div>
       </div>
     </div>
@@ -310,6 +286,7 @@
       color: var(--color-input-text, #111);
       background-color: transparent;
       outline: none;
+      cursor: default;
     }
     .bundle-tshirt__quantity-selector.quantity-selector input[type='number']::-webkit-inner-spin-button,
     .bundle-tshirt__quantity-selector.quantity-selector input[type='number']::-webkit-outer-spin-button {
@@ -330,20 +307,10 @@
       color: var(--color-foreground, #111);
       letter-spacing: -0.01em;
     }
-    .bundle-tshirt__summary-extra {
-      font-size: 12px;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      color: var(--color-foreground-secondary, #666);
-    }
-    .bundle-tshirt__summary-extra--included {
-      color: #16a34a;
+    .bundle-tshirt__summary-price {
+      font-size: 12.5px;
       font-weight: 600;
-    }
-    .bundle-tshirt__summary-extra--paid {
       color: var(--color-primary, #111);
-      font-weight: 600;
     }
   </style>
 {%- endif -%}
