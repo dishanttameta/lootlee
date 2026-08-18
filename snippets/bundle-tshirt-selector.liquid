@@ -1,0 +1,349 @@
+{%- doc -%}
+  Renders the T-Shirt quantity bundle selector for products with custom.bundle_enabled metafield.
+
+  @param {object} product - The product object
+  @param {object} section - The section object
+  @param {object} [block] - The block object
+{%- enddoc -%}
+
+{%- if product.metafields.custom.bundle_enabled.value -%}
+  {%- liquid
+    assign extra_product = product.metafields.custom.extra_tshirt_product.value
+    assign unit_price_raw = product.metafields.custom.tshirt_unit_price.value
+
+    # Determine unit price in cents
+    if unit_price_raw != blank
+      assign unit_price_str = unit_price_raw | append: ''
+      if unit_price_str contains '.'
+        assign parts = unit_price_str | split: '.'
+        assign major = parts[0] | times: 100
+        assign minor = parts[1] | slice: 0, 2
+        if minor.size == 1
+          assign minor = minor | append: '0'
+        endif
+        assign minor = minor | times: 1
+        assign unit_price_cents = major | plus: minor
+      else
+        if extra_product != blank and extra_product.price > 0 and unit_price_raw == extra_product.price
+          assign unit_price_cents = unit_price_raw
+        elsif unit_price_raw < 10000
+          assign unit_price_cents = unit_price_raw | times: 100
+        else
+          assign unit_price_cents = unit_price_raw
+        endif
+      endif
+    elsif extra_product != blank
+      assign unit_price_cents = extra_product.price
+    else
+      assign unit_price_cents = 0
+    endif
+
+    assign current_variant = product.selected_or_first_available_variant
+    assign formatted_unit_price = unit_price_cents | money
+  -%}
+
+  <bundle-tshirt-selector
+    class="bundle-tshirt-selector"
+    data-section-id="{{ section.id }}"
+    data-product-id="{{ product.id }}"
+    data-product-title="{{ product.title | escape }}"
+    data-base-price="{{ current_variant.price }}"
+    data-unit-price-cents="{{ unit_price_cents }}"
+    data-formatted-unit-price="{{ formatted_unit_price | escape }}"
+    data-money-format="{{ shop.money_format | escape }}"
+  >
+    <div class="bundle-tshirt__container">
+      <div class="bundle-tshirt__header">
+        <div class="bundle-tshirt__title-row">
+          <span class="bundle-tshirt__title">T-Shirt Quantity</span>
+          <span class="bundle-tshirt__badge" ref="badgeDisplay">
+            Size: <strong ref="sizeDisplay">M</strong> <span class="bundle-tshirt__badge-sub">(Matches Shirt)</span>
+          </span>
+        </div>
+        <p class="bundle-tshirt__subtitle">
+          1st T-Shirt included with shirt. Extra units: <strong>+{{ formatted_unit_price }}</strong> each
+        </p>
+      </div>
+
+      <div class="bundle-tshirt__controls">
+        <div class="quantity-selector bundle-tshirt__quantity-selector">
+          <button
+            class="button quantity-minus button-unstyled"
+            type="button"
+            name="minus"
+            ref="minusBtn"
+            aria-label="{{ 'accessibility.decrease_quantity' | t }}"
+            disabled
+          >
+            <span class="visually-hidden">{{ 'accessibility.decrease_quantity' | t }}</span>
+            <span class="svg-wrapper">
+              {{- 'icon-minus.svg' | inline_asset_content -}}
+            </span>
+          </button>
+          <input
+            type="number"
+            id="BundleTshirtQty-{{ section.id }}"
+            name="bundle_tshirt_quantity"
+            ref="qtyInput"
+            value="1"
+            min="1"
+            max="99"
+            step="1"
+            aria-label="T-Shirt Quantity"
+          >
+          <button
+            class="button quantity-plus button-unstyled"
+            type="button"
+            name="plus"
+            ref="plusBtn"
+            aria-label="{{ 'accessibility.increase_quantity' | t }}"
+          >
+            <span class="visually-hidden">{{ 'accessibility.increase_quantity' | t }}</span>
+            <span class="svg-wrapper">
+              {{- 'icon-plus.svg' | inline_asset_content -}}
+            </span>
+          </button>
+        </div>
+
+        <div class="bundle-tshirt__summary" ref="summaryDisplay">
+          <span class="bundle-tshirt__summary-count">1 T-Shirt total (M)</span>
+          <span class="bundle-tshirt__summary-extra bundle-tshirt__summary-extra--included">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            Included with shirt
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <script type="application/json" ref="extraProductData">
+      {
+        "variants": {
+          {%- if extra_product != blank -%}
+            {%- for v in extra_product.variants -%}
+              {%- liquid
+                assign opt1_clean = v.option1 | strip
+                assign opt2_clean = v.option2 | strip
+                assign opt3_clean = v.option3 | strip
+                assign title_clean = v.title | strip
+              -%}
+              {{ opt1_clean | json }}: {{ v.id | json }},
+              {{ opt1_clean | downcase | json }}: {{ v.id | json }},
+              {%- if opt2_clean != blank and opt2_clean != 'Default Title' -%}
+                {{ opt2_clean | json }}: {{ v.id | json }},
+                {{ opt2_clean | downcase | json }}: {{ v.id | json }},
+              {%- endif -%}
+              {%- if opt3_clean != blank and opt3_clean != 'Default Title' -%}
+                {{ opt3_clean | json }}: {{ v.id | json }},
+                {{ opt3_clean | downcase | json }}: {{ v.id | json }},
+              {%- endif -%}
+              {{ title_clean | json }}: {{ v.id | json }},
+              {{ title_clean | downcase | json }}: {{ v.id | json }}{% unless forloop.last %},{% endunless %}
+            {%- endfor -%}
+          {%- endif -%}
+        },
+        "unitPriceCents": {{ unit_price_cents | json }},
+        "extraProductId": {{ extra_product.id | default: 0 | json }}
+      }
+    </script>
+
+    <script type="application/json" ref="mainProductVariants">
+      [
+        {%- for v in product.variants -%}
+          {
+            "id": {{ v.id | json }},
+            "title": {{ v.title | json }},
+            "price": {{ v.price | json }},
+            "options": {{ v.options | json }}
+          }{%- unless forloop.last -%},{%- endunless -%}
+        {%- endfor -%}
+      ]
+    </script>
+  </bundle-tshirt-selector>
+
+  <script src="{{ 'bundle-tshirt.js' | asset_url }}" type="module"></script>
+
+  <style>
+    bundle-tshirt-selector.bundle-tshirt-selector {
+      display: none;
+      width: 100%;
+      flex: 1 0 100%;
+      margin: 14px 0 16px 0;
+      padding: 14px 16px;
+      background: rgb(var(--color-foreground-rgb, 0 0 0) / 0.03);
+      border: 1px solid rgb(var(--color-foreground-rgb, 0 0 0) / 0.09);
+      border-left: 3.5px solid var(--color-primary, #111);
+      border-radius: var(--style-border-radius-inputs, 8px);
+      box-sizing: border-box;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+      transition: all 0.2s ease-in-out;
+    }
+    bundle-tshirt-selector.bundle-tshirt-selector.is-active {
+      display: block !important;
+    }
+    .bundle-tshirt__container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .bundle-tshirt__header {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .bundle-tshirt__title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      gap: 8px;
+    }
+    .bundle-tshirt__title {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: var(--color-foreground, #111);
+      line-height: 1.2;
+    }
+    .bundle-tshirt__badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 3px 10px;
+      border-radius: 20px;
+      background: rgb(var(--color-foreground-rgb, 0 0 0) / 0.07);
+      color: var(--color-foreground, #111);
+      letter-spacing: 0.01em;
+      white-space: nowrap;
+    }
+    .bundle-tshirt__badge strong {
+      font-weight: 700;
+      color: var(--color-foreground, #000);
+    }
+    .bundle-tshirt__badge-sub {
+      opacity: 0.75;
+      font-size: 11px;
+      margin-left: 2px;
+    }
+    .bundle-tshirt__subtitle {
+      font-size: 12.5px;
+      color: var(--color-foreground-secondary, #666);
+      line-height: 1.4;
+      margin: 0;
+    }
+    .bundle-tshirt__subtitle strong {
+      color: var(--color-foreground, #111);
+      font-weight: 600;
+    }
+    .bundle-tshirt__controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 4px;
+      padding-top: 8px;
+      border-top: 1px dashed rgb(var(--color-foreground-rgb, 0 0 0) / 0.08);
+      flex-wrap: wrap;
+    }
+    /* Theme Native Quantity Selector Styling */
+    .bundle-tshirt__quantity-selector.quantity-selector {
+      --quantity-selector-width: 110px;
+      flex: 0 0 var(--quantity-selector-width);
+      width: var(--quantity-selector-width);
+      height: 40px;
+      min-height: 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--color-input-text, #111);
+      background-color: var(--color-input-background, #fff);
+      border: var(--style-border-width-inputs, 1px) solid var(--color-input-border, #ccc);
+      border-radius: var(--style-border-radius-inputs, 6px);
+      box-sizing: border-box;
+      transition: background-color var(--animation-speed, 0.2s) var(--animation-easing, ease);
+    }
+    .bundle-tshirt__quantity-selector.quantity-selector :is(.quantity-minus, .quantity-plus) {
+      padding: 0;
+      background: transparent;
+      box-shadow: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      width: 32px;
+      height: 100%;
+      flex-shrink: 0;
+      color: var(--color-input-text, #111);
+      border: none;
+      transition: background-color 0.15s ease, opacity 0.15s ease;
+    }
+    .bundle-tshirt__quantity-selector.quantity-selector :is(.quantity-minus, .quantity-plus):hover:not(:disabled) {
+      background-color: rgb(var(--color-foreground-rgb, 0 0 0) / 0.06);
+    }
+    .bundle-tshirt__quantity-selector.quantity-selector :is(.quantity-minus, .quantity-plus):disabled {
+      opacity: 0.25;
+      cursor: not-allowed;
+    }
+    .bundle-tshirt__quantity-selector.quantity-selector .svg-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 14px;
+      height: 14px;
+    }
+    .bundle-tshirt__quantity-selector.quantity-selector svg {
+      width: 12px;
+      height: 12px;
+    }
+    .bundle-tshirt__quantity-selector.quantity-selector input[type='number'] {
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      border: none;
+      appearance: none;
+      width: 38px;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--color-input-text, #111);
+      background-color: transparent;
+      outline: none;
+    }
+    .bundle-tshirt__quantity-selector.quantity-selector input[type='number']::-webkit-inner-spin-button,
+    .bundle-tshirt__quantity-selector.quantity-selector input[type='number']::-webkit-outer-spin-button {
+      appearance: none;
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    .bundle-tshirt__summary {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      text-align: right;
+      gap: 2px;
+    }
+    .bundle-tshirt__summary-count {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--color-foreground, #111);
+      letter-spacing: -0.01em;
+    }
+    .bundle-tshirt__summary-extra {
+      font-size: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      color: var(--color-foreground-secondary, #666);
+    }
+    .bundle-tshirt__summary-extra--included {
+      color: #16a34a;
+      font-weight: 600;
+    }
+    .bundle-tshirt__summary-extra--paid {
+      color: var(--color-primary, #111);
+      font-weight: 600;
+    }
+  </style>
+{%- endif -%}

@@ -106,6 +106,10 @@
             </div>
           {%- endif -%}
 
+          {%- if product.metafields.custom.bundle_enabled.value -%}
+            {%- render 'bundle-tshirt-selector', product: product, section: section, block: block -%}
+          {%- endif -%}
+
           {% content_for 'block', type: 'quantity', id: 'quantity' %}
 
           {%- if has_quantity_rules -%}

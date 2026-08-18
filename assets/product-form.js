@@ -295,6 +295,17 @@ class ProductFormComponent extends Component {
       return;
     }
 
+    const bundleSelector = /** @type {any} */ (this.querySelector('bundle-tshirt-selector'));
+    if (bundleSelector && typeof bundleSelector.getBatchItems === 'function' && bundleSelector.isWithTShirtSelected()) {
+      const currentVariantId = this.refs.variantId?.value || this.#getIntendedVariantId();
+      const batchItems = bundleSelector.getBatchItems(currentVariantId, this.#getQuantity());
+      if (batchItems && batchItems.length > 1) {
+        this.refs.addToCartButtonContainer?.animateAddToCart?.();
+        this.#processBatchAddToCart(batchItems);
+        return;
+      }
+    }
+
     this.#processAddToCart(undefined, undefined, event);
   }
 
@@ -507,8 +518,9 @@ class ProductFormComponent extends Component {
 
     const payload = {
       items: items.map((item) => ({
-        id: Number(item.variantId),
+        id: Number(item.variantId || item.id),
         quantity: item.quantity,
+        ...(item.properties ? { properties: item.properties } : {}),
       })),
       sections: cartItemComponentsSectionIds.join(','),
     };
@@ -582,6 +594,14 @@ class ProductFormComponent extends Component {
             sections: response.sections,
           })
         );
+
+        // Open cart drawer
+        const cartDrawer = /** @type {any} */ (document.querySelector('cart-drawer-component'));
+        if (cartDrawer && typeof cartDrawer.open === 'function') {
+          cartDrawer.open();
+        } else if (cartDrawer && typeof cartDrawer.showDialog === 'function') {
+          cartDrawer.showDialog();
+        }
       })
       .catch((error) => {
         console.error(error);
