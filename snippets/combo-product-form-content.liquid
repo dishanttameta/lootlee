@@ -986,6 +986,31 @@
       });
     }
 
+    // A combo needs the base shirt only: expose one "Without T-Shirt" variant per size.
+    function getParentSizeVariants(variants){
+      const bundleChoicePattern = /\b(?:with|without)\s+t-?shirt\b/i;
+      const withoutTshirtPattern = /\bwithout\s+t-?shirt\b/i;
+      const hasBundleChoices = variants.some(function(v){
+        return bundleChoicePattern.test(v.title);
+      });
+      const variantsBySize = new Map();
+
+      variants.forEach(function(v){
+        if(hasBundleChoices && !withoutTshirtPattern.test(v.title)) return;
+
+        const size = v.title.split('/')[0].trim();
+        if(!variantsBySize.has(size)){
+          variantsBySize.set(size, {
+            id: v.id,
+            title: size,
+            available: v.available
+          });
+        }
+      });
+
+      return Array.from(variantsBySize.values());
+    }
+
     // ── Select shirt ──
     function selectShirt(slot, product, card){
       // Mark card selected
@@ -1014,7 +1039,7 @@
       }
 
       sizeSel.innerHTML = '<option value="">— Choose size —</option>';
-      product.variants.forEach(function(v){
+      getParentSizeVariants(product.variants).forEach(function(v){
         const opt = document.createElement('option');
         opt.value = v.id;
         opt.textContent = v.title + (!v.available ? ' (Out of Stock)' : '');
