@@ -12,7 +12,30 @@
     "main": {
       "type": "combo-product-form",
       "settings": {
-        "combo_size": "2"
+        "shirts_collection": "shirts-for-offer",
+        "combo_size": "2",
+        "sc_subtitle": "All measurements are in inches. For a relaxed fit, go one size up.",
+        "sc_note": "* Measurements may vary by +/- 0.5 in. If between sizes, we recommend sizing up.",
+        "sc_s_chest": "38\"",
+        "sc_s_shoulder": "15.5\"",
+        "sc_s_length": "27\"",
+        "sc_s_waist": "36\"",
+        "sc_m_chest": "40\"",
+        "sc_m_shoulder": "16.5\"",
+        "sc_m_length": "27.5\"",
+        "sc_m_waist": "38\"",
+        "sc_l_chest": "42\"",
+        "sc_l_shoulder": "17.5\"",
+        "sc_l_length": "28\"",
+        "sc_l_waist": "40\"",
+        "sc_xl_chest": "44\"",
+        "sc_xl_shoulder": "18.5\"",
+        "sc_xl_length": "28.5\"",
+        "sc_xl_waist": "42\"",
+        "sc_xxl_chest": "46\"",
+        "sc_xxl_shoulder": "19.5\"",
+        "sc_xxl_length": "29\"",
+        "sc_xxl_waist": "44\""
       }
     },
     "custom_liquid_kaMdnG": {
