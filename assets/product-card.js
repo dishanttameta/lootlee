@@ -562,7 +562,7 @@ class SwatchesVariantPickerComponent extends VariantPicker {
   #handleCardVariantUrlUpdate() {
     if (this.pendingVariantId && this.parentProductCard instanceof ProductCard) {
       const currentUrl = new URL(this.parentProductCard.refs.productCardLink.href);
-      currentUrl.searchParams.set('variant', this.pendingVariantId);
+      currentUrl.searchParams.delete('variant');
       this.parentProductCard.refs.productCardLink.href = currentUrl.toString();
       this.pendingVariantId = null;
     }

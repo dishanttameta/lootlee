@@ -28,7 +28,7 @@
 
   # Logic to determine which variant to use (matching swatch selection logic from product-card)
   assign variant = product.selected_or_first_available_variant
-  assign product_url = variant.url | default: product.url
+  assign product_url = product.url
 %}
 
 <div

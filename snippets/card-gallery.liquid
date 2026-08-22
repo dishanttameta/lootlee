@@ -165,7 +165,7 @@
     <a
       class="contents"
       ref="cardGalleryLink"
-      href="{{ product.selected_or_first_available_variant.url }}"
+      href="{{ product.url }}"
       aria-label="{{- product.title -}}"
     >
       {% render 'slideshow',
@@ -182,7 +182,7 @@
       <a
         class="contents"
         ref="productTitleLink"
-        href="{{ product.selected_or_first_available_variant.url }}"
+        href="{{ product.url }}"
         aria-hidden="true"
       >
         <span class="title-text">{{- product.title -}}</span>

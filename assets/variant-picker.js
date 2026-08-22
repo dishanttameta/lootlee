@@ -47,6 +47,13 @@ export default class VariantPicker extends Component {
 
     this.addEventListener('change', this.variantChanged.bind(this));
     this.#resizeObserver.observe(this);
+
+    if (window.location.search.includes('variant=')) {
+      const url = new URL(window.location.href);
+      url.searchParams.delete('variant');
+      const cleanUrl = url.pathname + (url.search ? url.search : '') + url.hash;
+      history.replaceState(null, '', cleanUrl);
+    }
   }
 
   disconnectedCallback() {
@@ -96,11 +103,7 @@ export default class VariantPicker extends Component {
     const variantId = selectedOption.dataset.variantId || null;
 
     if (isOnProductPage) {
-      if (variantId) {
-        url.searchParams.set('variant', variantId);
-      } else {
-        url.searchParams.delete('variant');
-      }
+      url.searchParams.delete('variant');
     }
 
     // Change the path if the option is connected to another product via combined listing.
