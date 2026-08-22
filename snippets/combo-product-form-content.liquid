@@ -368,22 +368,35 @@
   assign current_variant = product.selected_or_first_available_variant
   assign product_form_id = 'combo-form-' | append: section.id
 
-  # Extract shirts collection handle, prioritize section setting, then combo-collection tag, fallback to 'shirts'
-  assign shirts_collection_handle = section.settings.shirts_collection
-  for tag in product.tags
-    if tag contains 'combo-collection:'
-      assign tag_parts = tag | split: ':'
-      assign shirts_collection_handle = tag_parts[1] | strip
-    endif
-  endfor
-
-  if shirts_collection_handle == blank
-    assign shirts_collection_handle = 'shirts'
+  # Shopify can expose this setting as either a handle string or a collection object
+  # (notably when a dynamic source is used), so normalize both forms to a collection.
+  assign shirts_collection_setting = section.settings.shirts_collection
+  assign shirts_collection_handle = shirts_collection_setting.handle | default: shirts_collection_setting
+  assign shirts_collection = collections[shirts_collection_handle]
+  if shirts_collection == blank and shirts_collection_setting.handle != blank
+    assign shirts_collection = shirts_collection_setting
   endif
-  if collections[shirts_collection_handle] != blank
-    assign shirts_collection = collections[shirts_collection_handle]
-  else
-    assign shirts_collection = collections.all
+
+  # Use a combo-collection:[handle] product tag only when no collection setting is resolved.
+  if shirts_collection == blank
+    for tag in product.tags
+      if tag contains 'combo-collection:'
+        assign tag_parts = tag | split: ':'
+        assign shirts_collection_handle = tag_parts[1] | strip
+        assign tagged_shirts_collection = collections[shirts_collection_handle]
+        if tagged_shirts_collection != blank
+          assign shirts_collection = tagged_shirts_collection
+          break
+        endif
+      endif
+    endfor
+  endif
+
+  if shirts_collection == blank
+    assign shirts_collection = collections['shirts-for-offer']
+  endif
+  if shirts_collection == blank
+    assign shirts_collection = collections['shirts']
   endif
 
   # Determine number of shirts in combo, prioritize metafield size, then tag combo-size:[number], fallback to section setting, then default to 2
@@ -463,7 +476,7 @@
 -%}
 
 <script type="application/json" id="ComboShirtsData-{{ section.id }}">
-  {%- paginate shirts_collection.products by 1000 -%}
+  {%- paginate shirts_collection.products by 250 -%}
     [
       {%- assign first_product = true -%}
       {%- assign added_product_ids = "" -%}
