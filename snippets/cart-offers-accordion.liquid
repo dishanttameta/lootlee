@@ -1,7 +1,14 @@
-{% comment %} Calculate total shirts quantity in the cart {% endcomment %}
+{% comment %}
+  Count offer-eligible parent shirts only. The bundle script adds an extra T-shirt
+  as a separate cart line with _bundle_role: extra_tshirt; that line must not
+  advance the 2-shirt / 3-shirt / 4-shirt offer progress.
+{% endcomment %}
 {% assign shirt_count = 0 %}
 {% for item in cart.items %}
-  {% assign shirt_count = shirt_count | plus: item.quantity %}
+  {% assign bundle_role = item.properties['_bundle_role'] %}
+  {% unless bundle_role == 'extra_tshirt' %}
+    {% assign shirt_count = shirt_count | plus: item.quantity %}
+  {% endunless %}
 {% endfor %}
 
 {% comment %} Calculate progress percent and choose text based on shirt_count {% endcomment %}
@@ -10,21 +17,31 @@
   {% assign progress_text = "Add 2 shirts to unlock the <strong>2-Shirt Deal for ₹699</strong>!" %}
   {% assign active_node_1 = false %}
   {% assign active_node_2 = false %}
+  {% assign active_node_3 = false %}
 {% elsif shirt_count == 1 %}
   {% assign progress_percent = 25 %}
   {% assign progress_text = "🎉 Add 1 more shirt and unlock the <strong>2-Shirt Deal for ₹699</strong>" %}
   {% assign active_node_1 = false %}
   {% assign active_node_2 = false %}
+  {% assign active_node_3 = false %}
 {% elsif shirt_count == 2 %}
   {% assign progress_percent = 50 %}
   {% assign progress_text = "🎉 <strong>2-Shirt Deal unlocked!</strong> Add 1 more shirt for the <strong>3-Shirt Deal @ ₹999</strong>!" %}
   {% assign active_node_1 = true %}
   {% assign active_node_2 = false %}
-{% else %}
-  {% assign progress_percent = 100 %}
-  {% assign progress_text = "🎉 <strong>3-Shirt Deal unlocked!</strong> Maximum savings applied!" %}
+  {% assign active_node_3 = false %}
+{% elsif shirt_count == 3 %}
+  {% assign progress_percent = 75 %}
+  {% assign progress_text = "🎉 <strong>3-Shirt Deal unlocked!</strong> Add 1 more shirt for the <strong>4-Shirt Deal @ ₹1399</strong>!" %}
   {% assign active_node_1 = true %}
   {% assign active_node_2 = true %}
+  {% assign active_node_3 = false %}
+{% else %}
+  {% assign progress_percent = 100 %}
+  {% assign progress_text = "🎉 <strong>4-Shirt Deal @ ₹1399 unlocked!</strong> Maximum savings applied!" %}
+  {% assign active_node_1 = true %}
+  {% assign active_node_2 = true %}
+  {% assign active_node_3 = true %}
 {% endif %}
 
 <div class="cart-progress-bar-wrapper">
@@ -52,8 +69,20 @@
       </div>
     </div>
     
-    <!-- Node 2: 3 Shirts (100% mark) -->
+    <!-- Node 2: 3 Shirts (75% mark) -->
     <div class="cart-progress-node node-2 {% if active_node_2 %}active{% endif %}" title="3-Shirt Deal">
+      <div class="cart-progress-node-circle">
+        <svg class="percent-badge-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/>
+          <line x1="15" y1="9" x2="9" y2="15"></line>
+          <circle cx="10" cy="10" r="1"></circle>
+          <circle cx="14" cy="14" r="1"></circle>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Node 3: 4 Shirts (100% mark) -->
+    <div class="cart-progress-node node-3 {% if active_node_3 %}active{% endif %}" title="4-Shirt Deal">
       <div class="cart-progress-node-circle">
         <svg class="percent-badge-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/>
@@ -119,7 +148,8 @@
 }
 
 .node-1 { left: 50%; }
-.node-2 { left: 100%; }
+.node-2 { left: 75%; }
+.node-3 { left: 100%; }
 
 .cart-progress-node-circle {
   width: 36px;
