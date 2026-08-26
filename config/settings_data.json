@@ -9,10 +9,10 @@
  */
 {
   "current": {
-    "logo": "shopify://shop_images/Lootlee_Logo.svg",
+    "logo": "shopify://shop_images/LootLee_Wordmark.svg",
     "logo_inverse": "shopify://shop_images/Lootlee_Logo.svg",
-    "logo_height": 32,
-    "logo_height_mobile": 24,
+    "logo_height": 48,
+    "logo_height_mobile": 38,
     "favicon": "shopify://shop_images/Frame_3_2.png",
     "type_body_font": "poppins_n4",
     "type_subheading_font": "poppins_n4",
